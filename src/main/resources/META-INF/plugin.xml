@@ -1,0 +1,26 @@
+<idea-plugin>
+    <id>com.buckstabue.Sticky Notes for code</id>
+    <name>Plugin display name here</name>
+    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+
+    <description><![CDATA[
+    Enter short description for your plugin here.<br>
+    <em>most HTML tags may be used</em>
+    ]]></description>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="Stick Note" anchor="left"
+                    factoryClass="com.buckstabue.stickynote.StickyNoteToolWindowFactory"/>
+    </extensions>
+
+    <actions>
+        <action id="com.buckstabue.stickynote.addstickynote.AddStickyNoteAction"
+                class="com.buckstabue.stickynote.addstickynote.AddStickyNoteAction" text="Add a Sticky Note"/>
+    </actions>
+</idea-plugin>
