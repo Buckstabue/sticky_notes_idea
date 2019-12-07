@@ -19,7 +19,7 @@ class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), Acti
     }
 
 
-    fun getContent(): JComponent {
+    override fun getContent(): JComponent {
         return contentPanel
     }
 }
