@@ -54,6 +54,7 @@ class AddStickyNoteAction : AnAction() {
 
         @Suppress("FoldInitializerAndIfToElvis")
         if (description == null) {
+            logger.debug("User cancelled sticky note description input")
             // user cancelled
             return null
         }
