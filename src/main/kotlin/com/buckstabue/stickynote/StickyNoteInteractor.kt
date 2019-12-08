@@ -21,10 +21,6 @@ class StickyNoteInteractor @Inject constructor(
         return stickyNoteRepository.getStickyNotes()
     }
 
-    fun getActiveStickyNote(): StickyNote? {
-        return stickyNoteRepository.getActiveStickyNote()
-    }
-
     fun openStickyNote(stickyNote: FileBoundStickyNote) {
         editor.navigateToLine(stickyNote.fileUrl, stickyNote.lineNumber)
     }

@@ -44,10 +44,6 @@ class StickyNoteRepositoryImpl @Inject constructor(
         return undoneStickyNotes.toList()
     }
 
-    override fun getActiveStickyNote(): StickyNote? {
-        return undoneStickyNotes.firstOrNull()
-    }
-
     override fun observeActiveStickyNote(): ReceiveChannel<StickyNote?> {
         return activeStickyNoteChannel.openSubscription()
     }

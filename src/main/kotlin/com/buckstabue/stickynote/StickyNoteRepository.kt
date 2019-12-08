@@ -4,7 +4,6 @@ import kotlinx.coroutines.channels.ReceiveChannel
 
 interface StickyNoteRepository {
     fun getStickyNotes(): List<StickyNote>
-    fun getActiveStickyNote(): StickyNote?
     fun observeActiveStickyNote(): ReceiveChannel<StickyNote?>
 
     suspend fun setStickyNoteActive(stickyNote: StickyNote)
