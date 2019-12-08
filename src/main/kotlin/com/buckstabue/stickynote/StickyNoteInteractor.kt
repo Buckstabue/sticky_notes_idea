@@ -1,8 +1,9 @@
 package com.buckstabue.stickynote
 
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@PerProject
+@Singleton
 class StickyNoteInteractor @Inject constructor(
     private val stickyNoteRepository: StickyNoteRepository
 ) {

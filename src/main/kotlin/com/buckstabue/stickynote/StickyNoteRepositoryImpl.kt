@@ -1,11 +1,10 @@
 package com.buckstabue.stickynote
 
-import com.intellij.openapi.project.Project
 import javax.inject.Inject
+import javax.inject.Singleton
 
-@PerProject
+@Singleton
 class StickyNoteRepositoryImpl @Inject constructor(
-    private val project: Project
 ) : StickyNoteRepository {
     private val stickyNotes = mutableListOf<StickyNote>()
 

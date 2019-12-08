@@ -1,5 +1,6 @@
 package com.buckstabue.stickynote.stickynotelist
 
+import com.buckstabue.stickynote.AppComponent
 import com.buckstabue.stickynote.base.BaseWindow
 import javax.inject.Inject
 import javax.swing.AbstractListModel
@@ -11,11 +12,18 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
     private lateinit var stickyNoteList: JList<StickyNoteViewModel>
     private lateinit var contentPanel: JPanel
 
+    override val routingTag: String = "StickyNoteList"
+
     @Inject
     override lateinit var presenter: StickyNoteListPresenter
 
     init {
         stickyNoteList.model = StickyNoteListModel(emptyList())
+    }
+
+    override fun onCreate() {
+        AppComponent.INSTANCE.inject(this)
+        super.onCreate()
     }
 
     override fun render(stickyNotes: List<StickyNoteViewModel>) {
