@@ -1,5 +1,7 @@
 package com.buckstabue.stickynote
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import java.util.concurrent.CopyOnWriteArrayList
@@ -7,12 +9,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
+@ExperimentalCoroutinesApi
 class StickyNoteRepositoryImpl @Inject constructor(
 ) : StickyNoteRepository {
     private val undoneStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
     private val doneStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
 
-    private val activeStickyNoteChannel = Channel<StickyNote?>(Channel.CONFLATED).also { it.offer(null) }
+    private val activeStickyNoteChannel = BroadcastChannel<StickyNote?>(Channel.CONFLATED).also { it.offer(null) }
 
     override suspend fun addStickyNote(stickyNote: StickyNote) {
         require(!stickyNote.isDone) { "adding a done sticky note. $stickyNote" }
@@ -46,6 +49,6 @@ class StickyNoteRepositoryImpl @Inject constructor(
     }
 
     override fun observeActiveStickyNote(): ReceiveChannel<StickyNote?> {
-        return activeStickyNoteChannel
+        return activeStickyNoteChannel.openSubscription()
     }
 }
