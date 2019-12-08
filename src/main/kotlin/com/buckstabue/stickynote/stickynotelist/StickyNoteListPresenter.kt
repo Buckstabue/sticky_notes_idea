@@ -1,5 +1,7 @@
 package com.buckstabue.stickynote.stickynotelist
 
+import com.buckstabue.stickynote.FileBoundStickyNote
+import com.buckstabue.stickynote.NonBoundStickyNote
 import com.buckstabue.stickynote.StickyNoteInteractor
 import com.buckstabue.stickynote.StickyNoteRouter
 import com.buckstabue.stickynote.base.BasePresenter
@@ -16,7 +18,8 @@ class StickyNoteListPresenter @Inject constructor(
         val stickyNotes = stickyNoteInteractor.getStickyNotes()
             .map {
                 StickyNoteViewModel(
-                    description = it.description
+                    description = it.description,
+                    stickyNote = it
                 )
             }
         view?.render(stickyNotes)
@@ -24,5 +27,12 @@ class StickyNoteListPresenter @Inject constructor(
 
     fun onBackButtonClick() {
         router.openActiveStickyNote()
+    }
+
+    fun onItemSelected(item: StickyNoteViewModel) {
+        when (val stickyNote = item.stickyNote) {
+            is NonBoundStickyNote -> TODO()
+            is FileBoundStickyNote -> stickyNoteInteractor.openStickyNote(stickyNote)
+        }
     }
 }

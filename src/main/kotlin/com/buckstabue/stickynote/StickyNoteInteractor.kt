@@ -5,7 +5,8 @@ import javax.inject.Singleton
 
 @Singleton
 class StickyNoteInteractor @Inject constructor(
-    private val stickyNoteRepository: StickyNoteRepository
+    private val stickyNoteRepository: StickyNoteRepository,
+    private val editor: Editor
 ) {
     fun addStickyNote(stickyNote: StickyNote) {
         stickyNoteRepository.addStickyNote(stickyNote)
@@ -13,5 +14,9 @@ class StickyNoteInteractor @Inject constructor(
 
     fun getStickyNotes(): List<StickyNote> {
         return stickyNoteRepository.getStickyNotes()
+    }
+
+    fun openStickyNote(stickyNote: FileBoundStickyNote) {
+        editor.navigateToLine(stickyNote.fileUrl, stickyNote.lineNumber)
     }
 }

@@ -36,4 +36,7 @@ interface AppComponent {
 interface AppModule {
     @Binds
     fun bindStickyNoteRepository(stickyNoteRepository: StickyNoteRepositoryImpl): StickyNoteRepository
+
+    @Binds
+    fun bindEditor(editor: IdeaEditor): Editor
 }

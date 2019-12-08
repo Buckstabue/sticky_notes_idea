@@ -2,6 +2,7 @@ package com.buckstabue.stickynote.stickynotelist
 
 import com.buckstabue.stickynote.AppComponent
 import com.buckstabue.stickynote.base.BaseWindow
+import com.buckstabue.stickynote.base.addOnActionListener
 import javax.inject.Inject
 import javax.swing.*
 
@@ -19,6 +20,9 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
         stickyNoteList.model = StickyNoteListModel(emptyList())
         backButton.addActionListener {
             presenter.onBackButtonClick()
+        }
+        stickyNoteList.addOnActionListener {
+            presenter.onItemSelected(it)
         }
     }
 
