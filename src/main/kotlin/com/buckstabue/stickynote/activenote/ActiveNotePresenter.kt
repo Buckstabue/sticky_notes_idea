@@ -6,7 +6,6 @@ import com.buckstabue.stickynote.StickyNoteRouter
 import com.buckstabue.stickynote.base.BasePresenter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @PerActiveNote
