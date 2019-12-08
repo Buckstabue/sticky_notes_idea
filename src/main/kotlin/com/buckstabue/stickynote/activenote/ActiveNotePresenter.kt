@@ -5,6 +5,7 @@ import com.buckstabue.stickynote.StickyNoteInteractor
 import com.buckstabue.stickynote.StickyNoteRouter
 import com.buckstabue.stickynote.base.BasePresenter
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,6 +17,7 @@ class ActiveNotePresenter @Inject constructor(
     private val stickyNoteInteractor: StickyNoteInteractor
 ) : BasePresenter<ActiveNoteView>() {
 
+    @ExperimentalCoroutinesApi
     override fun onViewAttached() {
         super.onViewAttached()
 

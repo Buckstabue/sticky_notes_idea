@@ -11,7 +11,7 @@ class StickyNoteRepositoryImpl @Inject constructor(
 ) : StickyNoteRepository {
     private val stickyNotes: MutableList<StickyNote> = LinkedList()
 
-    private val activeStickyNoteChannel = Channel<StickyNote?>()
+    private val activeStickyNoteChannel = Channel<StickyNote?>(Channel.CONFLATED).also { it.offer(null) }
 
     override suspend fun addStickyNote(stickyNote: StickyNote) {
         stickyNotes.add(0, stickyNote)
