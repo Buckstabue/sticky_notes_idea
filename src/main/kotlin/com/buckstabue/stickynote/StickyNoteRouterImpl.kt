@@ -33,6 +33,7 @@ class StickyNoteRouterImpl : StickyNoteRouter {
 
     private fun showScreen(baseWindow: BaseWindow<*, *>) {
         cardLayout.show(contentPanel, baseWindow.routingTag)
+        baseWindow.onAttach()
     }
 
     override fun openActiveStickyNote() {

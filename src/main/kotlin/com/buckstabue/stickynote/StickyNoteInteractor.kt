@@ -10,4 +10,8 @@ class StickyNoteInteractor @Inject constructor(
     fun addStickyNote(stickyNote: StickyNote) {
         stickyNoteRepository.addStickyNote(stickyNote)
     }
+
+    fun getStickyNotes(): List<StickyNote> {
+        return stickyNoteRepository.getStickyNotes()
+    }
 }

@@ -3,14 +3,12 @@ package com.buckstabue.stickynote.stickynotelist
 import com.buckstabue.stickynote.AppComponent
 import com.buckstabue.stickynote.base.BaseWindow
 import javax.inject.Inject
-import javax.swing.AbstractListModel
-import javax.swing.JComponent
-import javax.swing.JList
-import javax.swing.JPanel
+import javax.swing.*
 
 class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresenter>(), StickyNoteListView {
     private lateinit var stickyNoteList: JList<StickyNoteViewModel>
     private lateinit var contentPanel: JPanel
+    private lateinit var backButton: JButton
 
     override val routingTag: String = "StickyNoteList"
 
@@ -19,6 +17,9 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
 
     init {
         stickyNoteList.model = StickyNoteListModel(emptyList())
+        backButton.addActionListener {
+            presenter.onBackButtonClick()
+        }
     }
 
     override fun onCreate() {
