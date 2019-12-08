@@ -61,7 +61,8 @@ class AddStickyNoteAction : AnAction() {
         return FileBoundStickyNote(
             fileUrl = currentFile.url,
             lineNumber = currentLineNumber,
-            description = description
+            description = description,
+            isDone = false
         )
     }
 
