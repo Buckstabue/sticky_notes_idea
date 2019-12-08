@@ -41,7 +41,7 @@ class StickyNoteRepositoryImpl @Inject constructor(
     }
 
     override fun getStickyNotes(): List<StickyNote> {
-        return doneStickyNotes.toList().plus(undoneStickyNotes.toList())
+        return undoneStickyNotes.toList().plus(doneStickyNotes.toList())
     }
 
     override fun observeActiveStickyNote(): ReceiveChannel<StickyNote?> {
