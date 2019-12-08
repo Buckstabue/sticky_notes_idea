@@ -4,11 +4,9 @@ import com.buckstabue.stickynote.StickyNote
 import com.buckstabue.stickynote.StickyNoteInteractor
 import com.buckstabue.stickynote.StickyNoteRouter
 import com.buckstabue.stickynote.base.BasePresenter
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @PerActiveNote
@@ -22,20 +20,15 @@ class ActiveNotePresenter @Inject constructor(
         super.onViewAttached()
 
         launch {
-            withContext(Dispatchers.IO) {
-                stickyNoteInteractor.observeActiveStickyNote()
-                    .consumeEach {
-                        val viewModel = ActiveStickyNoteViewModel(
-                            activeNoteDescription = generateActiveNoteDescription(it)
-                        )
-                        withContext(Dispatchers.Main) {
-                            view?.render(
-                                viewModel
-                            )
-                        }
-                    }
-
-            }
+            stickyNoteInteractor.observeActiveStickyNote()
+                .consumeEach {
+                    val viewModel = ActiveStickyNoteViewModel(
+                        activeNoteDescription = generateActiveNoteDescription(it)
+                    )
+                    view?.render(
+                        viewModel
+                    )
+                }
         }
 
     }
