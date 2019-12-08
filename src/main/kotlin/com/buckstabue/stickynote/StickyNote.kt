@@ -12,7 +12,7 @@ sealed class StickyNote(
  */
 data class NonBoundStickyNote(
     override val description: String,
-    override val isDone: Boolean
+    override val isDone: Boolean = false
 ) : StickyNote(description = description, isDone = isDone) {
     override fun setDone(isDone: Boolean): StickyNote {
         return copy(isDone = isDone)
@@ -26,7 +26,7 @@ data class FileBoundStickyNote(
     val fileUrl: String,
     val lineNumber: Int,
     override val description: String,
-    override val isDone: Boolean
+    override val isDone: Boolean = false
 ) : StickyNote(description = description, isDone = isDone) {
     override fun setDone(isDone: Boolean): StickyNote {
         return copy(isDone = isDone)
