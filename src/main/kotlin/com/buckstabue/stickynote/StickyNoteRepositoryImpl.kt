@@ -14,8 +14,11 @@ class StickyNoteRepositoryImpl @Inject constructor(
     private val activeStickyNoteChannel = Channel<StickyNote?>(Channel.CONFLATED).also { it.offer(null) }
 
     override suspend fun addStickyNote(stickyNote: StickyNote) {
-        stickyNotes.add(0, stickyNote)
-        activeStickyNoteChannel.send(stickyNote)
+        stickyNotes.add(stickyNote)
+        if (stickyNotes.size == 1) {
+            // if it's the first added element
+            activeStickyNoteChannel.send(stickyNote)
+        }
     }
 
     override fun getStickyNotes(): List<StickyNote> {
