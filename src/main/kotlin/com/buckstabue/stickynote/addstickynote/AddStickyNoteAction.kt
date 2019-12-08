@@ -2,6 +2,7 @@ package com.buckstabue.stickynote.addstickynote
 
 import com.buckstabue.stickynote.AppComponent
 import com.buckstabue.stickynote.FileBoundStickyNote
+import com.buckstabue.stickynote.NonBoundStickyNote
 import com.buckstabue.stickynote.StickyNote
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -37,9 +38,33 @@ class AddStickyNoteAction : AnAction() {
     }
 
     private fun createStickyNote(event: AnActionEvent): StickyNote? {
+        val description = askUserToEnterStickyNoteDescription()
+
+        @Suppress("FoldInitializerAndIfToElvis")
+        if (description == null) {
+            logger.debug("User cancelled sticky note description input")
+            // user cancelled
+            return null
+        }
+        val editorCaretLocation = extractEditorCaretLocation(event)
+        return if (editorCaretLocation == null) {
+            NonBoundStickyNote(
+                description = description
+            )
+        } else {
+            FileBoundStickyNote(
+                fileUrl = editorCaretLocation.fileUrl,
+                lineNumber = editorCaretLocation.lineNumber,
+                description = description,
+                isDone = false
+            )
+        }
+    }
+
+    private fun extractEditorCaretLocation(event: AnActionEvent): EditorCaretLocation? {
         val editor = CommonDataKeys.EDITOR.getData(event.dataContext)
         if (editor == null) {
-            logger.error("Editor is null")
+            logger.debug("Could not extract editor from event")
             return null
         }
         val currentDocument = editor.document
@@ -50,23 +75,18 @@ class AddStickyNoteAction : AnAction() {
             logger.error("Could not extract virtual file from document")
             return null
         }
-        val description = askUserToEnterStickyNoteDescription()
-
-        @Suppress("FoldInitializerAndIfToElvis")
-        if (description == null) {
-            logger.debug("User cancelled sticky note description input")
-            // user cancelled
-            return null
-        }
-        return FileBoundStickyNote(
+        return EditorCaretLocation(
             fileUrl = currentFile.url,
-            lineNumber = currentLineNumber,
-            description = description,
-            isDone = false
+            lineNumber = currentLineNumber
         )
     }
 
     private fun askUserToEnterStickyNoteDescription(): String? {
         return JOptionPane.showInputDialog(null, "Description:", "New Sticky Note", JOptionPane.QUESTION_MESSAGE)
     }
+
+    private data class EditorCaretLocation(
+        val fileUrl: String,
+        val lineNumber: Int
+    )
 }
