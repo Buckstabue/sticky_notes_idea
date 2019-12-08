@@ -31,7 +31,7 @@ class StickyNoteRepositoryImpl @Inject constructor(
         require(!stickyNote.isDone) { "Trying to set a sticky note done when it's already done" }
 
         undoneStickyNotes.remove(stickyNote)
-        doneStickyNotes.add(stickyNote.setDone(true))
+        doneStickyNotes.add(0, stickyNote.setDone(true))
 
         activeStickyNoteChannel.send(undoneStickyNotes.firstOrNull())
     }
