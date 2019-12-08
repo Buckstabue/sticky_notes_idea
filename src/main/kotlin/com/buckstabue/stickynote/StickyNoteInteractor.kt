@@ -1,5 +1,6 @@
 package com.buckstabue.stickynote
 
+import kotlinx.coroutines.channels.ReceiveChannel
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -8,8 +9,12 @@ class StickyNoteInteractor @Inject constructor(
     private val stickyNoteRepository: StickyNoteRepository,
     private val editor: Editor
 ) {
-    fun addStickyNote(stickyNote: StickyNote) {
+    suspend fun addStickyNote(stickyNote: StickyNote) {
         stickyNoteRepository.addStickyNote(stickyNote)
+    }
+
+    fun observeActiveStickyNote(): ReceiveChannel<StickyNote?> {
+        return stickyNoteRepository.observeActiveStickyNote()
     }
 
     fun getStickyNotes(): List<StickyNote> {

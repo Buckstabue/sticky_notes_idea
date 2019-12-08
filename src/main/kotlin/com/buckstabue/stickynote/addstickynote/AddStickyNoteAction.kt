@@ -8,6 +8,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.fileEditor.FileDocumentManager
+import kotlinx.coroutines.runBlocking
 import org.apache.log4j.Level
 
 class AddStickyNoteAction : AnAction() {
@@ -17,17 +18,17 @@ class AddStickyNoteAction : AnAction() {
         }
     }
 
-    override fun actionPerformed(event: AnActionEvent) {
+    override fun actionPerformed(event: AnActionEvent) = runBlocking {
         logger.debug("new event from place = ${event.place}")
         val project = event.project
         if (project == null) {
             logger.error("Project is null")
-            return
+            return@runBlocking
         }
         val stickyNote = extractStickyNote(event)
         if (stickyNote == null) {
             logger.error("Could not extract sticky note")
-            return
+            return@runBlocking
         }
         val stickyNoteInteractor = AppComponent.INSTANCE.stickyNoteInteractor()
         stickyNoteInteractor.addStickyNote(stickyNote)
