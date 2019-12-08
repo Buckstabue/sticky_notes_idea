@@ -17,8 +17,8 @@ class StickyNoteInteractor @Inject constructor(
         return stickyNoteRepository.observeActiveStickyNote()
     }
 
-    fun getStickyNotes(): List<StickyNote> {
-        return stickyNoteRepository.getStickyNotes()
+    fun observeStickyNotes(): ReceiveChannel<List<StickyNote>> {
+        return stickyNoteRepository.observeStickyNotes()
     }
 
     fun openStickyNote(stickyNote: FileBoundStickyNote) {

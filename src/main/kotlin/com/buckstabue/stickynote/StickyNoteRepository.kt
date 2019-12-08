@@ -3,7 +3,7 @@ package com.buckstabue.stickynote
 import kotlinx.coroutines.channels.ReceiveChannel
 
 interface StickyNoteRepository {
-    fun getStickyNotes(): List<StickyNote>
+    fun observeStickyNotes(): ReceiveChannel<List<StickyNote>>
     fun observeActiveStickyNote(): ReceiveChannel<StickyNote?>
 
     suspend fun setStickyNoteActive(stickyNote: StickyNote)

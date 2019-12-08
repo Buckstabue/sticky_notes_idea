@@ -1,10 +1,11 @@
 package com.buckstabue.stickynote.stickynotelist
 
-import com.buckstabue.stickynote.FileBoundStickyNote
-import com.buckstabue.stickynote.NonBoundStickyNote
-import com.buckstabue.stickynote.StickyNoteInteractor
-import com.buckstabue.stickynote.StickyNoteRouter
+import com.buckstabue.stickynote.*
 import com.buckstabue.stickynote.base.BasePresenter
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.channels.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -13,16 +14,28 @@ class StickyNoteListPresenter @Inject constructor(
     private val router: StickyNoteRouter,
     private val stickyNoteInteractor: StickyNoteInteractor
 ) : BasePresenter<StickyNoteListView>() {
+
+    @ExperimentalCoroutinesApi
+    @ObsoleteCoroutinesApi
     override fun onViewAttached() {
         super.onViewAttached()
-        val stickyNotes = stickyNoteInteractor.getStickyNotes()
-            .map {
-                StickyNoteViewModel(
-                    description = it.description,
-                    stickyNote = it
-                )
-            }
-        view?.render(stickyNotes)
+        launch {
+            stickyNoteInteractor.observeStickyNotes()
+                .map { stickyNotes ->
+                    toViewModels(stickyNotes)
+                }.consumeEach {
+                    view?.render(it)
+                }
+        }
+    }
+
+    private fun toViewModels(stickyNotes: List<StickyNote>): List<StickyNoteViewModel> {
+        return stickyNotes.map {
+            StickyNoteViewModel(
+                description = it.description,
+                stickyNote = it
+            )
+        }
     }
 
     fun onBackButtonClick() {

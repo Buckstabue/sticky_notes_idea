@@ -16,6 +16,8 @@ class StickyNoteRepositoryImpl @Inject constructor(
     private val doneStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
 
     private val activeStickyNoteChannel = BroadcastChannel<StickyNote?>(Channel.CONFLATED).also { it.offer(null) }
+    private val stickyNoteListChannel =
+        BroadcastChannel<List<StickyNote>>(Channel.CONFLATED).also { it.offer(emptyList()) }
 
     override suspend fun addStickyNote(stickyNote: StickyNote) {
         require(!stickyNote.isDone) { "adding a done sticky note. $stickyNote" }
@@ -23,8 +25,14 @@ class StickyNoteRepositoryImpl @Inject constructor(
         undoneStickyNotes.add(stickyNote)
         if (undoneStickyNotes.size == 1) {
             // if it's the first added element
-            setStickyNoteActive(stickyNote)
+            activeStickyNoteChannel.send(stickyNote)
         }
+        notifyStickyNotesChanged()
+    }
+
+    private suspend fun notifyStickyNotesChanged() {
+        val newStickyNoteList = undoneStickyNotes.toList().plus(doneStickyNotes.toList())
+        stickyNoteListChannel.send(newStickyNoteList)
     }
 
     override suspend fun setStickyNoteDone(stickyNote: StickyNote) {
@@ -34,14 +42,26 @@ class StickyNoteRepositoryImpl @Inject constructor(
         doneStickyNotes.add(0, stickyNote.setDone(true))
 
         activeStickyNoteChannel.send(undoneStickyNotes.firstOrNull())
+        notifyStickyNotesChanged()
     }
 
     override suspend fun setStickyNoteActive(stickyNote: StickyNote) {
+        if (stickyNote.isDone) {
+            doneStickyNotes.remove(stickyNote)
+            undoneStickyNotes.add(0, stickyNote)
+        } else {
+            if (undoneStickyNotes.firstOrNull() != stickyNote) {
+                undoneStickyNotes.remove(stickyNote)
+                undoneStickyNotes.add(0, stickyNote)
+            }
+        }
+
         activeStickyNoteChannel.send(stickyNote)
+        notifyStickyNotesChanged()
     }
 
-    override fun getStickyNotes(): List<StickyNote> {
-        return undoneStickyNotes.toList().plus(doneStickyNotes.toList())
+    override fun observeStickyNotes(): ReceiveChannel<List<StickyNote>> {
+        return stickyNoteListChannel.openSubscription()
     }
 
     override fun observeActiveStickyNote(): ReceiveChannel<StickyNote?> {
