@@ -25,9 +25,7 @@ class ActiveNotePresenter @Inject constructor(
                     val viewModel = ActiveStickyNoteViewModel(
                         activeNoteDescription = generateActiveNoteDescription(it)
                     )
-                    view?.render(
-                        viewModel
-                    )
+                    view?.render(viewModel)
                 }
         }
 
