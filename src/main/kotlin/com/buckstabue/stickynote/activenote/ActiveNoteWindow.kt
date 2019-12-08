@@ -12,6 +12,7 @@ class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), Acti
     private lateinit var contentPanel: JPanel
     private lateinit var activeNote: JLabel
     private lateinit var gotoStickyNoteListButton: JButton
+    private lateinit var doneButton: JButton
 
     override val routingTag: String = "ActiveStickyNote"
 
@@ -20,11 +21,16 @@ class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), Acti
 
     override fun render(viewModel: ActiveStickyNoteViewModel) {
         activeNote.text = viewModel.activeNoteDescription
+        doneButton.isVisible = viewModel.showDoneButton
     }
 
     init {
         gotoStickyNoteListButton.addActionListener {
             presenter.onGotoStickyNoteListClick()
+        }
+
+        doneButton.addActionListener {
+            presenter.onDoneClick()
         }
     }
 

@@ -15,6 +15,8 @@ class ActiveNotePresenter @Inject constructor(
     private val stickyNoteInteractor: StickyNoteInteractor
 ) : BasePresenter<ActiveNoteView>() {
 
+    private var activeStickyNote: StickyNote? = null
+
     @ExperimentalCoroutinesApi
     override fun onViewAttached() {
         super.onViewAttached()
@@ -22,8 +24,10 @@ class ActiveNotePresenter @Inject constructor(
         launch {
             stickyNoteInteractor.observeActiveStickyNote()
                 .consumeEach {
+                    activeStickyNote = it
                     val viewModel = ActiveStickyNoteViewModel(
-                        activeNoteDescription = generateActiveNoteDescription(it)
+                        activeNoteDescription = generateActiveNoteDescription(it),
+                        showDoneButton = it != null
                     )
                     view?.render(viewModel)
                 }
@@ -40,5 +44,13 @@ class ActiveNotePresenter @Inject constructor(
 
     fun onGotoStickyNoteListClick() {
         router.openStickyNotesList()
+    }
+
+    fun onDoneClick() {
+        val activeStickyNote = activeStickyNote
+        requireNotNull(activeStickyNote)
+        launch {
+            stickyNoteInteractor.setStickyNoteDone(activeStickyNote)
+        }
     }
 }

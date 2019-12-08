@@ -28,4 +28,8 @@ class StickyNoteInteractor @Inject constructor(
     fun openStickyNote(stickyNote: FileBoundStickyNote) {
         editor.navigateToLine(stickyNote.fileUrl, stickyNote.lineNumber)
     }
+
+    suspend fun setStickyNoteDone(stickyNote: StickyNote) {
+        stickyNoteRepository.setStickyNoteDone(stickyNote)
+    }
 }

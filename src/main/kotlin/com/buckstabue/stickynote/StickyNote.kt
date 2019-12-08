@@ -3,7 +3,9 @@ package com.buckstabue.stickynote
 sealed class StickyNote(
     open val description: String,
     open val isDone: Boolean
-)
+) {
+    abstract fun setDone(isDone: Boolean): StickyNote
+}
 
 /**
  * Sticky note that doesn't have any context
@@ -11,7 +13,11 @@ sealed class StickyNote(
 data class NonBoundStickyNote(
     override val description: String,
     override val isDone: Boolean
-) : StickyNote(description = description, isDone = isDone)
+) : StickyNote(description = description, isDone = isDone) {
+    override fun setDone(isDone: Boolean): StickyNote {
+        return copy(isDone = isDone)
+    }
+}
 
 /**
  * Sticky note that has a code reference
@@ -21,4 +27,8 @@ data class FileBoundStickyNote(
     val lineNumber: Int,
     override val description: String,
     override val isDone: Boolean
-) : StickyNote(description = description, isDone = isDone)
+) : StickyNote(description = description, isDone = isDone) {
+    override fun setDone(isDone: Boolean): StickyNote {
+        return copy(isDone = isDone)
+    }
+}
