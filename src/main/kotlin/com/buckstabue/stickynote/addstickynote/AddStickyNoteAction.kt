@@ -10,6 +10,7 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import kotlinx.coroutines.runBlocking
 import org.apache.log4j.Level
+import javax.swing.JOptionPane
 
 class AddStickyNoteAction : AnAction() {
     companion object {
@@ -49,10 +50,21 @@ class AddStickyNoteAction : AnAction() {
             logger.error("Could not extract virtual file from document")
             return null
         }
+        val description = askUserToEnterStickyNoteDescription()
+
+        @Suppress("FoldInitializerAndIfToElvis")
+        if (description == null) {
+            // user cancelled
+            return null
+        }
         return FileBoundStickyNote(
             fileUrl = currentFile.url,
             lineNumber = currentLineNumber,
-            description = "Test description"
+            description = description
         )
+    }
+
+    private fun askUserToEnterStickyNoteDescription(): String? {
+        return JOptionPane.showInputDialog(null, "Description:", "New Sticky Note", JOptionPane.QUESTION_MESSAGE)
     }
 }
