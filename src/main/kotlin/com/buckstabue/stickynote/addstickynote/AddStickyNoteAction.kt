@@ -26,9 +26,9 @@ class AddStickyNoteAction : AnAction() {
             logger.error("Project is null")
             return@runBlocking
         }
-        val stickyNote = extractStickyNote(event)
+        val stickyNote = createStickyNote(event)
         if (stickyNote == null) {
-            logger.error("Could not extract sticky note")
+            logger.debug("Sticky note creation cancelled")
             return@runBlocking
         }
         val stickyNoteInteractor = AppComponent.INSTANCE.stickyNoteInteractor()
@@ -36,7 +36,7 @@ class AddStickyNoteAction : AnAction() {
         logger.debug("Sticky note successfully added $stickyNote")
     }
 
-    private fun extractStickyNote(event: AnActionEvent): StickyNote? {
+    private fun createStickyNote(event: AnActionEvent): StickyNote? {
         val editor = CommonDataKeys.EDITOR.getData(event.dataContext)
         if (editor == null) {
             logger.error("Editor is null")
