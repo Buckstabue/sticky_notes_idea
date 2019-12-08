@@ -18,6 +18,10 @@ class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), Acti
     @Inject
     override lateinit var presenter: ActiveNotePresenter
 
+    override fun render(viewModel: ActiveStickyNoteViewModel) {
+        activeNote.text = viewModel.activeNoteDescription
+    }
+
     init {
         gotoStickyNoteListButton.addActionListener {
             presenter.onGotoStickyNoteListClick()

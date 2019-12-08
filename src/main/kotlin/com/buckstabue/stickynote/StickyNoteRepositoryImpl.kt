@@ -15,4 +15,8 @@ class StickyNoteRepositoryImpl @Inject constructor(
     override fun getStickyNotes(): List<StickyNote> {
         return stickyNotes.toList()
     }
+
+    override fun getActiveStickyNote(): StickyNote? {
+        return stickyNotes.firstOrNull()
+    }
 }
