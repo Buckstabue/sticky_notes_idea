@@ -7,20 +7,6 @@ import com.intellij.ui.content.ContentFactory
 
 class StickyNoteToolWindowFactory : ToolWindowFactory {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-//        val activeNoteWindow = ActiveNoteWindow()
-//        val windowContent = activeNoteWindow.getContent()
-//        windowContent.addAncestorListener(object : AncestorListener {
-//            override fun ancestorAdded(event: AncestorEvent) {
-//                activeNoteWindow.onAttach()
-//            }
-//
-//            override fun ancestorMoved(event: AncestorEvent) {
-//            }
-//
-//            override fun ancestorRemoved(event: AncestorEvent) {
-//                activeNoteWindow.onDetach()
-//            }
-//        })
         val stickyNoteRouter = StickyNoteRouterImpl()
         AppComponent.init(stickyNoteRouter)
 
