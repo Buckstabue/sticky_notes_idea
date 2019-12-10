@@ -17,8 +17,8 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class StickyNoteRepositoryImpl @Inject constructor(
-    private val project: Project,
-    private val projectScope: ProjectScope
+    private val projectScope: ProjectScope,
+    project: Project
 ) : StickyNoteRepository {
     private val undoneStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
     private val doneStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
