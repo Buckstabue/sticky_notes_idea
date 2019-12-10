@@ -1,17 +1,18 @@
-package com.buckstabue.stickynote.service
+package com.buckstabue.stickynote.idea
 
 import com.buckstabue.stickynote.AppInjector
 import com.buckstabue.stickynote.FileBoundStickyNote
 import com.buckstabue.stickynote.FileLocation
 import com.buckstabue.stickynote.NonBoundStickyNote
 import com.buckstabue.stickynote.StickyNote
-import com.buckstabue.stickynote.idea.IdeaFileLocation
+import com.buckstabue.stickynote.service.StickyNotesService
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFileManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -32,11 +33,19 @@ class StickyNotesServiceImpl(
     private val loadedStickyNotesChannel = BroadcastChannel<List<StickyNote>>(Channel.CONFLATED)
 
     private val projectScope = AppInjector.getProjectComponent(project).projectScope()
+    private val stickyNotesGutterManager = StickyNotesGutterManager(project)
 
-    override fun setStickyNotes(stickyNotes: List<StickyNote>) {
-        state = ServiceState(
-            stickyNotes = stickyNotes.map { SerializedStickyNote.fromStickyNote(it) }
-        )
+    override suspend fun setStickyNotes(stickyNotes: List<StickyNote>) {
+        MainScope().launch {
+            state = ServiceState(
+                stickyNotes = stickyNotes.map {
+                    SerializedStickyNote.fromStickyNote(
+                        it
+                    )
+                }
+            )
+            stickyNotesGutterManager.onStickyNotesChanged(stickyNotes)
+        }
     }
 
     override fun observeLoadedStickyNotes(): ReceiveChannel<List<StickyNote>> {
@@ -53,6 +62,7 @@ class StickyNotesServiceImpl(
             loadedStickyNotesChannel.send(state.stickyNotes.map { it.toStickyNote(project) })
         }
     }
+
 
     data class ServiceState(
         var stickyNotes: List<SerializedStickyNote> = emptyList()

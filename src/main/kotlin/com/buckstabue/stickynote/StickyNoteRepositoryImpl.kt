@@ -47,6 +47,7 @@ class StickyNoteRepositoryImpl @Inject constructor(
         val newStickyNoteList = undoneStickyNotes.toList().plus(doneStickyNotes.toList())
         stickyNoteListChannel.send(newStickyNoteList)
         activeStickyNoteChannel.send(undoneStickyNotes.firstOrNull())
+
         stickyNotesService.setStickyNotes(newStickyNoteList)
     }
 

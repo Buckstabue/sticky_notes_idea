@@ -19,7 +19,7 @@
                     factoryClass="com.buckstabue.stickynote.toolwindow.StickyNoteToolWindowFactory"/>
         <projectService
                 serviceInterface="com.buckstabue.stickynote.service.StickyNotesService"
-                serviceImplementation="com.buckstabue.stickynote.service.StickyNotesServiceImpl"/>
+                serviceImplementation="com.buckstabue.stickynote.idea.StickyNotesServiceImpl"/>
     </extensions>
 
     <actions>

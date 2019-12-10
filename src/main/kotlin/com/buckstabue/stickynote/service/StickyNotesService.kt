@@ -16,7 +16,7 @@ interface StickyNotesService {
         }
     }
 
-    fun setStickyNotes(stickyNotes: List<StickyNote>)
+    suspend fun setStickyNotes(stickyNotes: List<StickyNote>)
 
     fun observeLoadedStickyNotes(): ReceiveChannel<List<StickyNote>>
 }
