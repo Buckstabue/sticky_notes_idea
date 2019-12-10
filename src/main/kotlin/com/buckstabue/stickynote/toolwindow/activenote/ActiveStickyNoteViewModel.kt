@@ -1,4 +1,4 @@
-package com.buckstabue.stickynote.activenote
+package com.buckstabue.stickynote.toolwindow.activenote
 
 data class ActiveStickyNoteViewModel(
     val activeNoteDescription: String,

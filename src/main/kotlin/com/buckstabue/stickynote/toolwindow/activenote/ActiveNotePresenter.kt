@@ -1,14 +1,16 @@
-package com.buckstabue.stickynote.activenote
+package com.buckstabue.stickynote.toolwindow.activenote
 
 import com.buckstabue.stickynote.StickyNote
 import com.buckstabue.stickynote.StickyNoteInteractor
-import com.buckstabue.stickynote.StickyNoteRouter
 import com.buckstabue.stickynote.base.BasePresenter
+import com.buckstabue.stickynote.toolwindow.PerToolWindow
+import com.buckstabue.stickynote.toolwindow.StickyNoteRouter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
 import javax.inject.Inject
 
-@PerActiveNote
+@PerToolWindow
 class ActiveNotePresenter @Inject constructor(
     private val router: StickyNoteRouter,
     private val stickyNoteInteractor: StickyNoteInteractor
@@ -17,6 +19,7 @@ class ActiveNotePresenter @Inject constructor(
     private var activeStickyNote: StickyNote? = null
 
     @ExperimentalCoroutinesApi
+    @ObsoleteCoroutinesApi
     override fun onViewAttached() {
         super.onViewAttached()
 

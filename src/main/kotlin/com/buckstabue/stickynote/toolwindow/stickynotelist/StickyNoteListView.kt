@@ -1,4 +1,4 @@
-package com.buckstabue.stickynote.stickynotelist
+package com.buckstabue.stickynote.toolwindow.stickynotelist
 
 import com.buckstabue.stickynote.base.BaseView
 

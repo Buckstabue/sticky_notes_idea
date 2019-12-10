@@ -1,10 +1,14 @@
-package com.buckstabue.stickynote.stickynotelist
+package com.buckstabue.stickynote.toolwindow.stickynotelist
 
-import com.buckstabue.stickynote.AppComponent
 import com.buckstabue.stickynote.base.BaseWindow
 import com.buckstabue.stickynote.base.addOnActionListener
+import com.buckstabue.stickynote.toolwindow.StickyNoteToolWindowComponent
 import javax.inject.Inject
-import javax.swing.*
+import javax.swing.AbstractListModel
+import javax.swing.JButton
+import javax.swing.JComponent
+import javax.swing.JList
+import javax.swing.JPanel
 
 class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresenter>(), StickyNoteListView {
     private lateinit var stickyNoteList: JList<StickyNoteViewModel>
@@ -26,9 +30,9 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
         }
     }
 
-    override fun onCreate() {
-        AppComponent.INSTANCE.inject(this)
-        super.onCreate()
+    override fun onCreate(toolWindowComponent: StickyNoteToolWindowComponent) {
+        toolWindowComponent.inject(this)
+        super.onCreate(toolWindowComponent)
     }
 
     override fun render(stickyNotes: List<StickyNoteViewModel>) {

@@ -1,7 +1,7 @@
-package com.buckstabue.stickynote.activenote
+package com.buckstabue.stickynote.toolwindow.activenote
 
-import com.buckstabue.stickynote.AppComponent
 import com.buckstabue.stickynote.base.BaseWindow
+import com.buckstabue.stickynote.toolwindow.StickyNoteToolWindowComponent
 import javax.inject.Inject
 import javax.swing.JButton
 import javax.swing.JComponent
@@ -34,9 +34,9 @@ class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), Acti
         }
     }
 
-    override fun onCreate() {
-        AppComponent.INSTANCE.plusActiveNoteComponent().inject(this)
-        super.onCreate()
+    override fun onCreate(toolWindowComponent: StickyNoteToolWindowComponent) {
+        toolWindowComponent.inject(this)
+        super.onCreate(toolWindowComponent)
     }
 
     override fun getContent(): JComponent {

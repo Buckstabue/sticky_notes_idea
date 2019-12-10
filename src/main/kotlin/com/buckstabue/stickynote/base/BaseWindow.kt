@@ -1,5 +1,6 @@
 package com.buckstabue.stickynote.base
 
+import com.buckstabue.stickynote.toolwindow.StickyNoteToolWindowComponent
 import javax.swing.JComponent
 
 abstract class BaseWindow<VIEW : BaseView, PRESENTER : BasePresenter<VIEW>> {
@@ -7,7 +8,7 @@ abstract class BaseWindow<VIEW : BaseView, PRESENTER : BasePresenter<VIEW>> {
 
     abstract val routingTag: String
 
-    open fun onCreate() {
+    open fun onCreate(toolWindowComponent: StickyNoteToolWindowComponent) {
     }
 
     fun onAttach() {

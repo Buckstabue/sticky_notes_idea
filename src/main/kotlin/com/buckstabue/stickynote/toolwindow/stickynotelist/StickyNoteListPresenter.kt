@@ -1,15 +1,19 @@
-package com.buckstabue.stickynote.stickynotelist
+package com.buckstabue.stickynote.toolwindow.stickynotelist
 
-import com.buckstabue.stickynote.*
+import com.buckstabue.stickynote.FileBoundStickyNote
+import com.buckstabue.stickynote.NonBoundStickyNote
+import com.buckstabue.stickynote.StickyNote
+import com.buckstabue.stickynote.StickyNoteInteractor
 import com.buckstabue.stickynote.base.BasePresenter
+import com.buckstabue.stickynote.toolwindow.PerToolWindow
+import com.buckstabue.stickynote.toolwindow.StickyNoteRouter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.map
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
+@PerToolWindow
 class StickyNoteListPresenter @Inject constructor(
     private val router: StickyNoteRouter,
     private val stickyNoteInteractor: StickyNoteInteractor

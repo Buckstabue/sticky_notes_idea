@@ -16,7 +16,10 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Stick Note" anchor="left"
-                    factoryClass="com.buckstabue.stickynote.StickyNoteToolWindowFactory"/>
+                    factoryClass="com.buckstabue.stickynote.toolwindow.StickyNoteToolWindowFactory"/>
+        <projectService
+                serviceInterface="com.buckstabue.stickynote.service.StickyNotesService"
+                serviceImplementation="com.buckstabue.stickynote.service.StickyNotesServiceImpl"/>
     </extensions>
 
     <actions>

@@ -1,8 +1,8 @@
-package com.buckstabue.stickynote
+package com.buckstabue.stickynote.toolwindow
 
-import com.buckstabue.stickynote.activenote.ActiveNoteWindow
 import com.buckstabue.stickynote.base.BaseWindow
-import com.buckstabue.stickynote.stickynotelist.StickyNoteListWindow
+import com.buckstabue.stickynote.toolwindow.activenote.ActiveNoteWindow
+import com.buckstabue.stickynote.toolwindow.stickynotelist.StickyNoteListWindow
 import java.awt.CardLayout
 import javax.swing.JPanel
 
@@ -15,14 +15,17 @@ class StickyNoteRouterImpl : StickyNoteRouter {
 
     private var currentActiveWindow: BaseWindow<*, *>? = null
 
-    fun onCreate() {
+    private lateinit var toolWindowComponent: StickyNoteToolWindowComponent
+
+    fun onCreate(toolWindowComponent: StickyNoteToolWindowComponent) {
+        this.toolWindowComponent = toolWindowComponent
         addScreen(activeNoteWindow)
         addScreen(stickyNoteListWindow)
     }
 
     private fun addScreen(screenWindow: BaseWindow<*, *>) {
         contentPanel.add(screenWindow.getContent(), screenWindow.routingTag)
-        screenWindow.onCreate()
+        screenWindow.onCreate(toolWindowComponent)
     }
 
     fun getRouterRootPanel(): JPanel {

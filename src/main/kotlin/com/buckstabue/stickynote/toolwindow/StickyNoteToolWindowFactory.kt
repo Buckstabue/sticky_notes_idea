@@ -1,5 +1,7 @@
-package com.buckstabue.stickynote
+package com.buckstabue.stickynote.toolwindow
 
+import com.buckstabue.stickynote.AppInjector
+import com.buckstabue.stickynote.service.StickyNotesService
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
@@ -8,9 +10,11 @@ import com.intellij.ui.content.ContentFactory
 class StickyNoteToolWindowFactory : ToolWindowFactory {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
         val stickyNoteRouter = StickyNoteRouterImpl()
-        AppComponent.init(stickyNoteRouter)
+        val toolWindowComponent = AppInjector.getProjectComponent(project)
+            .plusStickyNoteToolWindowComponent()
+            .create(stickyNoteRouter)
 
-        stickyNoteRouter.onCreate()
+        stickyNoteRouter.onCreate(toolWindowComponent)
 
         val rootPanel = stickyNoteRouter.getRouterRootPanel()
         val contentFactory = ContentFactory.SERVICE.getInstance()
@@ -18,5 +22,7 @@ class StickyNoteToolWindowFactory : ToolWindowFactory {
         toolWindow.contentManager.addContent(content)
 
         stickyNoteRouter.openActiveStickyNote()
+
+        StickyNotesService.loadService(project)
     }
 }

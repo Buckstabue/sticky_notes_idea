@@ -1,6 +1,6 @@
 package com.buckstabue.stickynote.addstickynote
 
-import com.buckstabue.stickynote.AppComponent
+import com.buckstabue.stickynote.AppInjector
 import com.buckstabue.stickynote.FileBoundStickyNote
 import com.buckstabue.stickynote.NonBoundStickyNote
 import com.buckstabue.stickynote.StickyNote
@@ -32,7 +32,7 @@ class AddStickyNoteAction : AnAction() {
             logger.debug("Sticky note creation cancelled")
             return@runBlocking
         }
-        val stickyNoteInteractor = AppComponent.INSTANCE.stickyNoteInteractor()
+        val stickyNoteInteractor = AppInjector.getProjectComponent(project).stickyNoteInteractor()
         stickyNoteInteractor.addStickyNote(stickyNote)
         logger.debug("Sticky note successfully added $stickyNote")
     }
