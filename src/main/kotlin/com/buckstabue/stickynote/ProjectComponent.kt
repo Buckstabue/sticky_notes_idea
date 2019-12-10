@@ -8,6 +8,7 @@ import dagger.BindsInstance
 import dagger.Module
 import dagger.Subcomponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import javax.inject.Scope
 
 @PerProject
@@ -28,6 +29,7 @@ interface ProjectModule {
 
     @Binds
     @ExperimentalCoroutinesApi
+    @ObsoleteCoroutinesApi
     fun bindStickyNoteRepository(stickyNoteRepository: StickyNoteRepositoryImpl): StickyNoteRepository
 
     @Binds

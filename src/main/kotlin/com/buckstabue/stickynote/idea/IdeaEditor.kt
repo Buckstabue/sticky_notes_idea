@@ -9,7 +9,6 @@ import javax.inject.Inject
 class IdeaEditor @Inject constructor(
 ) : Editor {
     override fun navigateToLine(fileLocation: FileLocation) {
-        val fileLocation = fileLocation as IdeaFileLocation
-        fileLocation.fileDescriptor.navigate(true)
+        (fileLocation as IdeaFileLocation).fileDescriptor.navigate(true)
     }
 }
