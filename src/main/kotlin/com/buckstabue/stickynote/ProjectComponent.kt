@@ -1,5 +1,6 @@
 package com.buckstabue.stickynote
 
+import com.buckstabue.stickynote.idea.IdeaEditor
 import com.buckstabue.stickynote.toolwindow.StickyNoteToolWindowComponent
 import com.intellij.openapi.project.Project
 import dagger.Binds

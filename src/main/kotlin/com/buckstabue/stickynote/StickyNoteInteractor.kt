@@ -21,7 +21,7 @@ class StickyNoteInteractor @Inject constructor(
     }
 
     fun openStickyNote(stickyNote: FileBoundStickyNote) {
-        editor.navigateToLine(stickyNote.fileUrl, stickyNote.lineNumber)
+        editor.navigateToLine(stickyNote.fileLocation)
     }
 
     suspend fun setStickyNoteDone(stickyNote: StickyNote) {

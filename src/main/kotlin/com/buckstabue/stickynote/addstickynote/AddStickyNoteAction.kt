@@ -2,66 +2,72 @@ package com.buckstabue.stickynote.addstickynote
 
 import com.buckstabue.stickynote.AppInjector
 import com.buckstabue.stickynote.FileBoundStickyNote
+import com.buckstabue.stickynote.FileLocation
 import com.buckstabue.stickynote.NonBoundStickyNote
 import com.buckstabue.stickynote.StickyNote
+import com.buckstabue.stickynote.idea.IdeaFileLocation
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.fileEditor.FileDocumentManager
-import kotlinx.coroutines.runBlocking
-import org.apache.log4j.Level
+import com.intellij.openapi.project.Project
+import kotlinx.coroutines.launch
 import javax.swing.JOptionPane
 
 class AddStickyNoteAction : AnAction() {
     companion object {
-        private val logger = Logger.getInstance(AddStickyNoteAction::class.java).also {
-            it.setLevel(Level.DEBUG)
-        }
+        private val logger = Logger.getInstance(AddStickyNoteAction::class.java)
     }
 
-    override fun actionPerformed(event: AnActionEvent) = runBlocking {
+    override fun actionPerformed(event: AnActionEvent) {
         logger.debug("new event from place = ${event.place}")
         val project = event.project
         if (project == null) {
             logger.error("Project is null")
-            return@runBlocking
+            return
         }
-        val stickyNote = createStickyNote(event)
-        if (stickyNote == null) {
-            logger.debug("Sticky note creation cancelled")
-            return@runBlocking
-        }
-        val stickyNoteInteractor = AppInjector.getProjectComponent(project).stickyNoteInteractor()
-        stickyNoteInteractor.addStickyNote(stickyNote)
-        logger.debug("Sticky note successfully added $stickyNote")
-    }
-
-    private fun createStickyNote(event: AnActionEvent): StickyNote? {
         val description = askUserToEnterStickyNoteDescription()
-
-        @Suppress("FoldInitializerAndIfToElvis")
         if (description == null) {
             logger.debug("User cancelled sticky note description input")
             // user cancelled
-            return null
+            return
         }
-        val editorCaretLocation = extractEditorCaretLocation(event)
-        return if (editorCaretLocation == null) {
+        val fileLocation = extractEditorCaretLocation(event, project)
+
+        val stickyNote = createStickyNote(fileLocation, description)
+        if (stickyNote == null) {
+            logger.debug("Sticky note creation cancelled")
+            return
+        }
+        val projectComponent = AppInjector.getProjectComponent(project)
+        val stickyNoteInteractor = projectComponent.stickyNoteInteractor()
+        val projectScope = projectComponent.projectScope()
+
+        projectScope.launch {
+            stickyNoteInteractor.addStickyNote(stickyNote)
+            logger.debug("Sticky note successfully added $stickyNote")
+        }
+    }
+
+    private fun createStickyNote(
+        fileLocation: FileLocation?,
+        description: String
+    ): StickyNote? {
+        return if (fileLocation == null) {
             NonBoundStickyNote(
                 description = description
             )
         } else {
             FileBoundStickyNote(
-                fileUrl = editorCaretLocation.fileUrl,
-                lineNumber = editorCaretLocation.lineNumber,
+                fileLocation = fileLocation,
                 description = description,
                 isDone = false
             )
         }
     }
 
-    private fun extractEditorCaretLocation(event: AnActionEvent): EditorCaretLocation? {
+    private fun extractEditorCaretLocation(event: AnActionEvent, project: Project): FileLocation? {
         val editor = CommonDataKeys.EDITOR.getData(event.dataContext)
         if (editor == null) {
             logger.debug("Could not extract editor from event")
@@ -75,8 +81,9 @@ class AddStickyNoteAction : AnAction() {
             logger.error("Could not extract virtual file from document")
             return null
         }
-        return EditorCaretLocation(
-            fileUrl = currentFile.url,
+        return IdeaFileLocation(
+            project = project,
+            file = currentFile,
             lineNumber = currentLineNumber
         )
     }
@@ -84,9 +91,4 @@ class AddStickyNoteAction : AnAction() {
     private fun askUserToEnterStickyNoteDescription(): String? {
         return JOptionPane.showInputDialog(null, "Description:", "New Sticky Note", JOptionPane.QUESTION_MESSAGE)
     }
-
-    private data class EditorCaretLocation(
-        val fileUrl: String,
-        val lineNumber: Int
-    )
 }

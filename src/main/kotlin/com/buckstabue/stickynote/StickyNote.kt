@@ -23,12 +23,16 @@ data class NonBoundStickyNote(
  * Sticky note that has a code reference
  */
 data class FileBoundStickyNote(
-    val fileUrl: String,
-    val lineNumber: Int,
+    val fileLocation: FileLocation,
     override val description: String,
     override val isDone: Boolean = false
 ) : StickyNote(description = description, isDone = isDone) {
     override fun setDone(isDone: Boolean): StickyNote {
         return copy(isDone = isDone)
     }
+}
+
+interface FileLocation {
+    val fileUrl: String
+    val lineNumber: Int
 }
