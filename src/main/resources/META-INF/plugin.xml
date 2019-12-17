@@ -25,8 +25,5 @@
     <actions>
         <action id="com.buckstabue.stickynote.addstickynote.AddStickyNoteAction"
                 class="com.buckstabue.stickynote.addstickynote.AddStickyNoteAction" text="Add a Sticky Note"/>
-<!--        <action id="RemoveStickyNoteAction"-->
-<!--                class="com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.RemoveStickyNoteAction"-->
-<!--                text="Remove" description="Removes sticky note"/>-->
     </actions>
 </idea-plugin>
