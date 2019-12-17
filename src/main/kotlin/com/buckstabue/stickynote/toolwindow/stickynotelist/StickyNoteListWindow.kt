@@ -1,8 +1,11 @@
 package com.buckstabue.stickynote.toolwindow.stickynotelist
 
 import com.buckstabue.stickynote.base.BaseWindow
-import com.buckstabue.stickynote.base.addOnActionListener
+import com.buckstabue.stickynote.base.addOnPopupActionListener
 import com.buckstabue.stickynote.toolwindow.StickyNoteToolWindowComponent
+import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.RemoveStickyNoteAction
+import com.intellij.openapi.actionSystem.ActionGroup
+import com.intellij.openapi.actionSystem.DefaultActionGroup
 import javax.inject.Inject
 import javax.swing.AbstractListModel
 import javax.swing.JButton
@@ -20,14 +23,25 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
     @Inject
     override lateinit var presenter: StickyNoteListPresenter
 
+    private val stickyNoteActions = createStickyNoteActions()
+
     init {
         stickyNoteList.model = StickyNoteListModel(emptyList())
         backButton.addActionListener {
             presenter.onBackButtonClick()
         }
-        stickyNoteList.addOnActionListener {
-            presenter.onItemSelected(it)
+        stickyNoteList.addOnPopupActionListener {
+            stickyNoteActions
         }
+//        stickyNoteList.addOnActionListener {
+//            presenter.onItemSelected(it)
+//        }
+    }
+
+    private fun createStickyNoteActions(): ActionGroup {
+        return DefaultActionGroup(
+            RemoveStickyNoteAction(stickyNoteList)
+        )
     }
 
     override fun onCreate(toolWindowComponent: StickyNoteToolWindowComponent) {

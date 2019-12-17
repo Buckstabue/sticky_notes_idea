@@ -60,6 +60,12 @@ class StickyNoteRepositoryImpl @Inject constructor(
         notifyStickyNotesChanged()
     }
 
+    override suspend fun removeStickyNotes(stickyNotes: List<StickyNote>) {
+        undoneStickyNotes.removeAll(stickyNotes)
+        doneStickyNotes.removeAll(stickyNotes)
+        notifyStickyNotesChanged()
+    }
+
     override suspend fun setStickNotes(stickyNotes: List<StickyNote>) {
         undoneStickyNotes.clear()
         undoneStickyNotes.addAll(stickyNotes.filter { !it.isDone })
