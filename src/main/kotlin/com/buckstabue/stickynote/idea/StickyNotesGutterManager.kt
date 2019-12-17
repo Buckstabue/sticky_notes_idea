@@ -4,6 +4,7 @@ import com.buckstabue.stickynote.FileBoundStickyNote
 import com.buckstabue.stickynote.StickyNote
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.ex.MarkupModelEx
+import com.intellij.openapi.editor.ex.RangeHighlighterEx
 import com.intellij.openapi.editor.impl.DocumentMarkupModel
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.openapi.editor.markup.HighlighterLayer
@@ -17,14 +18,21 @@ import javax.swing.Icon
 class StickyNotesGutterManager(
     private val project: Project
 ) {
+    private val currentHighlighters = mutableMapOf<FileBoundStickyNote, RangeHighlighterEx>()
 
     fun onStickyNotesChanged(stickyNotes: List<StickyNote>) {
         MainScope().launch {
-            stickyNotes.filter { !it.isDone }
+            val activeFileBoundStickyNotes = stickyNotes.filter { !it.isDone }
                 .filterIsInstance<FileBoundStickyNote>()
-                .forEach {
-                    showStickerNoteGutterIcons(it)
-                }
+            val diff = StickyNotesDiff.calculate(
+                oldNotes = currentHighlighters.keys,
+                newNotes = activeFileBoundStickyNotes
+            )
+            diff.removedStickyNotes.forEach {
+                currentHighlighters[it]?.dispose()
+                currentHighlighters.remove(it)
+            }
+            diff.newStickyNotes.forEach { showStickerNoteGutterIcons(it) }
         }
     }
 
@@ -39,6 +47,7 @@ class StickyNotesGutterManager(
             ) ?: return
         highlighter.gutterIconRenderer =
             StickyNoteGutterIconRenderer(stickyNote)
+        currentHighlighters[stickyNote] = highlighter
     }
 
     private fun getCachedDocument(stickyNote: FileBoundStickyNote): Document? {
@@ -64,6 +73,25 @@ class StickyNotesGutterManager(
 
         override fun equals(other: Any?): Boolean {
             return other is StickyNoteGutterIconRenderer && other.stickyNote == this.stickyNote
+        }
+    }
+
+    private data class StickyNotesDiff(
+        val newStickyNotes: List<FileBoundStickyNote>,
+        val removedStickyNotes: List<FileBoundStickyNote>
+    ) {
+        companion object {
+            fun calculate(
+                oldNotes: Collection<FileBoundStickyNote>,
+                newNotes: Collection<FileBoundStickyNote>
+            ): StickyNotesDiff {
+                val newElements = newNotes.minus(oldNotes)
+                val removedElements = oldNotes.minus(newNotes)
+                return StickyNotesDiff(
+                    newStickyNotes = newElements,
+                    removedStickyNotes = removedElements
+                )
+            }
         }
     }
 }
