@@ -79,7 +79,7 @@ class StickyNoteRepositoryImpl @Inject constructor(
     override suspend fun setStickyNoteActive(stickyNote: StickyNote) {
         if (stickyNote.isDone) {
             doneStickyNotes.remove(stickyNote)
-            undoneStickyNotes.add(0, stickyNote)
+            undoneStickyNotes.add(0, stickyNote.setDone(false))
         } else {
             if (undoneStickyNotes.firstOrNull() != stickyNote) {
                 undoneStickyNotes.remove(stickyNote)

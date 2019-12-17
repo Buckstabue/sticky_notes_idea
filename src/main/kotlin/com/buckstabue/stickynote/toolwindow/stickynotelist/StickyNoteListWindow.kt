@@ -5,6 +5,7 @@ import com.buckstabue.stickynote.base.addOnActionListener
 import com.buckstabue.stickynote.base.addOnPopupActionListener
 import com.buckstabue.stickynote.toolwindow.StickyNoteToolWindowComponent
 import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.RemoveStickyNoteAction
+import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.SetStickyNoteActiveAction
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import javax.inject.Inject
@@ -31,9 +32,7 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
         backButton.addActionListener {
             presenter.onBackButtonClick()
         }
-        stickyNoteList.addOnPopupActionListener {
-            stickyNoteActions
-        }
+        stickyNoteList.addOnPopupActionListener(stickyNoteActions)
         stickyNoteList.addOnActionListener {
             presenter.onItemSelected(it)
         }
@@ -41,7 +40,8 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
 
     private fun createStickyNoteActions(): ActionGroup {
         return DefaultActionGroup(
-            RemoveStickyNoteAction(stickyNoteList)
+            RemoveStickyNoteAction(stickyNoteList),
+            SetStickyNoteActiveAction(stickyNoteList)
         )
     }
 

@@ -29,7 +29,7 @@ fun <ITEM_TYPE : Any> JList<ITEM_TYPE>.addOnActionListener(listener: (ITEM_TYPE)
     )
 }
 
-fun <ITEM_TYPE : Any> JList<ITEM_TYPE>.addOnPopupActionListener(listener: (selection: List<ITEM_TYPE>) -> ActionGroup) {
+fun <ITEM_TYPE : Any> JList<ITEM_TYPE>.addOnPopupActionListener(actionGroup: ActionGroup) {
     val jList = this
     this.addMouseListener(object : MouseAdapter() {
         override fun mousePressed(e: MouseEvent) {
@@ -43,7 +43,6 @@ fun <ITEM_TYPE : Any> JList<ITEM_TYPE>.addOnPopupActionListener(listener: (selec
     })
     this.addMouseListener(object : PopupHandler() {
         override fun invokePopup(comp: Component?, x: Int, y: Int) {
-            val actionGroup = listener.invoke(jList.selectedValuesList)
             val popupMenu = ActionManager.getInstance()
                 .createActionPopupMenu(ActionPlaces.UNKNOWN, actionGroup)
             popupMenu.component.show(jList, x, y)
