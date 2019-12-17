@@ -1,6 +1,7 @@
 package com.buckstabue.stickynote.toolwindow.stickynotelist
 
 import com.buckstabue.stickynote.base.BaseWindow
+import com.buckstabue.stickynote.base.addOnActionListener
 import com.buckstabue.stickynote.base.addOnPopupActionListener
 import com.buckstabue.stickynote.toolwindow.StickyNoteToolWindowComponent
 import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.RemoveStickyNoteAction
@@ -33,9 +34,9 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
         stickyNoteList.addOnPopupActionListener {
             stickyNoteActions
         }
-//        stickyNoteList.addOnActionListener {
-//            presenter.onItemSelected(it)
-//        }
+        stickyNoteList.addOnActionListener {
+            presenter.onItemSelected(it)
+        }
     }
 
     private fun createStickyNoteActions(): ActionGroup {
