@@ -91,6 +91,17 @@ class StickyNoteRepositoryImpl @Inject constructor(
 
         val newDoneStickyNotes = stickyNotes.map { it.setDone(true) }.minus(doneStickyNotes)
         doneStickyNotes.addAll(0, newDoneStickyNotes)
+
+        notifyStickyNotesChanged()
+    }
+
+    override suspend fun setStickyNotesUndone(stickyNotes: List<StickyNote>) {
+        val stickyNotesUndone = stickyNotes.filter { it.isDone }
+        doneStickyNotes.removeAll(stickyNotesUndone)
+
+        val newUndoneStickyNotes = stickyNotes.map { it.setDone(false) }.minus(undoneStickyNotes)
+        undoneStickyNotes.addAll(newUndoneStickyNotes)
+
         notifyStickyNotesChanged()
     }
 

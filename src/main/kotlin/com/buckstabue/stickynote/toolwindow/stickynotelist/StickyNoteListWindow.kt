@@ -7,6 +7,7 @@ import com.buckstabue.stickynote.toolwindow.StickyNoteToolWindowComponent
 import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.RemoveStickyNoteAction
 import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.SetStickyNoteActiveAction
 import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.SetStickyNoteDoneAction
+import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.SetStickyNoteUndoneAction
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import javax.inject.Inject
@@ -43,6 +44,7 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
         return DefaultActionGroup(
             SetStickyNoteActiveAction(stickyNoteList),
             SetStickyNoteDoneAction(stickyNoteList),
+            SetStickyNoteUndoneAction(stickyNoteList),
             RemoveStickyNoteAction(stickyNoteList)
         )
     }
