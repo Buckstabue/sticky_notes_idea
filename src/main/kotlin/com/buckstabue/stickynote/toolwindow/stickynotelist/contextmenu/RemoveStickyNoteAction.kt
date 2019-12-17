@@ -16,17 +16,17 @@ class RemoveStickyNoteAction(
     }
 
     override fun actionPerformed(e: AnActionEvent) {
-        val project = e.project
-        if (project == null) {
-            logger.error("project is null")
-            return
-        }
         val selectedStickyNotes = stickyNoteJList.selectedValuesList.map { it.stickyNote }
         if (selectedStickyNotes.isEmpty()) {
             logger.error("Sticky Notes list is empty, nothing to remove")
             return
         }
 
+        val project = e.project
+        if (project == null) {
+            logger.error("project is null")
+            return
+        }
         val projectComponent = AppInjector.getProjectComponent(project)
         val stickyNoteInteractor = projectComponent.stickyNoteInteractor()
         val projectScope = projectComponent.projectScope()
