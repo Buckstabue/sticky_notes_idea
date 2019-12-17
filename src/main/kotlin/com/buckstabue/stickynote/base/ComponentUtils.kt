@@ -16,6 +16,7 @@ import javax.swing.KeyStroke
 fun <ITEM_TYPE : Any> JList<ITEM_TYPE>.addOnActionListener(listener: (ITEM_TYPE) -> Unit) {
     object : DoubleClickListener() {
         override fun onDoubleClick(event: MouseEvent?): Boolean {
+            selectedValue?.also(listener)
             listener.invoke(selectedValue)
             return true
         }
