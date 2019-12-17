@@ -40,8 +40,8 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
 
     private fun createStickyNoteActions(): ActionGroup {
         return DefaultActionGroup(
-            RemoveStickyNoteAction(stickyNoteList),
-            SetStickyNoteActiveAction(stickyNoteList)
+            SetStickyNoteActiveAction(stickyNoteList),
+            RemoveStickyNoteAction(stickyNoteList)
         )
     }
 
