@@ -35,4 +35,8 @@ class StickyNoteInteractor @Inject constructor(
     suspend fun setStickyNoteActive(stickyNote: StickyNote) {
         stickyNoteRepository.setStickyNoteActive(stickyNote)
     }
+
+    suspend fun setStickyNotesDone(stickyNotes: List<StickyNote>) {
+        stickyNoteRepository.setStickyNotesDone(stickyNotes)
+    }
 }

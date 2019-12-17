@@ -52,12 +52,7 @@ class StickyNoteRepositoryImpl @Inject constructor(
     }
 
     override suspend fun setStickyNoteDone(stickyNote: StickyNote) {
-        require(!stickyNote.isDone) { "Trying to set a sticky note done when it's already done" }
-
-        undoneStickyNotes.remove(stickyNote)
-        doneStickyNotes.add(0, stickyNote.setDone(true))
-
-        notifyStickyNotesChanged()
+        setStickyNotesDone(listOf(stickyNote))
     }
 
     override suspend fun removeStickyNotes(stickyNotes: List<StickyNote>) {
@@ -87,6 +82,15 @@ class StickyNoteRepositoryImpl @Inject constructor(
             }
         }
 
+        notifyStickyNotesChanged()
+    }
+
+    override suspend fun setStickyNotesDone(stickyNotes: List<StickyNote>) {
+        val stickyNotesToDone = stickyNotes.filter { !it.isDone }
+        undoneStickyNotes.removeAll(stickyNotesToDone)
+
+        val newDoneStickyNotes = stickyNotes.map { it.setDone(true) }.minus(doneStickyNotes)
+        doneStickyNotes.addAll(0, newDoneStickyNotes)
         notifyStickyNotesChanged()
     }
 
