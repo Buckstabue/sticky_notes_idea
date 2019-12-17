@@ -10,6 +10,7 @@ import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.SetSticky
 import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.SetStickyNoteUndoneAction
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.DefaultActionGroup
+import com.intellij.openapi.actionSystem.Separator
 import javax.inject.Inject
 import javax.swing.AbstractListModel
 import javax.swing.JButton
@@ -43,8 +44,10 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
     private fun createStickyNoteActions(): ActionGroup {
         return DefaultActionGroup(
             SetStickyNoteActiveAction(stickyNoteList),
+            Separator.getInstance(),
             SetStickyNoteDoneAction(stickyNoteList),
             SetStickyNoteUndoneAction(stickyNoteList),
+            Separator.getInstance(),
             RemoveStickyNoteAction(stickyNoteList)
         )
     }
