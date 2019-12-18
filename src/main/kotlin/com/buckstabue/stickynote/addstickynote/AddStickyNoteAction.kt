@@ -62,7 +62,7 @@ class AddStickyNoteAction : AnAction() {
             FileBoundStickyNote(
                 fileLocation = fileLocation,
                 description = description,
-                isDone = false
+                isArchived = false
             )
         }
     }

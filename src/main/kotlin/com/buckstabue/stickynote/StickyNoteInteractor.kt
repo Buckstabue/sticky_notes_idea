@@ -16,16 +16,21 @@ class StickyNoteInteractor @Inject constructor(
         return stickyNoteRepository.observeActiveStickyNote()
     }
 
-    fun observeStickyNotes(): ReceiveChannel<List<StickyNote>> {
-        return stickyNoteRepository.observeStickyNotes()
+    fun observeBacklogStickyNotes(): ReceiveChannel<List<StickyNote>> {
+        return stickyNoteRepository.observeBacklogStickyNotes()
     }
+
+    fun observeArchivedStickyNotes(): ReceiveChannel<List<StickyNote>> {
+        return stickyNoteRepository.observeArchivedStickyNotes()
+    }
+
 
     fun openStickyNote(stickyNote: FileBoundStickyNote) {
         editor.navigateToLine(stickyNote.fileLocation)
     }
 
-    suspend fun setStickyNoteDone(stickyNote: StickyNote) {
-        stickyNoteRepository.setStickyNoteDone(stickyNote)
+    suspend fun archiveStickyNote(stickyNote: StickyNote) {
+        stickyNoteRepository.archiveStickyNote(stickyNote)
     }
 
     suspend fun removeStickyNotes(stickyNotes: List<StickyNote>) {
@@ -36,11 +41,11 @@ class StickyNoteInteractor @Inject constructor(
         stickyNoteRepository.setStickyNoteActive(stickyNote)
     }
 
-    suspend fun setStickyNotesDone(stickyNotes: List<StickyNote>) {
-        stickyNoteRepository.setStickyNotesDone(stickyNotes)
+    suspend fun archiveStickyNotes(stickyNotes: List<StickyNote>) {
+        stickyNoteRepository.archiveStickyNotes(stickyNotes)
     }
 
-    suspend fun setStickyNotesUndone(stickyNotes: List<StickyNote>) {
-        stickyNoteRepository.setStickyNotesUndone(stickyNotes)
+    suspend fun addStickyNotesToBacklog(stickyNotes: List<StickyNote>) {
+        stickyNoteRepository.addStickyNotesToBacklog(stickyNotes)
     }
 }

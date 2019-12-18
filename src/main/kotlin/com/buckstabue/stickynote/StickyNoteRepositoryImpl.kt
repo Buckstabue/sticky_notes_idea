@@ -20,11 +20,13 @@ class StickyNoteRepositoryImpl @Inject constructor(
     private val projectScope: ProjectScope,
     project: Project
 ) : StickyNoteRepository {
-    private val undoneStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
-    private val doneStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
+    private val backlogStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
+    private val archivedStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
 
     private val activeStickyNoteChannel = BroadcastChannel<StickyNote?>(Channel.CONFLATED).also { it.offer(null) }
-    private val stickyNoteListChannel =
+    private val backlogStickyNoteListChannel =
+        BroadcastChannel<List<StickyNote>>(Channel.CONFLATED).also { it.offer(emptyList()) }
+    private val archivedStickyNoteListChannel =
         BroadcastChannel<List<StickyNote>>(Channel.CONFLATED).also { it.offer(emptyList()) }
 
     private val stickyNotesService = StickyNotesService.getInstance(project).also {
@@ -37,76 +39,84 @@ class StickyNoteRepositoryImpl @Inject constructor(
 
 
     override suspend fun addStickyNote(stickyNote: StickyNote) {
-        require(!stickyNote.isDone) { "adding a done sticky note. $stickyNote" }
+        if (stickyNote.isArchived) {
+            archivedStickyNotes.add(stickyNote)
+        } else {
+            backlogStickyNotes.add(stickyNote)
+        }
 
-        undoneStickyNotes.add(stickyNote)
         notifyStickyNotesChanged()
     }
 
     private suspend fun notifyStickyNotesChanged() {
-        val newStickyNoteList = undoneStickyNotes.toList().plus(doneStickyNotes.toList())
-        stickyNoteListChannel.send(newStickyNoteList)
-        activeStickyNoteChannel.send(undoneStickyNotes.firstOrNull())
+        backlogStickyNoteListChannel.send(backlogStickyNotes)
+        archivedStickyNoteListChannel.send(archivedStickyNotes)
+        activeStickyNoteChannel.send(backlogStickyNotes.firstOrNull())
 
+        val newStickyNoteList = backlogStickyNotes.toList().plus(archivedStickyNotes.toList())
         stickyNotesService.setStickyNotes(newStickyNoteList)
     }
 
-    override suspend fun setStickyNoteDone(stickyNote: StickyNote) {
-        setStickyNotesDone(listOf(stickyNote))
+    override suspend fun archiveStickyNote(stickyNote: StickyNote) {
+        archiveStickyNotes(listOf(stickyNote))
     }
 
     override suspend fun removeStickyNotes(stickyNotes: List<StickyNote>) {
-        undoneStickyNotes.removeAll(stickyNotes)
-        doneStickyNotes.removeAll(stickyNotes)
+        backlogStickyNotes.removeAll(stickyNotes)
+        archivedStickyNotes.removeAll(stickyNotes)
         notifyStickyNotesChanged()
     }
 
     override suspend fun setStickNotes(stickyNotes: List<StickyNote>) {
-        undoneStickyNotes.clear()
-        undoneStickyNotes.addAll(stickyNotes.filter { !it.isDone })
+        backlogStickyNotes.clear()
+        archivedStickyNotes.clear()
 
-        doneStickyNotes.clear()
-        doneStickyNotes.addAll(stickyNotes.filter { it.isDone })
+        val isArchivedToStickyNotes: Map<Boolean, List<StickyNote>> =
+            stickyNotes.groupBy { it.isArchived }.toMap()
+        backlogStickyNotes.addAll(isArchivedToStickyNotes[false].orEmpty())
+        archivedStickyNotes.addAll(isArchivedToStickyNotes[true].orEmpty())
 
         notifyStickyNotesChanged()
     }
 
     override suspend fun setStickyNoteActive(stickyNote: StickyNote) {
-        if (stickyNote.isDone) {
-            doneStickyNotes.remove(stickyNote)
-            undoneStickyNotes.add(0, stickyNote.setDone(false))
+        if (stickyNote.isArchived) {
+            archivedStickyNotes.remove(stickyNote)
+            backlogStickyNotes.add(0, stickyNote.setArchived(false))
         } else {
-            if (undoneStickyNotes.firstOrNull() != stickyNote) {
-                undoneStickyNotes.remove(stickyNote)
-                undoneStickyNotes.add(0, stickyNote)
+            if (backlogStickyNotes.firstOrNull() != stickyNote) {
+                backlogStickyNotes.remove(stickyNote)
+                backlogStickyNotes.add(0, stickyNote)
             }
         }
 
         notifyStickyNotesChanged()
     }
 
-    override suspend fun setStickyNotesDone(stickyNotes: List<StickyNote>) {
-        val stickyNotesToDone = stickyNotes.filter { !it.isDone }
-        undoneStickyNotes.removeAll(stickyNotesToDone)
+    override suspend fun archiveStickyNotes(stickyNotes: List<StickyNote>) {
+        backlogStickyNotes.removeAll(stickyNotes)
 
-        val newDoneStickyNotes = stickyNotes.map { it.setDone(true) }.minus(doneStickyNotes)
-        doneStickyNotes.addAll(0, newDoneStickyNotes)
-
-        notifyStickyNotesChanged()
-    }
-
-    override suspend fun setStickyNotesUndone(stickyNotes: List<StickyNote>) {
-        val stickyNotesUndone = stickyNotes.filter { it.isDone }
-        doneStickyNotes.removeAll(stickyNotesUndone)
-
-        val newUndoneStickyNotes = stickyNotes.map { it.setDone(false) }.minus(undoneStickyNotes)
-        undoneStickyNotes.addAll(newUndoneStickyNotes)
+        val newArchivedStickyNotes = stickyNotes.map { it.setArchived(true) }.minus(archivedStickyNotes)
+        archivedStickyNotes.addAll(0, newArchivedStickyNotes)
 
         notifyStickyNotesChanged()
     }
 
-    override fun observeStickyNotes(): ReceiveChannel<List<StickyNote>> {
-        return stickyNoteListChannel.openSubscription()
+    override suspend fun addStickyNotesToBacklog(stickyNotes: List<StickyNote>) {
+        archivedStickyNotes.removeAll(stickyNotes) // some sticky notes can be archived, remove them from archive first
+
+        val newBacklogStickyNotes = stickyNotes.map { it.setArchived(false) }.minus(backlogStickyNotes)
+        backlogStickyNotes.addAll(newBacklogStickyNotes)
+
+        notifyStickyNotesChanged()
+    }
+
+    override fun observeBacklogStickyNotes(): ReceiveChannel<List<StickyNote>> {
+        return backlogStickyNoteListChannel.openSubscription()
+    }
+
+    override fun observeArchivedStickyNotes(): ReceiveChannel<List<StickyNote>> {
+        return archivedStickyNoteListChannel.openSubscription()
     }
 
     override fun observeActiveStickyNote(): ReceiveChannel<StickyNote?> {

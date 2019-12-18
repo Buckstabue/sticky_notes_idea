@@ -2,9 +2,9 @@ package com.buckstabue.stickynote
 
 sealed class StickyNote(
     open val description: String,
-    open val isDone: Boolean
+    open val isArchived: Boolean
 ) {
-    abstract fun setDone(isDone: Boolean): StickyNote
+    abstract fun setArchived(archived: Boolean): StickyNote
 }
 
 /**
@@ -12,10 +12,13 @@ sealed class StickyNote(
  */
 data class NonBoundStickyNote(
     override val description: String,
-    override val isDone: Boolean = false
-) : StickyNote(description = description, isDone = isDone) {
-    override fun setDone(isDone: Boolean): StickyNote {
-        return copy(isDone = isDone)
+    override val isArchived: Boolean = false
+) : StickyNote(description = description, isArchived = isArchived) {
+    override fun setArchived(archived: Boolean): StickyNote {
+        if (this.isArchived == archived) {
+            return this
+        }
+        return copy(isArchived = archived)
     }
 }
 
@@ -25,10 +28,13 @@ data class NonBoundStickyNote(
 data class FileBoundStickyNote(
     val fileLocation: FileLocation,
     override val description: String,
-    override val isDone: Boolean = false
-) : StickyNote(description = description, isDone = isDone) {
-    override fun setDone(isDone: Boolean): StickyNote {
-        return copy(isDone = isDone)
+    override val isArchived: Boolean = false
+) : StickyNote(description = description, isArchived = isArchived) {
+    override fun setArchived(archived: Boolean): StickyNote {
+        if (this.isArchived == archived) {
+            return this
+        }
+        return copy(isArchived = archived)
     }
 }
 

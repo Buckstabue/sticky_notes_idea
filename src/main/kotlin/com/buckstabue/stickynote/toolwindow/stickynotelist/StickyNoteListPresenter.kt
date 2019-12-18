@@ -21,16 +21,32 @@ class StickyNoteListPresenter @Inject constructor(
     private val stickyNoteInteractor: StickyNoteInteractor
 ) : BasePresenter<StickyNoteListView>() {
 
+    private var viewModel = StickyNoteListViewModel(
+        backlogStickyNotes = emptyList(),
+        archiveStickyNotes = emptyList()
+    )
+
     @ExperimentalCoroutinesApi
     @ObsoleteCoroutinesApi
     override fun onViewAttached() {
         super.onViewAttached()
         launch {
-            stickyNoteInteractor.observeStickyNotes()
+            stickyNoteInteractor.observeArchivedStickyNotes()
                 .map { stickyNotes ->
                     toViewModels(stickyNotes)
                 }.consumeEach {
-                    view?.render(it)
+                    viewModel = viewModel.copy(archiveStickyNotes = it)
+                    view?.render(viewModel)
+                }
+        }
+
+        launch {
+            stickyNoteInteractor.observeBacklogStickyNotes()
+                .map { stickyNotes ->
+                    toViewModels(stickyNotes)
+                }.consumeEach {
+                    viewModel = viewModel.copy(backlogStickyNotes = it)
+                    view?.render(viewModel)
                 }
         }
     }
@@ -56,7 +72,7 @@ class StickyNoteListPresenter @Inject constructor(
         router.openActiveStickyNote()
     }
 
-    fun onItemSelected(item: StickyNoteViewModel) {
+    fun onItemOpened(item: StickyNoteViewModel) {
         when (val stickyNote = item.stickyNote) {
             is NonBoundStickyNote -> TODO()
             is FileBoundStickyNote -> stickyNoteInteractor.openStickyNote(stickyNote)

@@ -3,7 +3,8 @@ package com.buckstabue.stickynote
 import kotlinx.coroutines.channels.ReceiveChannel
 
 interface StickyNoteRepository {
-    fun observeStickyNotes(): ReceiveChannel<List<StickyNote>>
+    fun observeBacklogStickyNotes(): ReceiveChannel<List<StickyNote>>
+    fun observeArchivedStickyNotes(): ReceiveChannel<List<StickyNote>>
     fun observeActiveStickyNote(): ReceiveChannel<StickyNote?>
 
     suspend fun addStickyNote(stickyNote: StickyNote)
@@ -12,9 +13,9 @@ interface StickyNoteRepository {
     suspend fun setStickNotes(stickyNotes: List<StickyNote>)
     suspend fun setStickyNoteActive(stickyNote: StickyNote)
 
-    suspend fun setStickyNoteDone(stickyNote: StickyNote)
-    suspend fun setStickyNotesDone(stickyNotes: List<StickyNote>)
-    suspend fun setStickyNotesUndone(stickyNotes: List<StickyNote>)
+    suspend fun archiveStickyNote(stickyNote: StickyNote)
+    suspend fun archiveStickyNotes(stickyNotes: List<StickyNote>)
+    suspend fun addStickyNotesToBacklog(stickyNotes: List<StickyNote>)
 
 
 }

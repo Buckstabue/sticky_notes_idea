@@ -22,7 +22,7 @@ class StickyNotesGutterManager(
 
     fun onStickyNotesChanged(stickyNotes: List<StickyNote>) {
         MainScope().launch {
-            val activeFileBoundStickyNotes = stickyNotes.filter { !it.isDone }
+            val activeFileBoundStickyNotes = stickyNotes.filter { !it.isArchived }
                 .filterIsInstance<FileBoundStickyNote>()
             val diff = StickyNotesDiff.calculate(
                 oldNotes = currentHighlighters.keys,

@@ -4,10 +4,10 @@ import com.buckstabue.stickynote.base.BaseWindow
 import com.buckstabue.stickynote.base.addOnActionListener
 import com.buckstabue.stickynote.base.addOnPopupActionListener
 import com.buckstabue.stickynote.toolwindow.StickyNoteToolWindowComponent
+import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.ArchiveStickyNoteAction
+import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.MoveStickyNoteToBacklogAction
 import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.RemoveStickyNoteAction
 import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.SetStickyNoteActiveAction
-import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.SetStickyNoteDoneAction
-import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.SetStickyNoteUndoneAction
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.actionSystem.Separator
@@ -19,9 +19,12 @@ import javax.swing.JButton
 import javax.swing.JComponent
 import javax.swing.JList
 import javax.swing.JPanel
+import javax.swing.JTabbedPane
 
 class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresenter>(), StickyNoteListView {
-    private lateinit var stickyNoteList: JList<StickyNoteViewModel>
+    private lateinit var tabbedPane: JTabbedPane
+    private lateinit var backlogStickyNoteList: JList<StickyNoteViewModel>
+    private lateinit var archivedStickyNoteList: JList<StickyNoteViewModel>
     private lateinit var contentPanel: JPanel
     private lateinit var backButton: JButton
 
@@ -33,25 +36,33 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
     private val stickyNoteActions = createStickyNoteActions()
 
     init {
-        stickyNoteList.model = StickyNoteListModel(emptyList())
+        backlogStickyNoteList.model = StickyNoteListModel(emptyList())
+
+        backlogStickyNoteList.addOnPopupActionListener(stickyNoteActions)
+        backlogStickyNoteList.addOnActionListener {
+            presenter.onItemOpened(it)
+        }
+
+        archivedStickyNoteList.model = StickyNoteListModel(emptyList())
+        archivedStickyNoteList.addOnActionListener {
+            presenter.onItemOpened(it)
+        }
+        archivedStickyNoteList.cellRenderer = StickyNoteListCellRenderer()
+        backlogStickyNoteList.cellRenderer = StickyNoteListCellRenderer()
+
         backButton.addActionListener {
             presenter.onBackButtonClick()
         }
-        stickyNoteList.addOnPopupActionListener(stickyNoteActions)
-        stickyNoteList.addOnActionListener {
-            presenter.onItemSelected(it)
-        }
-        stickyNoteList.cellRenderer = StickyNoteListCellRenderer()
     }
 
     private fun createStickyNoteActions(): ActionGroup {
         return DefaultActionGroup(
-            SetStickyNoteActiveAction(stickyNoteList),
+            SetStickyNoteActiveAction(backlogStickyNoteList),
             Separator.getInstance(),
-            SetStickyNoteDoneAction(stickyNoteList),
-            SetStickyNoteUndoneAction(stickyNoteList),
+            ArchiveStickyNoteAction(backlogStickyNoteList),
+            MoveStickyNoteToBacklogAction(backlogStickyNoteList),
             Separator.getInstance(),
-            RemoveStickyNoteAction(stickyNoteList)
+            RemoveStickyNoteAction(backlogStickyNoteList)
         )
     }
 
@@ -60,8 +71,9 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
         super.onCreate(toolWindowComponent)
     }
 
-    override fun render(stickyNotes: List<StickyNoteViewModel>) {
-        stickyNoteList.model = StickyNoteListModel(stickyNotes)
+    override fun render(viewModel: StickyNoteListViewModel) {
+        backlogStickyNoteList.model = StickyNoteListModel(viewModel.backlogStickyNotes)
+        archivedStickyNoteList.model = StickyNoteListModel(viewModel.archiveStickyNotes)
     }
 
     override fun getContent(): JComponent {

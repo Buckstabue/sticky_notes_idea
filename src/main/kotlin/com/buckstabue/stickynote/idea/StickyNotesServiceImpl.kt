@@ -39,9 +39,7 @@ class StickyNotesServiceImpl(
         MainScope().launch {
             state = ServiceState(
                 stickyNotes = stickyNotes.map {
-                    SerializedStickyNote.fromStickyNote(
-                        it
-                    )
+                    SerializedStickyNote.fromStickyNote(it)
                 }
             )
             stickyNotesGutterManager.onStickyNotesChanged(stickyNotes)
@@ -71,7 +69,7 @@ class StickyNotesServiceImpl(
     data class SerializedStickyNote(
         var type: StickyNoteType = StickyNoteType.NON_BOUND_STICKY_NOTE,
         var description: String = "",
-        var isDone: Boolean = false,
+        var isArchived: Boolean = false,
         var fileUrl: String? = null,
         var lineNumber: Int? = null
     ) {
@@ -79,7 +77,7 @@ class StickyNotesServiceImpl(
             return when (type) {
                 StickyNoteType.NON_BOUND_STICKY_NOTE -> NonBoundStickyNote(
                     description = description,
-                    isDone = isDone
+                    isArchived = isArchived
                 )
                 StickyNoteType.FILE_BOUND_STICKY_NOTE -> {
                     val fileLocation = extractFileLocation(project)
@@ -87,13 +85,13 @@ class StickyNotesServiceImpl(
                         logger.error("Couldn't parse file location from $this")
                         NonBoundStickyNote(
                             description = description,
-                            isDone = isDone
+                            isArchived = isArchived
                         )
                     } else {
                         FileBoundStickyNote(
                             fileLocation = fileLocation,
                             description = description,
-                            isDone = isDone
+                            isArchived = isArchived
                         )
                     }
                 }
@@ -118,14 +116,14 @@ class StickyNotesServiceImpl(
                     is NonBoundStickyNote -> SerializedStickyNote(
                         type = StickyNoteType.NON_BOUND_STICKY_NOTE,
                         description = stickyNote.description,
-                        isDone = stickyNote.isDone,
+                        isArchived = stickyNote.isArchived,
                         fileUrl = null,
                         lineNumber = null
                     )
                     is FileBoundStickyNote -> SerializedStickyNote(
                         type = StickyNoteType.FILE_BOUND_STICKY_NOTE,
                         description = stickyNote.description,
-                        isDone = stickyNote.isDone,
+                        isArchived = stickyNote.isArchived,
                         fileUrl = stickyNote.fileLocation.fileUrl,
                         lineNumber = stickyNote.fileLocation.lineNumber
                     )

@@ -8,17 +8,17 @@ import com.intellij.openapi.diagnostic.Logger
 import kotlinx.coroutines.launch
 import javax.swing.JList
 
-class SetStickyNoteUndoneAction(
+class MoveStickyNoteToBacklogAction(
     private val stickyNoteJList: JList<StickyNoteViewModel>
-) : AnAction("Set Undone") {
+) : AnAction("Move To Backlog") {
     companion object {
-        private val logger = Logger.getInstance(SetStickyNoteUndoneAction::class.java)
+        private val logger = Logger.getInstance(MoveStickyNoteToBacklogAction::class.java)
     }
 
     override fun actionPerformed(e: AnActionEvent) {
         val selectedStickyNotes = stickyNoteJList.selectedValuesList.map { it.stickyNote }
         if (selectedStickyNotes.isEmpty()) {
-            logger.error("Sticky Notes list is empty, nothing to set undone")
+            logger.error("Sticky Notes list is empty, nothing to move to backlog")
             return
         }
 
@@ -32,7 +32,7 @@ class SetStickyNoteUndoneAction(
         val projectScope = projectComponent.projectScope()
 
         projectScope.launch {
-            stickyNoteInteractor.setStickyNotesUndone(selectedStickyNotes)
+            stickyNoteInteractor.addStickyNotesToBacklog(selectedStickyNotes)
         }
     }
 }

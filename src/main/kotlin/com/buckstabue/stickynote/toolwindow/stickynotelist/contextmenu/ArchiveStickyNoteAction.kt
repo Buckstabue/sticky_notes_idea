@@ -8,17 +8,17 @@ import com.intellij.openapi.diagnostic.Logger
 import kotlinx.coroutines.launch
 import javax.swing.JList
 
-class SetStickyNoteDoneAction(
+class ArchiveStickyNoteAction(
     private val stickyNoteJList: JList<StickyNoteViewModel>
-) : AnAction("Set Done") {
+) : AnAction("Archive") {
     companion object {
-        private val logger = Logger.getInstance(SetStickyNoteDoneAction::class.java)
+        private val logger = Logger.getInstance(ArchiveStickyNoteAction::class.java)
     }
 
     override fun actionPerformed(e: AnActionEvent) {
         val selectedStickyNotes = stickyNoteJList.selectedValuesList.map { it.stickyNote }
         if (selectedStickyNotes.isEmpty()) {
-            logger.error("Sticky Notes list is empty, nothing to set done")
+            logger.error("Sticky Notes list is empty, nothing to archive")
             return
         }
 
@@ -32,7 +32,7 @@ class SetStickyNoteDoneAction(
         val projectScope = projectComponent.projectScope()
 
         projectScope.launch {
-            stickyNoteInteractor.setStickyNotesDone(selectedStickyNotes)
+            stickyNoteInteractor.archiveStickyNotes(selectedStickyNotes)
         }
     }
 }
