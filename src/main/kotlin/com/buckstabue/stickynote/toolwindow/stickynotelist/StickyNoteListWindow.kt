@@ -19,10 +19,8 @@ import javax.swing.JButton
 import javax.swing.JComponent
 import javax.swing.JList
 import javax.swing.JPanel
-import javax.swing.JTabbedPane
 
 class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresenter>(), StickyNoteListView {
-    private lateinit var tabbedPane: JTabbedPane
     private lateinit var backlogStickyNoteList: JList<StickyNoteViewModel>
     private lateinit var archivedStickyNoteList: JList<StickyNoteViewModel>
     private lateinit var contentPanel: JPanel
@@ -33,36 +31,34 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
     @Inject
     override lateinit var presenter: StickyNoteListPresenter
 
-    private val stickyNoteActions = createStickyNoteActions()
-
     init {
-        backlogStickyNoteList.model = StickyNoteListModel(emptyList())
-
-        backlogStickyNoteList.addOnPopupActionListener(stickyNoteActions)
+        backlogStickyNoteList.addOnPopupActionListener(createBacklogStickyNoteActions(backlogStickyNoteList))
         backlogStickyNoteList.addOnActionListener {
             presenter.onItemOpened(it)
         }
+        backlogStickyNoteList.model = StickyNoteListModel(emptyList())
+        backlogStickyNoteList.cellRenderer = StickyNoteListCellRenderer()
 
-        archivedStickyNoteList.model = StickyNoteListModel(emptyList())
+        archivedStickyNoteList.addOnPopupActionListener(createBacklogStickyNoteActions(archivedStickyNoteList))
         archivedStickyNoteList.addOnActionListener {
             presenter.onItemOpened(it)
         }
+        archivedStickyNoteList.model = StickyNoteListModel(emptyList())
         archivedStickyNoteList.cellRenderer = StickyNoteListCellRenderer()
-        backlogStickyNoteList.cellRenderer = StickyNoteListCellRenderer()
 
         backButton.addActionListener {
             presenter.onBackButtonClick()
         }
     }
 
-    private fun createStickyNoteActions(): ActionGroup {
+    private fun createBacklogStickyNoteActions(stickNoteList: JList<StickyNoteViewModel>): ActionGroup {
         return DefaultActionGroup(
-            SetStickyNoteActiveAction(backlogStickyNoteList),
+            SetStickyNoteActiveAction(stickNoteList),
             Separator.getInstance(),
-            ArchiveStickyNoteAction(backlogStickyNoteList),
-            MoveStickyNoteToBacklogAction(backlogStickyNoteList),
+            ArchiveStickyNoteAction(stickNoteList),
+            MoveStickyNoteToBacklogAction(stickNoteList),
             Separator.getInstance(),
-            RemoveStickyNoteAction(backlogStickyNoteList)
+            RemoveStickyNoteAction(stickNoteList)
         )
     }
 

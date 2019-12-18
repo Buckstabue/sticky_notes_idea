@@ -35,4 +35,9 @@ class MoveStickyNoteToBacklogAction(
             stickyNoteInteractor.addStickyNotesToBacklog(selectedStickyNotes)
         }
     }
+
+    override fun update(e: AnActionEvent) {
+        e.presentation.isEnabled = stickyNoteJList.selectedValuesList
+            .any { it.stickyNote.isArchived }
+    }
 }
