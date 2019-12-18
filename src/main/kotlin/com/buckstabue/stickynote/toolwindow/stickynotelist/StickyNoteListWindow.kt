@@ -11,8 +11,10 @@ import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.SetSticky
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.actionSystem.Separator
+import java.awt.Component
 import javax.inject.Inject
 import javax.swing.AbstractListModel
+import javax.swing.DefaultListCellRenderer
 import javax.swing.JButton
 import javax.swing.JComponent
 import javax.swing.JList
@@ -39,6 +41,7 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
         stickyNoteList.addOnActionListener {
             presenter.onItemSelected(it)
         }
+        stickyNoteList.cellRenderer = StickyNoteListCellRenderer()
     }
 
     private fun createStickyNoteActions(): ActionGroup {
@@ -75,5 +78,21 @@ class StickyNoteListModel(
 
     override fun getSize(): Int {
         return items.size
+    }
+}
+
+class StickyNoteListCellRenderer : DefaultListCellRenderer() {
+    override fun getListCellRendererComponent(
+        list: JList<*>?,
+        value: Any?,
+        index: Int,
+        isSelected: Boolean,
+        cellHasFocus: Boolean
+    ): Component {
+        val stickyNoteViewModel = value as StickyNoteViewModel
+        super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
+        text = stickyNoteViewModel.description
+        icon = stickyNoteViewModel.icon
+        return this
     }
 }
