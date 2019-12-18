@@ -5,11 +5,13 @@ import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.ActionPlaces
 import com.intellij.ui.DoubleClickListener
 import com.intellij.ui.PopupHandler
+import org.apache.commons.lang.StringEscapeUtils
 import java.awt.Component
 import java.awt.event.KeyEvent
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
 import javax.swing.JComponent
+import javax.swing.JLabel
 import javax.swing.JList
 import javax.swing.KeyStroke
 
@@ -48,4 +50,8 @@ fun <ITEM_TYPE : Any> JList<ITEM_TYPE>.addOnPopupActionListener(actionGroup: Act
             popupMenu.component.show(jList, x, y)
         }
     })
+}
+
+fun JLabel.setWrappedText(text: String) {
+    this.text = "<HTML>${StringEscapeUtils.escapeHtml(text)}</HTML>"
 }
