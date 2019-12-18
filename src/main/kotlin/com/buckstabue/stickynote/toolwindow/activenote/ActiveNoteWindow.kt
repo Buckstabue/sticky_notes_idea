@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder
 class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), ActiveNoteView {
     private lateinit var contentPanel: JPanel
     private lateinit var activeNote: JLabel
+    private lateinit var openActiveStickyNoteButton: JButton
     private lateinit var gotoStickyNoteListButton: JButton
     private lateinit var doneButton: JButton
 
@@ -31,6 +32,10 @@ class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), Acti
         doneButton.addActionListener {
             presenter.onDoneClick()
         }
+
+        openActiveStickyNoteButton.addActionListener {
+            presenter.onOpenActiveStickyNoteButtonClick()
+        }
     }
 
     override fun onCreate(toolWindowComponent: StickyNoteToolWindowComponent) {
@@ -41,6 +46,7 @@ class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), Acti
     override fun render(viewModel: ActiveStickyNoteViewModel) {
         activeNote.setWrappedText(viewModel.activeNoteDescription)
         doneButton.isVisible = viewModel.showDoneButton
+        openActiveStickyNoteButton.isVisible = viewModel.showOpenActiveStickyNoteButton
     }
 
 
