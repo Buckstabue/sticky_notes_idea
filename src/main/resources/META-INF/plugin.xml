@@ -16,14 +16,14 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Stick Note" anchor="left"
-                    factoryClass="com.buckstabue.stickynote.toolwindow.StickyNoteToolWindowFactory"/>
+                    factoryClass="com.buckstabue.stickynotes.toolwindow.StickyNoteToolWindowFactory"/>
         <projectService
-                serviceInterface="com.buckstabue.stickynote.service.StickyNotesService"
-                serviceImplementation="com.buckstabue.stickynote.idea.StickyNotesServiceImpl"/>
+                serviceInterface="com.buckstabue.stickynotes.service.StickyNotesService"
+                serviceImplementation="com.buckstabue.stickynotes.idea.StickyNotesServiceImpl"/>
     </extensions>
 
     <actions>
-        <action id="com.buckstabue.stickynote.addstickynote.AddStickyNoteAction"
-                class="com.buckstabue.stickynote.addstickynote.AddStickyNoteAction" text="Add a Sticky Note"/>
+        <action id="com.buckstabue.stickynotes.addstickynote.AddStickyNoteAction"
+                class="com.buckstabue.stickynotes.addstickynote.AddStickyNoteAction" text="Add a Sticky Note"/>
     </actions>
 </idea-plugin>
