@@ -20,6 +20,8 @@
 
     <actions>
         <action id="com.buckstabue.stickynotes.addstickynote.AddStickyNoteAction"
-                class="com.buckstabue.stickynotes.addstickynote.AddStickyNoteAction" text="Add a Sticky Note"/>
+                class="com.buckstabue.stickynotes.addstickynote.AddStickyNoteAction" text="Add a Sticky Note">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>
