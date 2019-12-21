@@ -11,10 +11,8 @@ import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.SetSticky
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.actionSystem.Separator
-import java.awt.Component
 import javax.inject.Inject
-import javax.swing.AbstractListModel
-import javax.swing.DefaultListCellRenderer
+import javax.swing.DropMode
 import javax.swing.JButton
 import javax.swing.JComponent
 import javax.swing.JList
@@ -38,6 +36,7 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
         }
         backlogStickyNoteList.model = StickyNoteListModel(emptyList())
         backlogStickyNoteList.cellRenderer = StickyNoteListCellRenderer()
+        setupDragAndDrop(backlogStickyNoteList)
 
         archivedStickyNoteList.addOnPopupActionListener(createBacklogStickyNoteActions(archivedStickyNoteList))
         archivedStickyNoteList.addOnActionListener {
@@ -45,10 +44,17 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
         }
         archivedStickyNoteList.model = StickyNoteListModel(emptyList())
         archivedStickyNoteList.cellRenderer = StickyNoteListCellRenderer()
+        setupDragAndDrop(archivedStickyNoteList)
 
         backButton.addActionListener {
             presenter.onBackButtonClick()
         }
+    }
+
+    private fun setupDragAndDrop(stickNoteList: JList<StickyNoteViewModel>) {
+        stickNoteList.dragEnabled = true
+        stickNoteList.transferHandler = StickyNoteTransferHandler()
+        stickNoteList.dropMode = DropMode.INSERT
     }
 
     private fun createBacklogStickyNoteActions(stickNoteList: JList<StickyNoteViewModel>): ActionGroup {
@@ -77,30 +83,3 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
     }
 }
 
-class StickyNoteListModel(
-    private val items: List<StickyNoteViewModel>
-) : AbstractListModel<StickyNoteViewModel>() {
-    override fun getElementAt(index: Int): StickyNoteViewModel {
-        return items[index]
-    }
-
-    override fun getSize(): Int {
-        return items.size
-    }
-}
-
-class StickyNoteListCellRenderer : DefaultListCellRenderer() {
-    override fun getListCellRendererComponent(
-        list: JList<*>?,
-        value: Any?,
-        index: Int,
-        isSelected: Boolean,
-        cellHasFocus: Boolean
-    ): Component {
-        val stickyNoteViewModel = value as StickyNoteViewModel
-        super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
-        text = stickyNoteViewModel.description
-        icon = stickyNoteViewModel.icon
-        return this
-    }
-}

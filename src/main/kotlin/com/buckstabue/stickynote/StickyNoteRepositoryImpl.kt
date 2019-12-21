@@ -37,7 +37,6 @@ class StickyNoteRepositoryImpl @Inject constructor(
         }
     }
 
-
     override suspend fun addStickyNote(stickyNote: StickyNote) {
         if (stickyNote.isArchived) {
             archivedStickyNotes.add(stickyNote)
@@ -55,6 +54,43 @@ class StickyNoteRepositoryImpl @Inject constructor(
 
         val newStickyNoteList = backlogStickyNotes.toList().plus(archivedStickyNotes.toList())
         stickyNotesService.setStickyNotes(newStickyNoteList)
+    }
+
+    override suspend fun moveStickyNotes(stickyNotes: List<StickyNote>, insertionIndex: Int) {
+        require(insertionIndex >= 0) {
+            "Cannot insert at a negative position ($insertionIndex)"
+        }
+        if (stickyNotes.isEmpty()) {
+            return
+        }
+        val targetList = if (stickyNotes.first().isArchived) archivedStickyNotes else backlogStickyNotes
+        require(targetList.containsAll(stickyNotes)) {
+            "Some of moved elements are not part of the actual sticky note list"
+        }
+        // if multiple elements selected preserve order of the source list
+        val stickyNotes = stickyNotes.sortedBy { targetList.indexOf(it) }
+        val indexToInsertAfterRemoving =
+            calculateIndexToInsertAfterRemovingToMoveElements(targetList, stickyNotes, insertionIndex)
+        targetList.removeAll(stickyNotes)
+        targetList.addAll(indexToInsertAfterRemoving, stickyNotes)
+
+        notifyStickyNotesChanged()
+    }
+
+    /**
+     * Insertion index may changed after deletion of moved elements from a source list.
+     * E.g. ["a", "b", "c"], we want to move "a" to index 2, but before moving we delete "a" from the collection and
+     * we have ["b", "c"], so the actual insertion position is 1, not 2. To calculate that we simply count how many
+     * elements are placed before the desired position and we subtract this count from the desired insertion position
+     */
+    private fun calculateIndexToInsertAfterRemovingToMoveElements(
+        targetList: MutableList<StickyNote>,
+        movedStickyNotes: List<StickyNote>,
+        desiredIndexPosition: Int
+    ): Int {
+        val numberOfElementsBeforeDesiredIndexPosition = targetList.subList(0, desiredIndexPosition)
+            .count { movedStickyNotes.contains(it) }
+        return desiredIndexPosition - numberOfElementsBeforeDesiredIndexPosition
     }
 
     override suspend fun archiveStickyNote(stickyNote: StickyNote) {

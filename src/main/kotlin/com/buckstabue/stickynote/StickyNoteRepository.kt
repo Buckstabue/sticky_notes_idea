@@ -9,6 +9,7 @@ interface StickyNoteRepository {
 
     suspend fun addStickyNote(stickyNote: StickyNote)
     suspend fun removeStickyNotes(stickyNotes: List<StickyNote>)
+    suspend fun moveStickyNotes(stickyNotes: List<StickyNote>, insertionIndex: Int)
 
     suspend fun setStickNotes(stickyNotes: List<StickyNote>)
     suspend fun setStickyNoteActive(stickyNote: StickyNote)
@@ -16,6 +17,4 @@ interface StickyNoteRepository {
     suspend fun archiveStickyNote(stickyNote: StickyNote)
     suspend fun archiveStickyNotes(stickyNotes: List<StickyNote>)
     suspend fun addStickyNotesToBacklog(stickyNotes: List<StickyNote>)
-
-
 }

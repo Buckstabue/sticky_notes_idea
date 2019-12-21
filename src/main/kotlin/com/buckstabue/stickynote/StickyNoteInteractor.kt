@@ -48,4 +48,14 @@ class StickyNoteInteractor @Inject constructor(
     suspend fun addStickyNotesToBacklog(stickyNotes: List<StickyNote>) {
         stickyNoteRepository.addStickyNotesToBacklog(stickyNotes)
     }
+
+    suspend fun moveStickyNotes(stickyNotes: List<StickyNote>, insertionIndex: Int) {
+        val archiveStatus = stickyNotes.first().isArchived
+        val isStickyNotesHomogeneousByArchiveStatus =
+            stickyNotes.all { it.isArchived == archiveStatus }
+        require(isStickyNotesHomogeneousByArchiveStatus) {
+            "Sticky Note list must contain either archived or backlog items, not mixed ones"
+        }
+        stickyNoteRepository.moveStickyNotes(stickyNotes, insertionIndex)
+    }
 }
