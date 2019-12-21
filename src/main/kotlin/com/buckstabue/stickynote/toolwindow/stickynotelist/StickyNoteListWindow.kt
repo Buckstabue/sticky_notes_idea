@@ -8,9 +8,12 @@ import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.ArchiveSt
 import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.MoveStickyNoteToBacklogAction
 import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.RemoveStickyNoteAction
 import com.buckstabue.stickynote.toolwindow.stickynotelist.contextmenu.SetStickyNoteActiveAction
+import com.intellij.codeInsight.hint.HintManager
+import com.intellij.codeInsight.hint.HintUtil
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.actionSystem.Separator
+import com.intellij.ui.awt.RelativePoint
 import javax.inject.Inject
 import javax.swing.DropMode
 import javax.swing.JButton
@@ -49,6 +52,18 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
         backButton.addActionListener {
             presenter.onBackButtonClick()
         }
+    }
+
+    override fun showHintUnderCursor(hintText: String) {
+        val mousePosition = contentPanel.mousePosition ?: return
+        val hintComponent = HintUtil.createInformationLabel(hintText)
+        HintManager.getInstance()
+            .showHint(
+                hintComponent,
+                RelativePoint(contentPanel, mousePosition),
+                HintManager.HIDE_BY_ANY_KEY or HintManager.HIDE_BY_TEXT_CHANGE,
+                -1
+            )
     }
 
     private fun setupDragAndDrop(stickNoteList: JList<StickyNoteViewModel>) {

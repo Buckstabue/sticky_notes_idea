@@ -74,7 +74,11 @@ class StickyNoteListPresenter @Inject constructor(
 
     fun onItemOpened(item: StickyNoteViewModel) {
         when (val stickyNote = item.stickyNote) {
-            is NonBoundStickyNote -> TODO()
+            is NonBoundStickyNote ->
+                view?.showHintUnderCursor(
+                    "Cannot open a sticky note that is not bound to any file"
+                        .replace(" ", "&nbsp;")
+                )
             is FileBoundStickyNote -> stickyNoteInteractor.openStickyNote(stickyNote)
         }
     }
