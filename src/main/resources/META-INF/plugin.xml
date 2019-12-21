@@ -1,11 +1,30 @@
 <idea-plugin>
     <id>com.buckstabue.stickynotes</id>
-    <name>Plugin display name here</name>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <name>Sticky Notes</name>
+    <vendor email="buckstabue@inbox.ru" url="https://github.com/Buckstabue">Viacheslav Kiiako</vendor>
 
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    <h1>Sticky Notes</h1>
+        <p>Do you spend much time on refactoring that is not intended in the current task? Do you forget all the time what you really need to do and what you actually should focus on? Is your commit history messy and you cannot revert breaking changes without reverting needed code?<br>
+        Here is the solution: Sticky Notes plugin for IDEA! It always shows you what is your current task. The workflow is like this:</p>
+        <ol>
+        <li>You get a task in a task manager(YouTrack, jira, etc.).</li>
+        <li>You decompose the task into microtasks(like "implement api", "add animation effects" and so on).</li>
+        <li>With this plugin, you add those microtasks as Sticky Notes.</li>
+        <li>You sort them in an order you want to execute them(with drag and drop on sticky notes list screen).</li>
+        <li>This plugin always shows you what is your current task, so you stay focused on it.</li>
+        <li>If you happen to find dirty code that you would like to refactor immediately, don't hurry! Just run the action "Add a Sticky Note" with a cursor-caret under the thing. This plugin saves a description and the position of the bad code and adds a sticky note at the end of a backlog of the current project.</li>
+        <li>You continue working on the current desired task.</li>
+        <li>When it's done, you commit code and click on "Done" button. The next task from backlog appears. So you start over from the point #5.</li>
+        <li>When you get to refactoring tasks, you can decide whether you want to execute them within the current task. If you want to, then the advantage is that you can easily navigate to the dirty code by double clicking on it.</li>
+        </ol>
+        <p>Advantages:</p>
+        <ul>
+        <li>you will be more productive because this plugin helps you stay more focused on the current tasks</li>
+        <li>you will get a transparent commit history because each microtask was committed separately(you don't see "implement *** api" commit message in a change of an animation). More atomic commits - easier to revert breaking code</li>
+        <li>you will have easier code reviews, less refactoring involved</li>
+        <li>you will easily track dirty code places and fix them whenever you want.</li>
+        </ul>
     ]]></description>
 
     <depends>com.intellij.modules.lang</depends>
