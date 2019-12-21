@@ -7,11 +7,16 @@ interface StickyNoteRepository {
     fun observeArchivedStickyNotes(): ReceiveChannel<List<StickyNote>>
     fun observeActiveStickyNote(): ReceiveChannel<StickyNote?>
 
+    suspend fun getBacklogStickyNotes(): List<StickyNote>
+    suspend fun getArchivedStickyNotes(): List<StickyNote>
+
     suspend fun addStickyNote(stickyNote: StickyNote)
     suspend fun removeStickyNotes(stickyNotes: List<StickyNote>)
     suspend fun moveStickyNotes(stickyNotes: List<StickyNote>, insertionIndex: Int)
 
     suspend fun setStickNotes(stickyNotes: List<StickyNote>)
+    suspend fun setBacklogStickyNotes(stickyNotes: List<StickyNote>)
+    suspend fun setArchivedStickyNotes(stickyNotes: List<StickyNote>)
     suspend fun setStickyNoteActive(stickyNote: StickyNote)
 
     suspend fun archiveStickyNote(stickyNote: StickyNote)

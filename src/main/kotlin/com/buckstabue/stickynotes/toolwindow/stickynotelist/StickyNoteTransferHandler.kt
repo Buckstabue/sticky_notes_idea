@@ -4,10 +4,12 @@ import com.buckstabue.stickynotes.AppInjector
 import com.buckstabue.stickynotes.StickyNote
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.PlatformDataKeys
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.awt.datatransfer.Transferable
 import javax.swing.JComponent
 import javax.swing.JList
+import javax.swing.SwingUtilities
 import javax.swing.TransferHandler
 
 class StickyNoteTransferHandler : TransferHandler() {
@@ -37,9 +39,16 @@ class StickyNoteTransferHandler : TransferHandler() {
 
         val projectComponent = AppInjector.getProjectComponent(project)
         val stickyNoteInteractor = projectComponent.stickyNoteInteractor()
-        val projectScope = projectComponent.projectScope()
-        projectScope.launch {
-            stickyNoteInteractor.moveStickyNotes(stickyNotesList, dropLocation.index)
+        MainScope().launch {
+            val movedStickyNotesIndicesRange =
+                stickyNoteInteractor.moveStickyNotes(stickyNotesList, dropLocation.index)
+            val stickyNoteJList = support.component as JList<StickyNoteViewModel>
+            SwingUtilities.invokeLater {
+                stickyNoteJList.setSelectionInterval(
+                    movedStickyNotesIndicesRange.first,
+                    movedStickyNotesIndicesRange.last
+                )
+            }
         }
         return true
     }
