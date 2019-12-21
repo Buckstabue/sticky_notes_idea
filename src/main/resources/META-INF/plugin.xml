@@ -22,6 +22,7 @@
         <action id="com.buckstabue.stickynotes.addstickynote.AddStickyNoteAction"
                 class="com.buckstabue.stickynotes.addstickynote.AddStickyNoteAction" text="Add a Sticky Note">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <keyboard-shortcut first-keystroke="control shift S" keymap="$default"/>
         </action>
     </actions>
 </idea-plugin>
