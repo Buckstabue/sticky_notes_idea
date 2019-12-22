@@ -27,13 +27,14 @@ class AddStickyNoteAction : AnAction() {
             logger.error("Project is null")
             return
         }
+        val fileLocation = extractEditorCaretLocation(event, project)
+
         val description = askUserToEnterStickyNoteDescription()
         if (description == null) {
             logger.debug("User cancelled sticky note description input")
             // user cancelled
             return
         }
-        val fileLocation = extractEditorCaretLocation(event, project)
 
         val stickyNote = createStickyNote(fileLocation, description)
         if (stickyNote == null) {
