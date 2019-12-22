@@ -55,8 +55,7 @@ class ActiveNotePresenter @Inject constructor(
     }
 
     fun onDoneClick() {
-        val activeStickyNote = activeStickyNote
-        requireNotNull(activeStickyNote)
+        val activeStickyNote = checkNotNull(activeStickyNote)
         launch {
             stickyNoteInteractor.archiveStickyNote(activeStickyNote)
         }
