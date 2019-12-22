@@ -1,4 +1,3 @@
 package com.buckstabue.stickynotes.base
 
-interface BaseView {
-}
+interface BaseView
