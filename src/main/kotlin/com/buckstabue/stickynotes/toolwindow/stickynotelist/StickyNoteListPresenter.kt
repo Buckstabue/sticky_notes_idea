@@ -64,7 +64,7 @@ class StickyNoteListPresenter @Inject constructor(
     private fun getIcon(stickyNote: StickyNote): Icon? {
         return when (stickyNote) {
             is NonBoundStickyNote -> AllIcons.General.Note
-            is FileBoundStickyNote -> AllIcons.Actions.ShowCode
+            is FileBoundStickyNote -> AllIcons.Actions.StepOutCodeBlock
         }
     }
 

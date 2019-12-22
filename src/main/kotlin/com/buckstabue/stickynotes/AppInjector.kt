@@ -1,7 +1,6 @@
 package com.buckstabue.stickynotes
 
 import com.intellij.openapi.project.Project
-import com.jetbrains.rd.util.getOrCreate
 import java.util.concurrent.ConcurrentHashMap
 
 object AppInjector {
@@ -10,7 +9,7 @@ object AppInjector {
     val appComponent: AppComponent by lazy { DaggerAppComponent.create() }
 
     fun getProjectComponent(project: Project): ProjectComponent {
-        return projectComponentMap.getOrCreate(project, { appComponent.plusProjectComponent().create(project) })
+        return projectComponentMap.getOrPut(project, { appComponent.plusProjectComponent().create(project) })
     }
 
     fun releaseProjectComponent(project: Project) {

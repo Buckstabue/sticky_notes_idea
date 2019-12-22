@@ -3,6 +3,7 @@ package com.buckstabue.stickynotes.idea
 import com.buckstabue.stickynotes.AppInjector
 import com.buckstabue.stickynotes.FileBoundStickyNote
 import com.buckstabue.stickynotes.FileLocation
+import com.buckstabue.stickynotes.MainScope
 import com.buckstabue.stickynotes.NonBoundStickyNote
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.service.StickyNotesService
@@ -12,7 +13,6 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFileManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel

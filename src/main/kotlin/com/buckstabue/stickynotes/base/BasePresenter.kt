@@ -1,8 +1,7 @@
 package com.buckstabue.stickynotes.base
 
+import com.buckstabue.stickynotes.MainScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 abstract class BasePresenter<VIEW : BaseView> {

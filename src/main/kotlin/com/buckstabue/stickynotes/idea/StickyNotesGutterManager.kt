@@ -1,6 +1,7 @@
 package com.buckstabue.stickynotes.idea
 
 import com.buckstabue.stickynotes.FileBoundStickyNote
+import com.buckstabue.stickynotes.MainScope
 import com.buckstabue.stickynotes.StickyNote
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.ex.MarkupModelEx
@@ -11,7 +12,6 @@ import com.intellij.openapi.editor.markup.HighlighterLayer
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import com.intellij.util.PlatformIcons
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import javax.swing.Icon
 

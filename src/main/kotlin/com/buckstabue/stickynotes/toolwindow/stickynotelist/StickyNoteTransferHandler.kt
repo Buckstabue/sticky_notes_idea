@@ -1,10 +1,10 @@
 package com.buckstabue.stickynotes.toolwindow.stickynotelist
 
 import com.buckstabue.stickynotes.AppInjector
+import com.buckstabue.stickynotes.MainScope
 import com.buckstabue.stickynotes.StickyNote
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.PlatformDataKeys
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import java.awt.datatransfer.Transferable
 import javax.swing.JComponent
