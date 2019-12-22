@@ -1,6 +1,8 @@
 package com.buckstabue.stickynotes.idea.toolwindow.stickynotelist.contextmenu
 
 import com.buckstabue.stickynotes.AppInjector
+import com.buckstabue.stickynotes.idea.MainScope
+import com.buckstabue.stickynotes.idea.fullyClearSelection
 import com.buckstabue.stickynotes.idea.toolwindow.stickynotelist.StickyNoteViewModel
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -33,6 +35,9 @@ class ArchiveStickyNoteAction(
 
         projectScope.launch {
             stickyNoteInteractor.archiveStickyNotes(selectedStickyNotes)
+            MainScope().launch {
+                stickyNoteJList.fullyClearSelection()
+            }
         }
     }
 
