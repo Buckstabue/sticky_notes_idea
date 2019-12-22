@@ -27,6 +27,7 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version '191.8026.42'
+    updateSinceUntilBuild false
 }
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
