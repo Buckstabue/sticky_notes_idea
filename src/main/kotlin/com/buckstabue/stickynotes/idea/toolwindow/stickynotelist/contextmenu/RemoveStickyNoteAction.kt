@@ -40,4 +40,8 @@ class RemoveStickyNoteAction(
             }
         }
     }
+
+    override fun update(e: AnActionEvent) {
+        e.presentation.isEnabled = stickyNoteJList.selectedValuesList.size > 0
+    }
 }
