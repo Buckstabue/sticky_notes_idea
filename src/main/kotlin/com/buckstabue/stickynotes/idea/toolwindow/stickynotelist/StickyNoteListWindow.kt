@@ -34,7 +34,7 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
     override lateinit var presenter: StickyNoteListPresenter
 
     init {
-        backlogStickyNoteList.addOnPopupActionListener(createBacklogStickyNoteActions(backlogStickyNoteList))
+        backlogStickyNoteList.addOnPopupActionListener(createContextMenuActions(backlogStickyNoteList))
         backlogStickyNoteList.addOnActionListener {
             presenter.onItemOpened(it)
         }
@@ -42,7 +42,7 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
         backlogStickyNoteList.cellRenderer = StickyNoteListCellRenderer()
         setupDragAndDrop(backlogStickyNoteList)
 
-        archivedStickyNoteList.addOnPopupActionListener(createBacklogStickyNoteActions(archivedStickyNoteList))
+        archivedStickyNoteList.addOnPopupActionListener(createContextMenuActions(archivedStickyNoteList))
         archivedStickyNoteList.addOnActionListener {
             presenter.onItemOpened(it)
         }
@@ -73,7 +73,7 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
         stickNoteList.dropMode = DropMode.INSERT
     }
 
-    private fun createBacklogStickyNoteActions(stickNoteList: JList<StickyNoteViewModel>): ActionGroup {
+    private fun createContextMenuActions(stickNoteList: JList<StickyNoteViewModel>): ActionGroup {
         return DefaultActionGroup(
             SetStickyNoteActiveAction(stickNoteList),
             EditStickyNoteAction(stickNoteList),
