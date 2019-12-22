@@ -55,3 +55,8 @@ fun <ITEM_TYPE : Any> JList<ITEM_TYPE>.addOnPopupActionListener(actionGroup: Act
 fun JLabel.setWrappedText(text: String) {
     this.text = "<HTML>${StringEscapeUtils.escapeHtml(text)}</HTML>"
 }
+
+fun JList<*>.fullyClearSelection() {
+    clearSelection()
+    parent.requestFocus() // remove even border around a last selected element which received a focus
+}
