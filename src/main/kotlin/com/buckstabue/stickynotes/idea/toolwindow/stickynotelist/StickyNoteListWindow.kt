@@ -5,6 +5,7 @@ import com.buckstabue.stickynotes.idea.addOnActionListener
 import com.buckstabue.stickynotes.idea.addOnPopupActionListener
 import com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowComponent
 import com.buckstabue.stickynotes.idea.toolwindow.stickynotelist.contextmenu.ArchiveStickyNoteAction
+import com.buckstabue.stickynotes.idea.toolwindow.stickynotelist.contextmenu.EditStickyNoteAction
 import com.buckstabue.stickynotes.idea.toolwindow.stickynotelist.contextmenu.MoveStickyNoteToBacklogAction
 import com.buckstabue.stickynotes.idea.toolwindow.stickynotelist.contextmenu.RemoveStickyNoteAction
 import com.buckstabue.stickynotes.idea.toolwindow.stickynotelist.contextmenu.SetStickyNoteActiveAction
@@ -75,6 +76,7 @@ class StickyNoteListWindow : BaseWindow<StickyNoteListView, StickyNoteListPresen
     private fun createBacklogStickyNoteActions(stickNoteList: JList<StickyNoteViewModel>): ActionGroup {
         return DefaultActionGroup(
             SetStickyNoteActiveAction(stickNoteList),
+            EditStickyNoteAction(stickNoteList),
             Separator.getInstance(),
             ArchiveStickyNoteAction(stickNoteList),
             MoveStickyNoteToBacklogAction(stickNoteList),

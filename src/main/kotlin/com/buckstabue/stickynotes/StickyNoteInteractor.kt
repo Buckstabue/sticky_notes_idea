@@ -117,4 +117,8 @@ class StickyNoteInteractor @Inject constructor(
             .count { movedStickyNotes.contains(it) }
         return desiredIndexPosition - numberOfElementsBeforeDesiredIndexPosition
     }
+
+    suspend fun updateStickyNoteDescription(stickyNote: StickyNote, newDescription: String) {
+        stickyNoteRepository.updateStickyNoteDescription(stickyNote, newDescription)
+    }
 }

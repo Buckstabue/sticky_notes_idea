@@ -5,6 +5,7 @@ sealed class StickyNote(
     open val isArchived: Boolean
 ) {
     abstract fun setArchived(archived: Boolean): StickyNote
+    abstract fun setDescription(description: String): StickyNote
 }
 
 /**
@@ -19,6 +20,13 @@ data class NonBoundStickyNote(
             return this
         }
         return copy(isArchived = archived)
+    }
+
+    override fun setDescription(description: String): StickyNote {
+        if (this.description == description) {
+            return this
+        }
+        return copy(description = description)
     }
 }
 
@@ -35,6 +43,13 @@ data class FileBoundStickyNote(
             return this
         }
         return copy(isArchived = archived)
+    }
+
+    override fun setDescription(description: String): StickyNote {
+        if (this.description == description) {
+            return this
+        }
+        return copy(description = description)
     }
 }
 

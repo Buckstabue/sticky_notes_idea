@@ -115,6 +115,16 @@ class StickyNoteRepositoryImpl @Inject constructor(
         notifyStickyNotesChanged()
     }
 
+    override suspend fun updateStickyNoteDescription(stickyNote: StickyNote, newDescription: String) {
+        val targetList = if (stickyNote.isArchived) archivedStickyNotes else backlogStickyNotes
+        val index = targetList.indexOf(stickyNote)
+        check(index != -1) {
+            "Could not find sticky note to update. $stickyNote"
+        }
+        targetList[index] = stickyNote.setDescription(newDescription)
+        notifyStickyNotesChanged()
+    }
+
     override fun observeBacklogStickyNotes(): ReceiveChannel<List<StickyNote>> {
         return backlogStickyNoteListChannel.openSubscription()
     }
