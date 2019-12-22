@@ -2,6 +2,7 @@ package com.buckstabue.stickynotes.idea.toolwindow.stickynotelist.contextmenu
 
 import com.buckstabue.stickynotes.AppInjector
 import com.buckstabue.stickynotes.idea.MainScope
+import com.buckstabue.stickynotes.idea.fullyClearSelection
 import com.buckstabue.stickynotes.idea.toolwindow.stickynotelist.StickyNoteViewModel
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -9,6 +10,7 @@ import com.intellij.openapi.diagnostic.Logger
 import kotlinx.coroutines.launch
 import javax.swing.JList
 
+@Suppress("NOTHING_TO_INLINE")
 class SetStickyNoteActiveAction(
     private val stickyNoteJList: JList<StickyNoteViewModel>
 ) : AnAction("Set Active") {
@@ -40,7 +42,14 @@ class SetStickyNoteActiveAction(
         projectScope.launch {
             stickyNoteInteractor.setStickyNoteActive(selectedStickyNote)
             MainScope().launch {
-                stickyNoteJList.selectedIndex = 0
+                if (stickyNoteJList.model.size > 0) {
+                    val firstStickyNote = stickyNoteJList.model.getElementAt(0).stickyNote
+                    if (firstStickyNote.isArchived) { // if editing an archived list
+                        stickyNoteJList.fullyClearSelection()
+                    } else { // if editing a backlog list
+                        stickyNoteJList.selectedIndex = 0
+                    }
+                }
             }
         }
     }
@@ -49,7 +58,6 @@ class SetStickyNoteActiveAction(
         e.presentation.isEnabled = shouldActionBeEnabled()
     }
 
-    @Suppress("NOTHING_TO_INLINE")
     private inline fun shouldActionBeEnabled(): Boolean {
         if (stickyNoteJList.selectedValuesList.size != 1) { // multiple selection
             return false
