@@ -46,6 +46,19 @@ class SetStickyNoteActiveAction(
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = stickyNoteJList.selectedValuesList.size == 1
+        e.presentation.isEnabled = shouldActionBeEnabled()
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    private inline fun shouldActionBeEnabled(): Boolean {
+        if (stickyNoteJList.selectedValuesList.size != 1) { // multiple selection
+            return false
+        }
+        val selectedStickyNote = stickyNoteJList.selectedValue.stickyNote
+        return if (selectedStickyNote.isArchived) {
+            true
+        } else {
+            stickyNoteJList.selectedIndex != 0
+        }
     }
 }
