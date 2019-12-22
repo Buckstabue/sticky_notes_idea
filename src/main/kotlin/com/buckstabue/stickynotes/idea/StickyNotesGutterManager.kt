@@ -1,7 +1,6 @@
 package com.buckstabue.stickynotes.idea
 
 import com.buckstabue.stickynotes.FileBoundStickyNote
-import com.buckstabue.stickynotes.MainScope
 import com.buckstabue.stickynotes.StickyNote
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.ex.MarkupModelEx

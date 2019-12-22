@@ -1,6 +1,6 @@
 package com.buckstabue.stickynotes.base
 
-import com.buckstabue.stickynotes.MainScope
+import com.buckstabue.stickynotes.idea.MainScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

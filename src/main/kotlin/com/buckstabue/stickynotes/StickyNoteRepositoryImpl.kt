@@ -1,6 +1,6 @@
 package com.buckstabue.stickynotes
 
-import com.buckstabue.stickynotes.service.StickyNotesService
+import com.buckstabue.stickynotes.idea.StickyNotesService
 import com.intellij.openapi.project.Project
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi

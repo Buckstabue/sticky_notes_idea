@@ -31,15 +31,15 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Stick Note" anchor="left"
-                    factoryClass="com.buckstabue.stickynotes.toolwindow.StickyNoteToolWindowFactory"/>
+                    factoryClass="com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowFactory"/>
         <projectService
-                serviceInterface="com.buckstabue.stickynotes.service.StickyNotesService"
+                serviceInterface="com.buckstabue.stickynotes.idea.StickyNotesService"
                 serviceImplementation="com.buckstabue.stickynotes.idea.StickyNotesServiceImpl"/>
     </extensions>
 
     <actions>
-        <action id="com.buckstabue.stickynotes.addstickynote.AddStickyNoteAction"
-                class="com.buckstabue.stickynotes.addstickynote.AddStickyNoteAction" text="Add a Sticky Note">
+        <action id="com.buckstabue.stickynotes.idea.addstickynote.AddStickyNoteAction"
+                class="com.buckstabue.stickynotes.idea.addstickynote.AddStickyNoteAction" text="Add a Sticky Note">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <keyboard-shortcut first-keystroke="control shift S" keymap="$default"/>
         </action>
