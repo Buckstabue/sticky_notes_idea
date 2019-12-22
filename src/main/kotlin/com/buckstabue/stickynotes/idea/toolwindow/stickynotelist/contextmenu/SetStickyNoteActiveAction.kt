@@ -7,7 +7,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
 import kotlinx.coroutines.launch
 import javax.swing.JList
-import javax.swing.JOptionPane
 
 class SetStickyNoteActiveAction(
     private val stickyNoteJList: JList<StickyNoteViewModel>
@@ -23,7 +22,7 @@ class SetStickyNoteActiveAction(
             return
         }
         if (selectedValues.size > 1) {
-            showCannotSetActiveMultipleStickyNotesError()
+            logger.error("Cannot set multiply sticky notes active")
             return
         }
 
@@ -42,12 +41,7 @@ class SetStickyNoteActiveAction(
         }
     }
 
-    private fun showCannotSetActiveMultipleStickyNotesError() {
-        JOptionPane.showMessageDialog(
-            null,
-            "Cannot set multiply sticky notes active",
-            "Error",
-            JOptionPane.ERROR_MESSAGE
-        )
+    override fun update(e: AnActionEvent) {
+        e.presentation.isEnabled = stickyNoteJList.selectedValuesList.size == 1
     }
 }
