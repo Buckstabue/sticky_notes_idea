@@ -59,7 +59,7 @@ class SetStickyNoteActiveAction(
     }
 
     private inline fun shouldActionBeEnabled(): Boolean {
-        if (stickyNoteJList.selectedValuesList.size != 1) { // multiple selection
+        if (stickyNoteJList.selectedValuesList.size != 1) { // multiple selection or no selection
             return false
         }
         val selectedStickyNote = stickyNoteJList.selectedValue.stickyNote
