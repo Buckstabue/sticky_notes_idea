@@ -30,7 +30,8 @@
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Stick Note" anchor="left"
+        <toolWindow id="Stick Notes" anchor="left"
+                    icon="/note_13.svg"
                     factoryClass="com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowFactory"/>
         <projectService
                 serviceInterface="com.buckstabue.stickynotes.idea.StickyNotesService"
