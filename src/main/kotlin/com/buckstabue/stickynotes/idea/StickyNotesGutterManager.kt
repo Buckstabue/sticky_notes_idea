@@ -10,13 +10,17 @@ import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.openapi.editor.markup.HighlighterLayer
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
-import com.intellij.util.PlatformIcons
+import com.intellij.openapi.util.IconLoader
 import kotlinx.coroutines.launch
 import javax.swing.Icon
 
 class StickyNotesGutterManager(
     private val project: Project
 ) {
+    companion object {
+        private val GUTTER_ICON = IconLoader.getIcon("/note_gutter.svg")
+    }
+
     private val currentHighlighters = mutableMapOf<FileBoundStickyNote, RangeHighlighterEx>()
 
     fun onStickyNotesChanged(stickyNotes: List<StickyNote>) {
@@ -59,7 +63,7 @@ class StickyNotesGutterManager(
     ) : GutterIconRenderer() {
 
         override fun getIcon(): Icon {
-            return PlatformIcons.CHECK_ICON
+            return GUTTER_ICON
         }
 
         override fun getTooltipText(): String? {
