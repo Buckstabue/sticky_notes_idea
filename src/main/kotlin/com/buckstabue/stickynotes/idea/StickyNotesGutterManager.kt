@@ -18,7 +18,7 @@ class StickyNotesGutterManager(
     private val project: Project
 ) {
     companion object {
-        private val GUTTER_ICON = IconLoader.getIcon("/note_gutter.svg")
+        private val GUTTER_ICON by lazy { IconLoader.getIcon("/note_gutter.svg") }
     }
 
     private val currentHighlighters = mutableMapOf<FileBoundStickyNote, RangeHighlighterEx>()
