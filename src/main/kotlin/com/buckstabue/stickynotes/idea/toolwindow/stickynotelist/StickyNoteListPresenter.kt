@@ -7,18 +7,17 @@ import com.buckstabue.stickynotes.StickyNoteInteractor
 import com.buckstabue.stickynotes.base.BasePresenter
 import com.buckstabue.stickynotes.idea.toolwindow.PerToolWindow
 import com.buckstabue.stickynotes.idea.toolwindow.StickyNoteRouter
-import com.intellij.icons.AllIcons
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.map
 import javax.inject.Inject
-import javax.swing.Icon
 
 @PerToolWindow
 class StickyNoteListPresenter @Inject constructor(
     private val router: StickyNoteRouter,
-    private val stickyNoteInteractor: StickyNoteInteractor
+    private val stickyNoteInteractor: StickyNoteInteractor,
+    private val stickyNoteIconProvider: StickyNoteIconProvider
 ) : BasePresenter<StickyNoteListView>() {
 
     private var viewModel = StickyNoteListViewModel(
@@ -55,16 +54,9 @@ class StickyNoteListPresenter @Inject constructor(
         return stickyNotes.map {
             StickyNoteViewModel(
                 description = it.description,
-                icon = getIcon(it),
+                icon = stickyNoteIconProvider.getIcon(it),
                 stickyNote = it
             )
-        }
-    }
-
-    private fun getIcon(stickyNote: StickyNote): Icon? {
-        return when (stickyNote) {
-            is NonBoundStickyNote -> AllIcons.General.Note
-            is FileBoundStickyNote -> AllIcons.Actions.StepOutCodeBlock
         }
     }
 
