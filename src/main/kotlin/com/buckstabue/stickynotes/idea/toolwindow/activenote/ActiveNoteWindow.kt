@@ -1,6 +1,7 @@
 package com.buckstabue.stickynotes.idea.toolwindow.activenote
 
 import com.buckstabue.stickynotes.idea.BaseWindow
+import com.buckstabue.stickynotes.idea.HorizontalBorder
 import com.buckstabue.stickynotes.idea.disableIdeaLookAndFeel
 import com.buckstabue.stickynotes.idea.setWrappedText
 import com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowComponent
@@ -10,7 +11,6 @@ import javax.swing.JButton
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JPanel
-import javax.swing.border.EmptyBorder
 
 class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), ActiveNoteView {
     private lateinit var contentPanel: JPanel
@@ -25,7 +25,8 @@ class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), Acti
     override lateinit var presenter: ActiveNotePresenter
 
     init {
-        activeNote.border = EmptyBorder(0, 16, 0, 16)
+        activeNote.border = HorizontalBorder(left = 16, right = 16)
+
         doneButton.disableIdeaLookAndFeel()
         doneButton.icon = IconLoader.getIcon("/done.svg")
         doneButton.pressedIcon = IconLoader.getIcon("/done_pressed.svg")
@@ -39,6 +40,7 @@ class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), Acti
         }
 
         openActiveStickyNoteButton.disableIdeaLookAndFeel()
+        openActiveStickyNoteButton.border = HorizontalBorder(left = 0, right = 24)
         openActiveStickyNoteButton.icon = IconLoader.getIcon("/pin.svg")
         openActiveStickyNoteButton.pressedIcon = IconLoader.getIcon("/pin_pressed.svg")
         openActiveStickyNoteButton.addActionListener {
