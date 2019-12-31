@@ -10,10 +10,12 @@ import java.awt.Component
 import java.awt.event.KeyEvent
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
+import javax.swing.JButton
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JList
 import javax.swing.KeyStroke
+import javax.swing.plaf.basic.BasicButtonUI
 
 fun <ITEM_TYPE : Any> JList<ITEM_TYPE>.addOnActionListener(listener: (ITEM_TYPE) -> Unit) {
     object : DoubleClickListener() {
@@ -59,4 +61,8 @@ fun JLabel.setWrappedText(text: String) {
 fun JList<*>.fullyClearSelection() {
     clearSelection()
     parent.requestFocus() // remove even border around a last selected element which received a focus
+}
+
+fun JButton.disableIdeaLookAndFeel() {
+    this.ui = BasicButtonUI()
 }
