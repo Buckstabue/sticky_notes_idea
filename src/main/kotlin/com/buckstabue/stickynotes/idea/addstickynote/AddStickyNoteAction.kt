@@ -13,7 +13,6 @@ import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import kotlinx.coroutines.launch
-import javax.swing.JOptionPane
 
 class AddStickyNoteAction : AnAction() {
     companion object {
@@ -28,15 +27,16 @@ class AddStickyNoteAction : AnAction() {
             return
         }
         val fileLocation = extractEditorCaretLocation(event, project)
+        val canBindToCode = fileLocation != null
 
-        val description = askUserToEnterStickyNoteDescription()
-        if (description == null) {
+        val createStickyNoteViewModel = askUserToEnterStickyNoteDescription(canBindToCode, project)
+        if (createStickyNoteViewModel == null) {
             logger.debug("User cancelled sticky note description input")
             // user cancelled
             return
         }
 
-        val stickyNote = createStickyNote(fileLocation, description)
+        val stickyNote = createStickyNote(fileLocation, createStickyNoteViewModel)
         if (stickyNote == null) {
             logger.debug("Sticky note creation cancelled")
             return
@@ -53,17 +53,16 @@ class AddStickyNoteAction : AnAction() {
 
     private fun createStickyNote(
         fileLocation: FileLocation?,
-        description: String
+        createStickyNoteViewModel: CreateStickyNoteViewModel
     ): StickyNote? {
-        return if (fileLocation == null) {
+        return if (fileLocation == null || !createStickyNoteViewModel.bindToCode) {
             NonBoundStickyNote(
-                description = description
+                description = createStickyNoteViewModel.description
             )
         } else {
             FileBoundStickyNote(
                 fileLocation = fileLocation,
-                description = description,
-                isArchived = false
+                description = createStickyNoteViewModel.description
             )
         }
     }
@@ -89,7 +88,18 @@ class AddStickyNoteAction : AnAction() {
         )
     }
 
-    private fun askUserToEnterStickyNoteDescription(): String? {
-        return JOptionPane.showInputDialog(null, "Description:", "New Sticky Note", JOptionPane.QUESTION_MESSAGE)
+    private fun askUserToEnterStickyNoteDescription(
+        canBindToCode: Boolean,
+        project: Project
+    ): CreateStickyNoteViewModel? {
+        val addStickyNoteDialog = AddStickyNoteDialog(
+            canBindToCode = canBindToCode,
+            project = project
+        )
+        return if (addStickyNoteDialog.showAndGet()) {
+            addStickyNoteDialog.getViewModel()
+        } else {
+            null
+        }
     }
 }
