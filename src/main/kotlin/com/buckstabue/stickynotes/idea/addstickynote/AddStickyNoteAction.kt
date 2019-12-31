@@ -48,6 +48,10 @@ class AddStickyNoteAction : AnAction() {
         projectScope.launch {
             stickyNoteInteractor.addStickyNote(stickyNote)
             logger.debug("Sticky note successfully added $stickyNote")
+            if (createStickyNoteViewModel.isSetActive) {
+                stickyNoteInteractor.setStickyNoteActive(stickyNote)
+                logger.debug("Sticky note was set active right after adding")
+            }
         }
     }
 

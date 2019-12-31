@@ -1,6 +1,7 @@
 package com.buckstabue.stickynotes.idea.addstickynote
 
 data class CreateStickyNoteViewModel(
-    var description: String,
-    var bindToCode: Boolean
+    val description: String,
+    val bindToCode: Boolean,
+    val isSetActive: Boolean
 )

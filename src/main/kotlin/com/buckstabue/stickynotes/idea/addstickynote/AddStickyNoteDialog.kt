@@ -15,6 +15,7 @@ class AddStickyNoteDialog(
     private lateinit var content: JPanel
     private lateinit var descriptionInput: JTextField
     private lateinit var bindToCodeCheckbox: JCheckBox
+    private lateinit var setActiveCheckbox: JCheckBox
 
     init {
         init()
@@ -27,7 +28,8 @@ class AddStickyNoteDialog(
     fun getViewModel(): CreateStickyNoteViewModel {
         return CreateStickyNoteViewModel(
             description = descriptionInput.text.trim(),
-            bindToCode = bindToCodeCheckbox.isSelected
+            bindToCode = bindToCodeCheckbox.isSelected,
+            isSetActive = setActiveCheckbox.isSelected
         )
     }
 
