@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+		xmlns:dc="http://purl.org/dc/elements/1.1/"
+		xmlns:cc="http://creativecommons.org/ns#"
+		xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		xmlns="http://www.w3.org/2000/svg"
+		xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+		xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+		version="1.1"
+		id="Capa_1"
+		x="0px"
+		y="0px"
+		viewBox="0 0 22.987813 22.987811"
+		xml:space="preserve"
+		width="32"
+		height="31.999998"
+		class="hovered-paths"
+		sodipodi:docname="done_pressed.svg"
+		inkscape:version="0.92.3 (2405546, 2018-03-11)"><metadata
+   id="metadata15"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+   id="defs13" /><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1920"
+   inkscape:window-height="1030"
+   id="namedview11"
+   showgrid="false"
+   fit-margin-top="0"
+   fit-margin-left="0"
+   fit-margin-right="0"
+   fit-margin-bottom="0"
+   inkscape:zoom="20.85965"
+   inkscape:cx="30.009846"
+   inkscape:cy="19.479102"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="g6" /><g
+   id="g8"
+   transform="matrix(0.06250004,0,0,0.06250004,-1.4824834e-5,-1.562501e-5)"><g
+     id="g6">
+	<path
+   style="fill:#2b8435;fill-opacity:1"
+   d="m 183.903,0.001 c 101.566,0 183.902,82.336 183.902,183.902 0,101.566 -82.336,183.902 -183.902,183.902 C 82.337,367.805 0.001,285.469 0.001,183.903 v 0 C -0.288,82.625 81.579,0.29 182.856,0.001 183.205,0 183.554,0 183.903,0.001 Z"
+   data-original="#3BB54A"
+   class="hovered-path active-path"
+   data-old_color="#3BB54A"
+   id="path2"
+   inkscape:connector-curvature="0" />
+	<polygon
+   style="fill:#d4e1f4"
+   points="111.805,161.96 155.168,204.801 256.001,103.968 285.78,133.225 155.168,263.837 82.025,191.217 "
+   data-original="#D4E1F4"
+   class=""
+   data-old_color="#D4E1F4"
+   id="polygon4" />
+</g></g> </svg>
