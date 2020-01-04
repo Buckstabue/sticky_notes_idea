@@ -109,6 +109,11 @@ class StickyNoteListDialog(
         return contentPanel
     }
 
+    override fun dispose() {
+        presenter.detachView()
+        super.dispose()
+    }
+
     override fun getDimensionServiceKey(): String? {
         return "STICKY_NOTE_LIST_DIALOG"
     }
