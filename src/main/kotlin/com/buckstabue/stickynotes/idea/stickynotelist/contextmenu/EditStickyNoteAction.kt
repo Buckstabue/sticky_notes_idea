@@ -6,13 +6,14 @@ import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteViewModel
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.project.DumbAware
 import kotlinx.coroutines.launch
 import javax.swing.JList
 import javax.swing.JOptionPane
 
 class EditStickyNoteAction(
     private val stickyNoteJList: JList<StickyNoteViewModel>
-) : AnAction("Edit") {
+) : AnAction("Edit"), DumbAware {
     companion object {
         private val logger = Logger.getInstance(EditStickyNoteAction::class.java)
     }

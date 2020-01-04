@@ -7,12 +7,13 @@ import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteViewModel
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.project.DumbAware
 import kotlinx.coroutines.launch
 import javax.swing.JList
 
 class ArchiveStickyNoteAction(
     private val stickyNoteJList: JList<StickyNoteViewModel>
-) : AnAction("Archive") {
+) : AnAction("Archive"), DumbAware {
     companion object {
         private val logger = Logger.getInstance(ArchiveStickyNoteAction::class.java)
     }

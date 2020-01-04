@@ -11,10 +11,11 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.fileEditor.FileDocumentManager
+import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import kotlinx.coroutines.launch
 
-class AddStickyNoteAction : AnAction() {
+class AddStickyNoteAction : AnAction(), DumbAware {
     companion object {
         private val logger = Logger.getInstance(AddStickyNoteAction::class.java)
     }

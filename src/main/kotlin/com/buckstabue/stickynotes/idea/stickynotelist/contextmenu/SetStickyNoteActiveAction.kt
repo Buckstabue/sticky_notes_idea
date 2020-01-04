@@ -7,13 +7,14 @@ import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteViewModel
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.project.DumbAware
 import kotlinx.coroutines.launch
 import javax.swing.JList
 
 @Suppress("NOTHING_TO_INLINE")
 class SetStickyNoteActiveAction(
     private val stickyNoteJList: JList<StickyNoteViewModel>
-) : AnAction("Set Active") {
+) : AnAction("Set Active"), DumbAware {
     companion object {
         private val logger = Logger.getInstance(SetStickyNoteActiveAction::class.java)
     }
