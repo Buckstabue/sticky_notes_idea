@@ -1,0 +1,15 @@
+package com.buckstabue.stickynotes.idea.toolwindow.activenote
+
+import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListDialog
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.IconLoader
+
+class OpenStickyNotesDialogAction(
+    private val project: Project
+) : AnAction(IconLoader.getIcon("/list.svg")) {
+    override fun actionPerformed(e: AnActionEvent) {
+        StickyNoteListDialog(project).show()
+    }
+}

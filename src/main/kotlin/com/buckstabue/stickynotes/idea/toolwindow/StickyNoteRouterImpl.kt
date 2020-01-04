@@ -13,7 +13,7 @@ class StickyNoteRouterImpl(
     private val cardLayout = CardLayout()
     private val contentPanel = JPanel(cardLayout)
 
-    private val activeNoteWindow = ActiveNoteWindow()
+    private val activeNoteWindow = ActiveNoteWindow(project)
 
     private var currentActiveWindow: BaseWindow<*, *>? = null
 

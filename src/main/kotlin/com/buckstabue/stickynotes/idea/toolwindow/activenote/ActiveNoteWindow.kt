@@ -5,6 +5,10 @@ import com.buckstabue.stickynotes.idea.HorizontalBorder
 import com.buckstabue.stickynotes.idea.disableIdeaLookAndFeel
 import com.buckstabue.stickynotes.idea.setWrappedText
 import com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowComponent
+import com.intellij.openapi.actionSystem.ActionManager
+import com.intellij.openapi.actionSystem.ActionToolbar
+import com.intellij.openapi.actionSystem.DefaultActionGroup
+import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.IconLoader
 import javax.inject.Inject
 import javax.swing.JButton
@@ -12,11 +16,13 @@ import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JPanel
 
-class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), ActiveNoteView {
+class ActiveNoteWindow(
+    private val project: Project
+) : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), ActiveNoteView {
     private lateinit var contentPanel: JPanel
+    private lateinit var toolbarPanel: JPanel
     private lateinit var activeNote: JLabel
     private lateinit var openActiveStickyNoteButton: JButton
-    private lateinit var gotoStickyNoteListButton: JButton
     private lateinit var doneButton: JButton
 
     override val routingTag: String = "ActiveStickyNote"
@@ -25,15 +31,14 @@ class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), Acti
     override lateinit var presenter: ActiveNotePresenter
 
     init {
+        val actionToolbar = createActionToolbar();
+        toolbarPanel.add(actionToolbar.component)
+
         activeNote.border = HorizontalBorder(left = 16, right = 16)
 
         doneButton.disableIdeaLookAndFeel()
         doneButton.icon = IconLoader.getIcon("/done.svg")
         doneButton.pressedIcon = IconLoader.getIcon("/done_pressed.svg")
-
-        gotoStickyNoteListButton.addActionListener {
-            presenter.onGotoStickyNoteListClick()
-        }
 
         doneButton.addActionListener {
             presenter.onDoneClick()
@@ -46,6 +51,13 @@ class ActiveNoteWindow : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), Acti
         openActiveStickyNoteButton.addActionListener {
             presenter.onOpenActiveStickyNoteButtonClick()
         }
+    }
+
+    private fun createActionToolbar(): ActionToolbar {
+        val actionGroup = DefaultActionGroup(
+            OpenStickyNotesDialogAction(project)
+        )
+        return ActionManager.getInstance().createActionToolbar("TOP", actionGroup, true)
     }
 
     override fun onCreate(toolWindowComponent: StickyNoteToolWindowComponent) {

@@ -50,10 +50,6 @@ class ActiveNotePresenter @Inject constructor(
         return activeNote.description
     }
 
-    fun onGotoStickyNoteListClick() {
-        router.openStickyNotesList()
-    }
-
     fun onDoneClick() {
         val activeStickyNote = checkNotNull(activeStickyNote)
         launch {
