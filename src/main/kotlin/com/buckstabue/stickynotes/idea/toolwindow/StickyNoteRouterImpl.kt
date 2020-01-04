@@ -1,7 +1,7 @@
 package com.buckstabue.stickynotes.idea.toolwindow
 
 import com.buckstabue.stickynotes.idea.BaseWindow
-import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListWindow
+import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListDialog
 import com.buckstabue.stickynotes.idea.toolwindow.activenote.ActiveNoteWindow
 import com.intellij.openapi.project.Project
 import java.awt.CardLayout
@@ -34,7 +34,7 @@ class StickyNoteRouterImpl(
     }
 
     override fun openStickyNotesList() {
-        val stickyNoteListWindow = StickyNoteListWindow(project)
+        val stickyNoteListWindow = StickyNoteListDialog(project)
         stickyNoteListWindow.show()
     }
 

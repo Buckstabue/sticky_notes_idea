@@ -23,7 +23,7 @@ import javax.swing.JComponent
 import javax.swing.JList
 import javax.swing.JPanel
 
-class StickyNoteListWindow(
+class StickyNoteListDialog(
     project: Project
 ) : DialogWrapper(project), StickyNoteListView {
 

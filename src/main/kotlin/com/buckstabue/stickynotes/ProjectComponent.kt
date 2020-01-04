@@ -1,7 +1,7 @@
 package com.buckstabue.stickynotes
 
 import com.buckstabue.stickynotes.idea.IdeaEditor
-import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListWindow
+import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListDialog
 import com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowComponent
 import com.intellij.openapi.project.Project
 import dagger.Binds
@@ -19,7 +19,7 @@ interface ProjectComponent {
     fun plusStickyNoteToolWindowComponent(): StickyNoteToolWindowComponent.Factory
     fun projectScope(): ProjectScope
 
-    fun inject(stickyNoteListWindow: StickyNoteListWindow)
+    fun inject(stickyNoteListDialog: StickyNoteListDialog)
 
     @Subcomponent.Factory
     interface Factory {
