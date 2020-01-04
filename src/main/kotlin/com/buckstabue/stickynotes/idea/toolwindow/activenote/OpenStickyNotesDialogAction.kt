@@ -8,7 +8,7 @@ import com.intellij.openapi.util.IconLoader
 
 class OpenStickyNotesDialogAction(
     private val project: Project
-) : AnAction(IconLoader.getIcon("/list.svg")) {
+) : AnAction("Show All", null, IconLoader.getIcon("/list.svg")) {
     override fun actionPerformed(e: AnActionEvent) {
         StickyNoteListDialog(project).show()
     }
