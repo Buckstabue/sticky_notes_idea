@@ -1,4 +1,4 @@
-package com.buckstabue.stickynotes.idea.toolwindow.stickynotelist
+package com.buckstabue.stickynotes.idea.stickynotelist
 
 import java.awt.Component
 import javax.swing.DefaultListCellRenderer

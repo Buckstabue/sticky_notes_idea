@@ -9,7 +9,7 @@ import com.intellij.ui.content.ContentFactory
 
 class StickyNoteToolWindowFactory : ToolWindowFactory {
     override fun createToolWindowContent(project: Project, toolWindow: ToolWindow) {
-        val stickyNoteRouter = StickyNoteRouterImpl()
+        val stickyNoteRouter = StickyNoteRouterImpl(project)
         val toolWindowComponent = AppInjector.getProjectComponent(project)
             .plusStickyNoteToolWindowComponent()
             .create(stickyNoteRouter)

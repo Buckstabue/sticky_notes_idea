@@ -1,26 +1,26 @@
-package com.buckstabue.stickynotes.idea.toolwindow.stickynotelist.contextmenu
+package com.buckstabue.stickynotes.idea.stickynotelist.contextmenu
 
 import com.buckstabue.stickynotes.AppInjector
 import com.buckstabue.stickynotes.idea.MainScope
 import com.buckstabue.stickynotes.idea.fullyClearSelection
-import com.buckstabue.stickynotes.idea.toolwindow.stickynotelist.StickyNoteViewModel
+import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteViewModel
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
 import kotlinx.coroutines.launch
 import javax.swing.JList
 
-class ArchiveStickyNoteAction(
+class MoveStickyNoteToBacklogAction(
     private val stickyNoteJList: JList<StickyNoteViewModel>
-) : AnAction("Archive") {
+) : AnAction("Move To Backlog") {
     companion object {
-        private val logger = Logger.getInstance(ArchiveStickyNoteAction::class.java)
+        private val logger = Logger.getInstance(MoveStickyNoteToBacklogAction::class.java)
     }
 
     override fun actionPerformed(e: AnActionEvent) {
         val selectedStickyNotes = stickyNoteJList.selectedValuesList.map { it.stickyNote }
         if (selectedStickyNotes.isEmpty()) {
-            logger.error("Sticky Notes list is empty, nothing to archive")
+            logger.error("Sticky Notes list is empty, nothing to move to backlog")
             return
         }
 
@@ -34,7 +34,7 @@ class ArchiveStickyNoteAction(
         val projectScope = projectComponent.projectScope()
 
         projectScope.launch {
-            stickyNoteInteractor.archiveStickyNotes(selectedStickyNotes)
+            stickyNoteInteractor.addStickyNotesToBacklog(selectedStickyNotes)
             MainScope().launch {
                 stickyNoteJList.fullyClearSelection()
             }
@@ -43,6 +43,6 @@ class ArchiveStickyNoteAction(
 
     override fun update(e: AnActionEvent) {
         e.presentation.isEnabled = stickyNoteJList.selectedValuesList
-            .any { !it.stickyNote.isArchived }
+            .any { it.stickyNote.isArchived }
     }
 }

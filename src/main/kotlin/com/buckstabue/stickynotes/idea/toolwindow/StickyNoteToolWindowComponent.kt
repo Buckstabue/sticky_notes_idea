@@ -1,7 +1,7 @@
 package com.buckstabue.stickynotes.idea.toolwindow
 
+import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListWindow
 import com.buckstabue.stickynotes.idea.toolwindow.activenote.ActiveNoteWindow
-import com.buckstabue.stickynotes.idea.toolwindow.stickynotelist.StickyNoteListWindow
 import dagger.BindsInstance
 import dagger.Subcomponent
 import javax.inject.Scope

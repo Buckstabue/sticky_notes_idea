@@ -1,4 +1,4 @@
-package com.buckstabue.stickynotes.idea.toolwindow.stickynotelist
+package com.buckstabue.stickynotes.idea.stickynotelist
 
 import com.buckstabue.stickynotes.FileBoundStickyNote
 import com.buckstabue.stickynotes.NonBoundStickyNote

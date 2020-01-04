@@ -1,21 +1,17 @@
-package com.buckstabue.stickynotes.idea.toolwindow.stickynotelist
+package com.buckstabue.stickynotes.idea.stickynotelist
 
 import com.buckstabue.stickynotes.FileBoundStickyNote
 import com.buckstabue.stickynotes.NonBoundStickyNote
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.StickyNoteInteractor
 import com.buckstabue.stickynotes.base.BasePresenter
-import com.buckstabue.stickynotes.idea.toolwindow.PerToolWindow
-import com.buckstabue.stickynotes.idea.toolwindow.StickyNoteRouter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.map
 import javax.inject.Inject
 
-@PerToolWindow
 class StickyNoteListPresenter @Inject constructor(
-    private val router: StickyNoteRouter,
     private val stickyNoteInteractor: StickyNoteInteractor,
     private val stickyNoteIconProvider: StickyNoteIconProvider
 ) : BasePresenter<StickyNoteListView>() {
@@ -60,18 +56,18 @@ class StickyNoteListPresenter @Inject constructor(
         }
     }
 
-    fun onBackButtonClick() {
-        router.openActiveStickyNote()
-    }
-
     fun onItemOpened(item: StickyNoteViewModel) {
         when (val stickyNote = item.stickyNote) {
-            is NonBoundStickyNote ->
+            is NonBoundStickyNote -> {
                 view?.showHintUnderCursor(
                     "Cannot open a sticky note that is not bound to any file"
                         .replace(" ", "&nbsp;")
                 )
-            is FileBoundStickyNote -> stickyNoteInteractor.openStickyNote(stickyNote)
+            }
+            is FileBoundStickyNote -> {
+                view?.close()
+                stickyNoteInteractor.openStickyNote(stickyNote)
+            }
         }
     }
 }

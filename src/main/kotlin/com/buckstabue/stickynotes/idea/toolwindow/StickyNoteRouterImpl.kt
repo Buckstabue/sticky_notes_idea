@@ -1,17 +1,19 @@
 package com.buckstabue.stickynotes.idea.toolwindow
 
 import com.buckstabue.stickynotes.idea.BaseWindow
+import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListWindow
 import com.buckstabue.stickynotes.idea.toolwindow.activenote.ActiveNoteWindow
-import com.buckstabue.stickynotes.idea.toolwindow.stickynotelist.StickyNoteListWindow
+import com.intellij.openapi.project.Project
 import java.awt.CardLayout
 import javax.swing.JPanel
 
-class StickyNoteRouterImpl : StickyNoteRouter {
+class StickyNoteRouterImpl(
+    private val project: Project
+) : StickyNoteRouter {
     private val cardLayout = CardLayout()
     private val contentPanel = JPanel(cardLayout)
 
     private val activeNoteWindow = ActiveNoteWindow()
-    private val stickyNoteListWindow = StickyNoteListWindow()
 
     private var currentActiveWindow: BaseWindow<*, *>? = null
 
@@ -20,7 +22,6 @@ class StickyNoteRouterImpl : StickyNoteRouter {
     fun onCreate(toolWindowComponent: StickyNoteToolWindowComponent) {
         this.toolWindowComponent = toolWindowComponent
         addScreen(activeNoteWindow)
-        addScreen(stickyNoteListWindow)
     }
 
     private fun addScreen(screenWindow: BaseWindow<*, *>) {
@@ -33,7 +34,8 @@ class StickyNoteRouterImpl : StickyNoteRouter {
     }
 
     override fun openStickyNotesList() {
-        showScreen(stickyNoteListWindow)
+        val stickyNoteListWindow = StickyNoteListWindow(project)
+        stickyNoteListWindow.show()
     }
 
     private fun showScreen(screenWindow: BaseWindow<*, *>) {
