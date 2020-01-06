@@ -14,8 +14,14 @@ import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import kotlinx.coroutines.launch
+import javax.swing.Icon
 
-class AddStickyNoteAction : AnAction(), DumbAware {
+// we add @JvmOverloads to make it possible to create this action by reflection with the default constructor
+class AddStickyNoteAction @JvmOverloads constructor(
+    private val codeBindingEnabledByDefaultWhenPossible: Boolean = true,
+    text: String? = null,
+    icon: Icon? = null
+) : AnAction(text, null, icon), DumbAware {
     companion object {
         private val logger = Logger.getInstance(AddStickyNoteAction::class.java)
     }
@@ -104,7 +110,7 @@ class AddStickyNoteAction : AnAction(), DumbAware {
         val addStickyNoteDialog = AddStickyNoteDialog(
             initialViewModel = CreateStickyNoteViewModel(
                 description = "",
-                isCodeBindingChecked = canBindToCode,
+                isCodeBindingChecked = canBindToCode && codeBindingEnabledByDefaultWhenPossible,
                 isCodeBindingCheckboxEnabled = canBindToCode,
                 branchNameBoundTo = vcsService.getCurrentBranchName(),
                 isBranchBindingChecked = false,

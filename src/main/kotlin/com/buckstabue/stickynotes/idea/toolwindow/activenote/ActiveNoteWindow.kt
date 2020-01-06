@@ -2,6 +2,7 @@ package com.buckstabue.stickynotes.idea.toolwindow.activenote
 
 import com.buckstabue.stickynotes.idea.BaseWindow
 import com.buckstabue.stickynotes.idea.HorizontalBorder
+import com.buckstabue.stickynotes.idea.addstickynote.AddStickyNoteAction
 import com.buckstabue.stickynotes.idea.disableIdeaLookAndFeel
 import com.buckstabue.stickynotes.idea.setWrappedText
 import com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowComponent
@@ -10,6 +11,7 @@ import com.intellij.openapi.actionSystem.ActionToolbar
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.IconLoader
+import com.intellij.util.IconUtil
 import javax.inject.Inject
 import javax.swing.JButton
 import javax.swing.JComponent
@@ -55,7 +57,12 @@ class ActiveNoteWindow(
 
     private fun createActionToolbar(): ActionToolbar {
         val actionGroup = DefaultActionGroup(
-            OpenStickyNotesDialogAction(project)
+            OpenStickyNotesDialogAction(project),
+            AddStickyNoteAction(
+                codeBindingEnabledByDefaultWhenPossible = false,
+                text = "Create new Sticky Note",
+                icon = IconUtil.getAddIcon()
+            )
         )
         return ActionManager.getInstance().createActionToolbar("TOP", actionGroup, true)
     }
