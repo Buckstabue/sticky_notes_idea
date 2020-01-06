@@ -16,8 +16,8 @@ class StickyNoteInteractor @Inject constructor(
         return stickyNoteRepository.observeActiveStickyNote()
     }
 
-    fun observeBacklogStickyNotes(): ReceiveChannel<List<StickyNote>> {
-        return stickyNoteRepository.observeBacklogStickyNotes()
+    fun observeBacklogStickyNotes(currentBranchRelatedOnly: Boolean): ReceiveChannel<List<StickyNote>> {
+        return stickyNoteRepository.observeBacklogStickyNotes(currentBranchRelatedOnly)
     }
 
     fun observeArchivedStickyNotes(): ReceiveChannel<List<StickyNote>> {

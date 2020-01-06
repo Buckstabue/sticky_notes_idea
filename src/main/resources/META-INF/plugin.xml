@@ -28,6 +28,7 @@
     ]]></description>
 
     <depends>com.intellij.modules.lang</depends>
+    <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Stick Notes" anchor="left"
@@ -36,6 +37,9 @@
         <projectService
                 serviceInterface="com.buckstabue.stickynotes.idea.StickyNotesService"
                 serviceImplementation="com.buckstabue.stickynotes.idea.StickyNotesServiceImpl"/>
+        <projectService
+                serviceInterface="com.buckstabue.stickynotes.vcs.VcsService"
+                serviceImplementation="com.buckstabue.stickynotes.idea.VcsServiceImpl"/>
     </extensions>
 
     <actions>

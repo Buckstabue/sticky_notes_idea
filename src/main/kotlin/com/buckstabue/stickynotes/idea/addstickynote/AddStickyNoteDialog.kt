@@ -9,28 +9,48 @@ import javax.swing.JPanel
 import javax.swing.JTextField
 
 class AddStickyNoteDialog(
-    canBindToCode: Boolean,
+    initialViewModel: CreateStickyNoteViewModel,
     project: Project
 ) : DialogWrapper(project) {
     private lateinit var content: JPanel
     private lateinit var descriptionInput: JTextField
-    private lateinit var bindToCodeCheckbox: JCheckBox
+    private lateinit var codeBindingCheckbox: JCheckBox
     private lateinit var setActiveCheckbox: JCheckBox
+    private lateinit var branchBindingCheckbox: JCheckBox
+
+    private val branchNameBoundTo = initialViewModel.branchNameBoundTo
 
     init {
         init()
         title = "New Sticky Note"
         setResizable(false)
-        bindToCodeCheckbox.isSelected = canBindToCode
-        bindToCodeCheckbox.isEnabled = canBindToCode
+
+        codeBindingCheckbox.isSelected = initialViewModel.isCodeBindingChecked
+        codeBindingCheckbox.isEnabled = initialViewModel.isCodeBindingCheckboxEnabled
+
+        branchBindingCheckbox.isVisible = initialViewModel.branchNameBoundTo != null
+        branchBindingCheckbox.isSelected = initialViewModel.isBranchBindingChecked
+        branchBindingCheckbox.text = "Bind to the current branch(${initialViewModel.branchNameBoundTo})"
+
+        setActiveCheckbox.isSelected = initialViewModel.isSetActive
     }
 
-    fun getViewModel(): CreateStickyNoteViewModel {
-        return CreateStickyNoteViewModel(
+    fun getResult(): CreateStickyNoteResult {
+        return CreateStickyNoteResult(
             description = descriptionInput.text.trim(),
-            bindToCode = bindToCodeCheckbox.isSelected,
-            isSetActive = setActiveCheckbox.isSelected
+            isBindToCodeChecked = codeBindingCheckbox.isSelected,
+            isSetActive = setActiveCheckbox.isSelected,
+            branchNameBoundTo = getBranchNameBoundToResult()
         )
+    }
+
+    private fun getBranchNameBoundToResult(): String? {
+        return if (codeBindingCheckbox.isVisible && codeBindingCheckbox.isSelected) {
+            branchNameBoundTo
+        } else {
+            null
+        }
+
     }
 
     override fun getPreferredFocusedComponent(): JComponent? {

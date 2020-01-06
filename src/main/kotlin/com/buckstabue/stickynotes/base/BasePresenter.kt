@@ -2,6 +2,7 @@ package com.buckstabue.stickynotes.base
 
 import com.buckstabue.stickynotes.idea.MainScope
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 abstract class BasePresenter<VIEW : BaseView> {
@@ -22,7 +23,7 @@ abstract class BasePresenter<VIEW : BaseView> {
         coroutineScope.cancel()
     }
 
-    protected fun launch(block: suspend CoroutineScope.() -> Unit) {
-        coroutineScope.launch(block = block)
+    protected fun launch(block: suspend CoroutineScope.() -> Unit): Job {
+        return coroutineScope.launch(block = block)
     }
 }

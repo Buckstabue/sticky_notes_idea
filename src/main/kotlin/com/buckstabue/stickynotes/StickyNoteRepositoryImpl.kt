@@ -1,6 +1,7 @@
 package com.buckstabue.stickynotes
 
 import com.buckstabue.stickynotes.idea.StickyNotesService
+import com.buckstabue.stickynotes.vcs.VcsService
 import com.intellij.openapi.project.Project
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
@@ -8,7 +9,6 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.channels.distinct
 import kotlinx.coroutines.launch
 import java.util.concurrent.CopyOnWriteArrayList
 import javax.inject.Inject
@@ -17,23 +17,36 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @ObsoleteCoroutinesApi
 class StickyNoteRepositoryImpl @Inject constructor(
-    private val projectScope: ProjectScope,
+    private val vcsService: VcsService,
+    projectScope: ProjectScope,
     project: Project
 ) : StickyNoteRepository {
     private val backlogStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
     private val archivedStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
 
     private val activeStickyNoteChannel = BroadcastChannel<StickyNote?>(Channel.CONFLATED).also { it.offer(null) }
-    private val backlogStickyNoteListChannel =
+    private val allBacklogStickyNoteListChannel =
+        BroadcastChannel<List<StickyNote>>(Channel.CONFLATED).also { it.offer(emptyList()) }
+    private val currentBranchBacklogStickyNoteListChannel =
         BroadcastChannel<List<StickyNote>>(Channel.CONFLATED).also { it.offer(emptyList()) }
     private val archivedStickyNoteListChannel =
         BroadcastChannel<List<StickyNote>>(Channel.CONFLATED).also { it.offer(emptyList()) }
 
-    private val stickyNotesService = StickyNotesService.getInstance(project).also {
+    private val stickyNotesService = StickyNotesService.getInstance(project)
+
+    init {
         projectScope.launch {
-            it.observeLoadedStickyNotes().consumeEach {
-                setStickNotes(it)
-            }
+            stickyNotesService.observeLoadedStickyNotes()
+                .consumeEach {
+                    setStickNotes(it)
+                }
+        }
+
+        projectScope.launch {
+            vcsService.observeCurrentBranchName()
+                .consumeEach {
+                    notifyStickyNotesChanged()
+                }
         }
     }
 
@@ -48,16 +61,25 @@ class StickyNoteRepositoryImpl @Inject constructor(
     }
 
     private suspend fun notifyStickyNotesChanged() {
-        backlogStickyNoteListChannel.send(backlogStickyNotes)
+        allBacklogStickyNoteListChannel.send(backlogStickyNotes)
         archivedStickyNoteListChannel.send(archivedStickyNotes)
-        activeStickyNoteChannel.send(backlogStickyNotes.firstOrNull())
+
+        val currentBranchBacklogStickyNotes = filterCurrentBranchStickyNotes(backlogStickyNotes)
+        currentBranchBacklogStickyNoteListChannel.send(currentBranchBacklogStickyNotes)
+        activeStickyNoteChannel.send(currentBranchBacklogStickyNotes.firstOrNull())
 
         val newStickyNoteList = backlogStickyNotes.toList().plus(archivedStickyNotes.toList())
         stickyNotesService.setStickyNotes(newStickyNoteList)
     }
 
-    override suspend fun moveStickyNotes(stickyNotes: List<StickyNote>, insertionIndex: Int) {
+    private fun filterCurrentBranchStickyNotes(stickyNotes: List<StickyNote>): List<StickyNote> {
+        val currentBranchName = vcsService.getCurrentBranchName() ?: return stickyNotes
+        return stickyNotes.filter {
+            it.boundBranchName == null || it.boundBranchName == currentBranchName
+        }
+    }
 
+    override suspend fun moveStickyNotes(stickyNotes: List<StickyNote>, insertionIndex: Int) {
         notifyStickyNotesChanged()
     }
 
@@ -125,8 +147,14 @@ class StickyNoteRepositoryImpl @Inject constructor(
         notifyStickyNotesChanged()
     }
 
-    override fun observeBacklogStickyNotes(): ReceiveChannel<List<StickyNote>> {
-        return backlogStickyNoteListChannel.openSubscription()
+    override fun observeBacklogStickyNotes(
+        currentBranchRelatedOnly: Boolean
+    ): ReceiveChannel<List<StickyNote>> {
+        return if (currentBranchRelatedOnly) {
+            currentBranchBacklogStickyNoteListChannel.openSubscription()
+        } else {
+            allBacklogStickyNoteListChannel.openSubscription()
+        }
     }
 
     override fun observeArchivedStickyNotes(): ReceiveChannel<List<StickyNote>> {
@@ -134,7 +162,7 @@ class StickyNoteRepositoryImpl @Inject constructor(
     }
 
     override fun observeActiveStickyNote(): ReceiveChannel<StickyNote?> {
-        return activeStickyNoteChannel.openSubscription().distinct()
+        return activeStickyNoteChannel.openSubscription()
     }
 
     override suspend fun getBacklogStickyNotes(): List<StickyNote> {

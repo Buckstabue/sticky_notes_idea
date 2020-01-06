@@ -6,11 +6,14 @@ import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.StickyNoteInteractor
 import com.buckstabue.stickynotes.base.BasePresenter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.map
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
+@ObsoleteCoroutinesApi
 class StickyNoteListPresenter @Inject constructor(
     private val stickyNoteInteractor: StickyNoteInteractor,
     private val stickyNoteIconProvider: StickyNoteIconProvider
@@ -21,8 +24,8 @@ class StickyNoteListPresenter @Inject constructor(
         archiveStickyNotes = emptyList()
     )
 
-    @ExperimentalCoroutinesApi
-    @ObsoleteCoroutinesApi
+    private var observeBacklogJob: Job? = null
+
     override fun onViewAttached() {
         super.onViewAttached()
         launch {
@@ -35,8 +38,13 @@ class StickyNoteListPresenter @Inject constructor(
                 }
         }
 
-        launch {
-            stickyNoteInteractor.observeBacklogStickyNotes()
+        observeBacklogStickyNotes(filterByCurrentBranch = true)
+    }
+
+    private fun observeBacklogStickyNotes(filterByCurrentBranch: Boolean) {
+        observeBacklogJob?.cancel()
+        observeBacklogJob = launch {
+            stickyNoteInteractor.observeBacklogStickyNotes(currentBranchRelatedOnly = filterByCurrentBranch)
                 .map { stickyNotes ->
                     toViewModels(stickyNotes)
                 }.consumeEach {
@@ -69,5 +77,9 @@ class StickyNoteListPresenter @Inject constructor(
                 stickyNoteInteractor.openStickyNote(stickyNote)
             }
         }
+    }
+
+    fun onFilterByCurrentCheckboxChanged(filterByCurrentBranch: Boolean) {
+        observeBacklogStickyNotes(filterByCurrentBranch)
     }
 }

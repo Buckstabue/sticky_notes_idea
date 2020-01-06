@@ -1,6 +1,7 @@
 package com.buckstabue.stickynotes.idea.stickynotelist
 
 import com.buckstabue.stickynotes.AppInjector
+import com.buckstabue.stickynotes.idea.VerticalBorder
 import com.buckstabue.stickynotes.idea.addOnActionListener
 import com.buckstabue.stickynotes.idea.addOnPopupActionListener
 import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.ArchiveStickyNoteAction
@@ -19,6 +20,7 @@ import com.intellij.ui.awt.RelativePoint
 import javax.inject.Inject
 import javax.swing.Action
 import javax.swing.DropMode
+import javax.swing.JCheckBox
 import javax.swing.JComponent
 import javax.swing.JList
 import javax.swing.JPanel
@@ -27,9 +29,10 @@ class StickyNoteListDialog(
     project: Project
 ) : DialogWrapper(project), StickyNoteListView {
 
+    private lateinit var contentPanel: JPanel
+    private lateinit var filterByCurrentBranchCheckbox: JCheckBox
     private lateinit var backlogStickyNoteList: JList<StickyNoteViewModel>
     private lateinit var archivedStickyNoteList: JList<StickyNoteViewModel>
-    private lateinit var contentPanel: JPanel
 
     @Inject
     lateinit var presenter: StickyNoteListPresenter
@@ -39,6 +42,10 @@ class StickyNoteListDialog(
         init()
         title = "Sticky Notes"
 
+        filterByCurrentBranchCheckbox.border = VerticalBorder(top = 8)
+        filterByCurrentBranchCheckbox.addActionListener {
+            presenter.onFilterByCurrentCheckboxChanged(filterByCurrentBranchCheckbox.isSelected)
+        }
         backlogStickyNoteList.addOnPopupActionListener(createContextMenuActions(backlogStickyNoteList))
         backlogStickyNoteList.addOnActionListener {
             presenter.onItemOpened(it)

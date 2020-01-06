@@ -30,14 +30,14 @@ class AddStickyNoteAction : AnAction(), DumbAware {
         val fileLocation = extractEditorCaretLocation(event, project)
         val canBindToCode = fileLocation != null
 
-        val createStickyNoteViewModel = askUserToEnterStickyNoteDescription(canBindToCode, project)
-        if (createStickyNoteViewModel == null) {
+        val createStickyNoteResult = askUserToFillStickyNoteSettings(canBindToCode, project)
+        if (createStickyNoteResult == null) {
             logger.debug("User cancelled sticky note description input")
             // user cancelled
             return
         }
 
-        val stickyNote = createStickyNote(fileLocation, createStickyNoteViewModel)
+        val stickyNote = createStickyNote(fileLocation, createStickyNoteResult)
         if (stickyNote == null) {
             logger.debug("Sticky note creation cancelled")
             return
@@ -49,7 +49,7 @@ class AddStickyNoteAction : AnAction(), DumbAware {
         projectScope.launch {
             stickyNoteInteractor.addStickyNote(stickyNote)
             logger.debug("Sticky note successfully added $stickyNote")
-            if (createStickyNoteViewModel.isSetActive) {
+            if (createStickyNoteResult.isSetActive) {
                 stickyNoteInteractor.setStickyNoteActive(stickyNote)
                 logger.debug("Sticky note was set active right after adding")
             }
@@ -58,16 +58,18 @@ class AddStickyNoteAction : AnAction(), DumbAware {
 
     private fun createStickyNote(
         fileLocation: FileLocation?,
-        createStickyNoteViewModel: CreateStickyNoteViewModel
+        createStickyNoteResult: CreateStickyNoteResult
     ): StickyNote? {
-        return if (fileLocation == null || !createStickyNoteViewModel.bindToCode) {
+        return if (fileLocation == null || !createStickyNoteResult.isBindToCodeChecked) {
             NonBoundStickyNote(
-                description = createStickyNoteViewModel.description
+                description = createStickyNoteResult.description,
+                boundBranchName = createStickyNoteResult.branchNameBoundTo
             )
         } else {
             FileBoundStickyNote(
                 fileLocation = fileLocation,
-                description = createStickyNoteViewModel.description
+                description = createStickyNoteResult.description,
+                boundBranchName = createStickyNoteResult.branchNameBoundTo
             )
         }
     }
@@ -93,16 +95,25 @@ class AddStickyNoteAction : AnAction(), DumbAware {
         )
     }
 
-    private fun askUserToEnterStickyNoteDescription(
+    private fun askUserToFillStickyNoteSettings(
         canBindToCode: Boolean,
         project: Project
-    ): CreateStickyNoteViewModel? {
+    ): CreateStickyNoteResult? {
+        val vcsService = AppInjector.getProjectComponent(project).vcsService()
+
         val addStickyNoteDialog = AddStickyNoteDialog(
-            canBindToCode = canBindToCode,
+            initialViewModel = CreateStickyNoteViewModel(
+                description = "",
+                isCodeBindingChecked = canBindToCode,
+                isCodeBindingCheckboxEnabled = canBindToCode,
+                branchNameBoundTo = vcsService.getCurrentBranchName(),
+                isBranchBindingChecked = false,
+                isSetActive = false
+            ),
             project = project
         )
         return if (addStickyNoteDialog.showAndGet()) {
-            addStickyNoteDialog.getViewModel()
+            addStickyNoteDialog.getResult()
         } else {
             null
         }

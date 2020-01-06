@@ -69,13 +69,15 @@ class StickyNotesServiceImpl(
         var description: String = "",
         var isArchived: Boolean = false,
         var fileUrl: String? = null,
-        var lineNumber: Int? = null
+        var lineNumber: Int? = null,
+        var boundBranchName: String? = null
     ) {
         fun toStickyNote(project: Project): StickyNote {
             return when (type) {
                 StickyNoteType.NON_BOUND_STICKY_NOTE -> NonBoundStickyNote(
                     description = description,
-                    isArchived = isArchived
+                    isArchived = isArchived,
+                    boundBranchName = boundBranchName
                 )
                 StickyNoteType.FILE_BOUND_STICKY_NOTE -> {
                     val fileLocation = extractFileLocation(project)
@@ -83,13 +85,15 @@ class StickyNotesServiceImpl(
                         logger.error("Couldn't parse file location from $this")
                         NonBoundStickyNote(
                             description = description,
-                            isArchived = isArchived
+                            isArchived = isArchived,
+                            boundBranchName = boundBranchName
                         )
                     } else {
                         FileBoundStickyNote(
                             fileLocation = fileLocation,
                             description = description,
-                            isArchived = isArchived
+                            isArchived = isArchived,
+                            boundBranchName = boundBranchName
                         )
                     }
                 }
@@ -116,14 +120,16 @@ class StickyNotesServiceImpl(
                         description = stickyNote.description,
                         isArchived = stickyNote.isArchived,
                         fileUrl = null,
-                        lineNumber = null
+                        lineNumber = null,
+                        boundBranchName = stickyNote.boundBranchName
                     )
                     is FileBoundStickyNote -> SerializedStickyNote(
                         type = StickyNoteType.FILE_BOUND_STICKY_NOTE,
                         description = stickyNote.description,
                         isArchived = stickyNote.isArchived,
                         fileUrl = stickyNote.fileLocation.fileUrl,
-                        lineNumber = stickyNote.fileLocation.lineNumber
+                        lineNumber = stickyNote.fileLocation.lineNumber,
+                        boundBranchName = stickyNote.boundBranchName
                     )
                 }
             }
