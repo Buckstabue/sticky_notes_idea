@@ -2,7 +2,6 @@ package com.buckstabue.stickynotes
 
 import com.buckstabue.stickynotes.idea.StickyNotesService
 import com.buckstabue.stickynotes.vcs.VcsService
-import com.intellij.openapi.project.Project
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -18,8 +17,8 @@ import javax.inject.Inject
 @ObsoleteCoroutinesApi
 class StickyNoteRepositoryImpl @Inject constructor(
     private val vcsService: VcsService,
-    projectScope: ProjectScope,
-    project: Project
+    private val stickyNotesService: StickyNotesService,
+    projectScope: ProjectScope
 ) : StickyNoteRepository {
     private val backlogStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
     private val archivedStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
@@ -31,8 +30,6 @@ class StickyNoteRepositoryImpl @Inject constructor(
         BroadcastChannel<List<StickyNote>>(Channel.CONFLATED).also { it.offer(emptyList()) }
     private val archivedStickyNoteListChannel =
         BroadcastChannel<List<StickyNote>>(Channel.CONFLATED).also { it.offer(emptyList()) }
-
-    private val stickyNotesService = StickyNotesService.getInstance(project)
 
     init {
         projectScope.launch {

@@ -1,7 +1,6 @@
 package com.buckstabue.stickynotes.idea.toolwindow
 
 import com.buckstabue.stickynotes.AppInjector
-import com.buckstabue.stickynotes.idea.StickyNotesService
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
@@ -23,7 +22,5 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
         toolWindow.contentManager.addContent(content)
 
         stickyNoteRouter.openActiveStickyNote()
-
-        StickyNotesService.loadService(project)
     }
 }
