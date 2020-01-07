@@ -32,6 +32,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Stick Notes" anchor="left"
+                    secondary="true"
                     icon="/note_13.svg"
                     factoryClass="com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowFactory"/>
         <projectService
