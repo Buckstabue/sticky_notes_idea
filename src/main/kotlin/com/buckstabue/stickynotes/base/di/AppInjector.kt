@@ -1,7 +1,7 @@
 package com.buckstabue.stickynotes.base.di
 
-import com.buckstabue.stickynotes.DaggerAppComponent
 import com.buckstabue.stickynotes.base.di.app.AppComponent
+import com.buckstabue.stickynotes.base.di.app.DaggerAppComponent
 import com.buckstabue.stickynotes.base.di.project.ProjectComponent
 import com.intellij.openapi.project.Project
 import java.util.concurrent.ConcurrentHashMap

@@ -48,5 +48,9 @@
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <keyboard-shortcut first-keystroke="control shift S" keymap="$default"/>
         </action>
+        <action id="com.buckstabue.stickynotes.idea.stickynotelist.ShowStickyNotesAction"
+                class="com.buckstabue.stickynotes.idea.stickynotelist.ShowStickyNotesAction">
+            <keyboard-shortcut first-keystroke="control M" keymap="$default"/>
+        </action>
     </actions>
 </idea-plugin>
