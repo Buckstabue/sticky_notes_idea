@@ -23,7 +23,7 @@ import javax.inject.Scope
 @ExperimentalCoroutinesApi
 interface ProjectComponent {
     fun stickyNoteInteractor(): StickyNoteInteractor
-    fun plusStickyNoteToolWindowComponent(): StickyNoteToolWindowComponent.Factory
+    fun plusStickyNoteToolWindowComponent(): StickyNoteToolWindowComponent
     fun projectScope(): ProjectScope
 
     fun inject(stickyNoteListDialog: StickyNoteListDialog)

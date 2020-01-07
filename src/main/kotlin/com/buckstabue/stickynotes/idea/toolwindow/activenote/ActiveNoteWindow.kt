@@ -19,7 +19,7 @@ import javax.swing.JLabel
 import javax.swing.JPanel
 
 class ActiveNoteWindow(
-    private val project: Project
+    toolWindowComponent: StickyNoteToolWindowComponent
 ) : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), ActiveNoteView {
     private lateinit var contentPanel: JPanel
     private lateinit var toolbarPanel: JPanel
@@ -32,7 +32,11 @@ class ActiveNoteWindow(
     @Inject
     override lateinit var presenter: ActiveNotePresenter
 
+    @Inject
+    lateinit var project: Project
+
     init {
+        toolWindowComponent.inject(this)
         val actionToolbar = createActionToolbar();
         toolbarPanel.add(actionToolbar.component)
 
@@ -65,11 +69,6 @@ class ActiveNoteWindow(
             )
         )
         return ActionManager.getInstance().createActionToolbar("TOP", actionGroup, true)
-    }
-
-    override fun onCreate(toolWindowComponent: StickyNoteToolWindowComponent) {
-        toolWindowComponent.inject(this)
-        super.onCreate(toolWindowComponent)
     }
 
     override fun render(viewModel: ActiveStickyNoteViewModel) {
