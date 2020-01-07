@@ -2,7 +2,7 @@ package com.buckstabue.stickynotes.idea
 
 import com.buckstabue.stickynotes.Editor
 import com.buckstabue.stickynotes.FileLocation
-import com.buckstabue.stickynotes.PerProject
+import com.buckstabue.stickynotes.base.di.project.PerProject
 import javax.inject.Inject
 
 @PerProject

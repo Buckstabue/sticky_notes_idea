@@ -1,6 +1,5 @@
-package com.buckstabue.stickynotes.idea
+package com.buckstabue.stickynotes
 
-import com.buckstabue.stickynotes.StickyNote
 import kotlinx.coroutines.channels.ReceiveChannel
 
 interface StickyNotesService {

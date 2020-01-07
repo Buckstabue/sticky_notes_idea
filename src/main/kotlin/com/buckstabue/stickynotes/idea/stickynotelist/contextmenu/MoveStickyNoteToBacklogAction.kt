@@ -1,6 +1,6 @@
 package com.buckstabue.stickynotes.idea.stickynotelist.contextmenu
 
-import com.buckstabue.stickynotes.AppInjector
+import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.MainScope
 import com.buckstabue.stickynotes.idea.fullyClearSelection
 import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteViewModel

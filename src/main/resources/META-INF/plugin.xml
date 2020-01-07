@@ -35,7 +35,7 @@
                     icon="/note_13.svg"
                     factoryClass="com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowFactory"/>
         <projectService
-                serviceInterface="com.buckstabue.stickynotes.idea.StickyNotesService"
+                serviceInterface="com.buckstabue.stickynotes.StickyNotesService"
                 serviceImplementation="com.buckstabue.stickynotes.idea.StickyNotesServiceImpl"/>
         <projectService
                 serviceInterface="com.buckstabue.stickynotes.vcs.VcsService"

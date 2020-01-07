@@ -1,4 +1,4 @@
-package com.buckstabue.stickynotes
+package com.buckstabue.stickynotes.base.di.project
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

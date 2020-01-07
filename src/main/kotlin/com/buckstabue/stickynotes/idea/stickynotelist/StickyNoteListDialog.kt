@@ -1,6 +1,6 @@
 package com.buckstabue.stickynotes.idea.stickynotelist
 
-import com.buckstabue.stickynotes.AppInjector
+import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.VerticalBorder
 import com.buckstabue.stickynotes.idea.addOnActionListener
 import com.buckstabue.stickynotes.idea.addOnPopupActionListener

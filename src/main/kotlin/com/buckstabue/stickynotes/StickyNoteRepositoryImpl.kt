@@ -1,6 +1,7 @@
 package com.buckstabue.stickynotes
 
-import com.buckstabue.stickynotes.idea.StickyNotesService
+import com.buckstabue.stickynotes.base.di.project.PerProject
+import com.buckstabue.stickynotes.base.di.project.ProjectScope
 import com.buckstabue.stickynotes.vcs.VcsService
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi

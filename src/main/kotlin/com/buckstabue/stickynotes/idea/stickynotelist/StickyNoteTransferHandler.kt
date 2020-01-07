@@ -1,7 +1,7 @@
 package com.buckstabue.stickynotes.idea.stickynotelist
 
-import com.buckstabue.stickynotes.AppInjector
 import com.buckstabue.stickynotes.StickyNote
+import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.MainScope
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.PlatformDataKeys

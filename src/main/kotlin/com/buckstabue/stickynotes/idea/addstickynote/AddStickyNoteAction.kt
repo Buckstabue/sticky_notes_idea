@@ -1,10 +1,10 @@
 package com.buckstabue.stickynotes.idea.addstickynote
 
-import com.buckstabue.stickynotes.AppInjector
 import com.buckstabue.stickynotes.FileBoundStickyNote
 import com.buckstabue.stickynotes.FileLocation
 import com.buckstabue.stickynotes.NonBoundStickyNote
 import com.buckstabue.stickynotes.StickyNote
+import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.IdeaFileLocation
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent

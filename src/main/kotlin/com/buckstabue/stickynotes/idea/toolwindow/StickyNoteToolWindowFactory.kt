@@ -1,6 +1,6 @@
 package com.buckstabue.stickynotes.idea.toolwindow
 
-import com.buckstabue.stickynotes.AppInjector
+import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.toolwindow.activenote.ActiveNoteWindow
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project

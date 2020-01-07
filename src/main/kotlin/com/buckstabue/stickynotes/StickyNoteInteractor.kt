@@ -1,5 +1,6 @@
 package com.buckstabue.stickynotes
 
+import com.buckstabue.stickynotes.base.di.project.PerProject
 import kotlinx.coroutines.channels.ReceiveChannel
 import javax.inject.Inject
 
