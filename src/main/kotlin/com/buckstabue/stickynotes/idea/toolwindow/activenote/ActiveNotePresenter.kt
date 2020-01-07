@@ -38,7 +38,6 @@ class ActiveNotePresenter @Inject constructor(
                     view?.render(viewModel)
                 }
         }
-
     }
 
     private fun generateActiveNoteDescription(activeNote: StickyNote?): String {

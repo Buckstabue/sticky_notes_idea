@@ -43,7 +43,4 @@ interface ProjectModule {
 
     @Binds
     fun bindEditor(editor: IdeaEditor): Editor
-
-    @Binds
-    fun bindProjectScope(projectScope: ProjectScopeImpl): ProjectScope
 }
