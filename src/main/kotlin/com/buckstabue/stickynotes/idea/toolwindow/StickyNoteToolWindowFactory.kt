@@ -1,6 +1,7 @@
 package com.buckstabue.stickynotes.idea.toolwindow
 
 import com.buckstabue.stickynotes.base.di.AppInjector
+import com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider
 import com.buckstabue.stickynotes.idea.toolwindow.activenote.ActiveNoteWindow
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
@@ -21,5 +22,9 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
 
         toolWindow.setSplitMode(true, null)
         activeNoteWindow.onAttach()
+    }
+
+    override fun init(window: ToolWindow) {
+        window.helpId = StickyNotesWebHelpProvider.GITHUB_HELP_TOPIC_ID
     }
 }

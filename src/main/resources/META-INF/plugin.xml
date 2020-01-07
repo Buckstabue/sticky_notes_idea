@@ -35,6 +35,8 @@
                     secondary="true"
                     icon="/note_13.svg"
                     factoryClass="com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowFactory"/>
+        <webHelpProvider
+                implementation="com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider"/>
         <projectService
                 serviceInterface="com.buckstabue.stickynotes.StickyNotesService"
                 serviceImplementation="com.buckstabue.stickynotes.idea.StickyNotesServiceImpl"/>

@@ -1,6 +1,7 @@
 package com.buckstabue.stickynotes.idea.stickynotelist
 
 import com.buckstabue.stickynotes.base.di.AppInjector
+import com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider
 import com.buckstabue.stickynotes.idea.VerticalBorder
 import com.buckstabue.stickynotes.idea.addOnActionListener
 import com.buckstabue.stickynotes.idea.addOnPopupActionListener
@@ -123,6 +124,10 @@ class StickyNoteListDialog(
 
     override fun getDimensionServiceKey(): String? {
         return "STICKY_NOTE_LIST_DIALOG"
+    }
+
+    override fun getHelpId(): String? {
+        return StickyNotesWebHelpProvider.GITHUB_HELP_TOPIC_ID
     }
 }
 

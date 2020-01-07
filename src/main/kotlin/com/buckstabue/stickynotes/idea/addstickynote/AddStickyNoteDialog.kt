@@ -1,5 +1,6 @@
 package com.buckstabue.stickynotes.idea.addstickynote
 
+import com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
@@ -66,5 +67,9 @@ class AddStickyNoteDialog(
             return null
         }
         return ValidationInfo("Description cannot be empty", descriptionInput)
+    }
+
+    override fun getHelpId(): String? {
+        return StickyNotesWebHelpProvider.GITHUB_HELP_TOPIC_ID
     }
 }
