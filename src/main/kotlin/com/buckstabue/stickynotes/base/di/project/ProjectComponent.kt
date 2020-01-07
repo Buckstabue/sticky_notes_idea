@@ -27,5 +27,3 @@ interface ProjectComponent {
         fun create(@BindsInstance project: Project): ProjectComponent
     }
 }
-
-
