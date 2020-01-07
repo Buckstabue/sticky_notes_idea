@@ -22,5 +22,6 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
         toolWindow.contentManager.addContent(content)
 
         stickyNoteRouter.openActiveStickyNote()
+        toolWindow.setSplitMode(true, null)
     }
 }
