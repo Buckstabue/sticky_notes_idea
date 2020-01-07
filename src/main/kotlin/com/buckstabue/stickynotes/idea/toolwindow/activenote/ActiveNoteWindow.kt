@@ -60,7 +60,7 @@ class ActiveNoteWindow(
             OpenStickyNotesDialogAction(project),
             AddStickyNoteAction(
                 codeBindingEnabledByDefaultWhenPossible = false,
-                text = "Create new Sticky Note",
+                text = "Create a new Sticky Note",
                 icon = IconUtil.getAddIcon()
             )
         )
