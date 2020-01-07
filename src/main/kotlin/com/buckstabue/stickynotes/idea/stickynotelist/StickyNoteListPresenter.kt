@@ -57,11 +57,18 @@ class StickyNoteListPresenter @Inject constructor(
     private fun toViewModels(stickyNotes: List<StickyNote>): List<StickyNoteViewModel> {
         return stickyNotes.map {
             StickyNoteViewModel(
-                description = it.description,
+                description = getDescription(it),
                 icon = stickyNoteIconProvider.getIcon(it),
                 stickyNote = it
             )
         }
+    }
+
+    private fun getDescription(stickyNote: StickyNote): String {
+        if (stickyNote.boundBranchName.isNullOrBlank()) {
+            return stickyNote.description
+        }
+        return "${stickyNote.description} (bound to ${stickyNote.boundBranchName})"
     }
 
     fun onItemOpened(item: StickyNoteViewModel) {
