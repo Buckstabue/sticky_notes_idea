@@ -9,7 +9,7 @@
         Here is the solution: Sticky Notes plugin for IDEA! It always shows you what is your current task. The workflow is like this:</p>
         <ol>
         <li>You get a task in a task manager(YouTrack, jira, etc.).</li>
-        <li>You decompose the task into microtasks(like "implement api", "add animation effects" and so on).</li>
+        <li>You decompose the task into microtasks(like "implement api for a feature", "add animation effects" and so on).</li>
         <li>With this plugin, you add those microtasks as Sticky Notes.</li>
         <li>You sort them in an order you want to execute them(with drag and drop on sticky notes list screen).</li>
         <li>This plugin always shows you what is your current task, so you stay focused on it.</li>
