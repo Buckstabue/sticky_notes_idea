@@ -25,7 +25,7 @@ data class NonBoundStickyNote(
     override val boundBranchName: String?
 ) : StickyNote() {
     override fun setActive(active: Boolean): StickyNote {
-        if (this.isActive) {
+        if (this.isActive == active) {
             return this
         }
         return copy(isActive = active)
@@ -50,7 +50,7 @@ data class FileBoundStickyNote(
     override val boundBranchName: String?
 ) : StickyNote() {
     override fun setActive(active: Boolean): StickyNote {
-        if (this.isActive) {
+        if (this.isActive == active) {
             return this
         }
         return copy(isActive = active)

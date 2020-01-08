@@ -8,6 +8,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.DumbAware
+import com.intellij.openapi.project.Project
 import kotlinx.coroutines.launch
 import javax.swing.JList
 
@@ -56,18 +57,20 @@ class SetStickyNoteActiveAction(
     }
 
     override fun update(e: AnActionEvent) {
-        e.presentation.isEnabled = shouldActionBeEnabled()
+        e.presentation.isEnabled = shouldActionBeEnabled(e.project)
     }
 
-    private inline fun shouldActionBeEnabled(): Boolean {
+    private inline fun shouldActionBeEnabled(project: Project?): Boolean {
+        if (project == null) {
+            return false
+        }
         if (stickyNoteJList.selectedValuesList.size != 1) { // multiple selection or no selection
             return false
         }
+        val vcsService = AppInjector.getProjectComponent(project).vcsService()
+        val currentBranchName = vcsService.getCurrentBranchName()
         val selectedStickyNote = stickyNoteJList.selectedValue.stickyNote
-        return if (selectedStickyNote.isArchived) {
-            true
-        } else {
-            stickyNoteJList.selectedIndex != 0
-        }
+        return selectedStickyNote.isVisibleInBranch(currentBranchName)
+                && !selectedStickyNote.isActive
     }
 }
