@@ -46,7 +46,7 @@ class AddStickyNoteDialog(
     }
 
     private fun getBranchNameBoundToResult(): String? {
-        return if (codeBindingCheckbox.isVisible && codeBindingCheckbox.isSelected) {
+        return if (branchBindingCheckbox.isVisible && branchBindingCheckbox.isSelected) {
             branchNameBoundTo
         } else {
             null
