@@ -44,10 +44,6 @@ class AddStickyNoteAction @JvmOverloads constructor(
         }
 
         val stickyNote = createStickyNote(fileLocation, createStickyNoteResult)
-        if (stickyNote == null) {
-            logger.debug("Sticky note creation cancelled")
-            return
-        }
         val projectComponent = AppInjector.getProjectComponent(project)
         val stickyNoteInteractor = projectComponent.stickyNoteInteractor()
         val projectScope = projectComponent.projectScope()
@@ -65,7 +61,7 @@ class AddStickyNoteAction @JvmOverloads constructor(
     private fun createStickyNote(
         fileLocation: FileLocation?,
         createStickyNoteResult: CreateEditStickyNoteResult
-    ): StickyNote? {
+    ): StickyNote {
         return if (fileLocation == null || !createStickyNoteResult.isBindToCodeChecked) {
             NonBoundStickyNote(
                 description = createStickyNoteResult.description,
