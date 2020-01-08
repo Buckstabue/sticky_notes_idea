@@ -36,7 +36,7 @@ class StickyNoteListDialog(
         daggerComponent.inject(this)
         init()
         title = "Sticky Notes"
-        peer.contentPane?.minWidth = 350
+        peer.contentPane?.minWidth = 400
 
         presenter.attachView(this)
 
