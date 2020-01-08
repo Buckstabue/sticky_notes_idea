@@ -3,6 +3,7 @@ package com.buckstabue.stickynotes.idea
 import com.buckstabue.stickynotes.FileBoundStickyNote
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.base.di.AppInjector
+import com.buckstabue.stickynotes.base.di.project.PerProject
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -18,9 +19,11 @@ import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.IconLoader
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import javax.swing.Icon
 
-class StickyNotesGutterManager(
+@PerProject
+class StickyNotesGutterManager @Inject constructor(
     private val project: Project
 ) {
     companion object {
@@ -83,7 +86,8 @@ class StickyNotesGutterManager(
 
         override fun getPopupMenuActions(): ActionGroup? {
             return DefaultActionGroup(
-                EditStickyNoteFromGutterAction(stickyNote)
+                EditStickyNoteFromGutterAction(stickyNote),
+                SetStickyNoteActiveFromGutterAction(stickyNote)
             )
         }
 
@@ -123,6 +127,30 @@ class StickyNotesGutterManager(
             val editorScenario =
                 AppInjector.getProjectComponent(project).editStickyNoteScenario()
             editorScenario.launch(stickyNote)
+        }
+    }
+
+    private class SetStickyNoteActiveFromGutterAction(
+        private val stickyNote: StickyNote
+    ) : AnAction("Set Active") {
+        override fun actionPerformed(e: AnActionEvent) {
+            val project = e.project
+            if (project == null) {
+                logger.error("Project is null")
+                return
+            }
+            val projectComponent = AppInjector.getProjectComponent(project)
+            val projectScope = projectComponent.projectScope()
+            val stickyNoteInteractor =
+                projectComponent.stickyNoteInteractor()
+
+            projectScope.launch {
+                stickyNoteInteractor.setStickyNoteActive(stickyNote)
+            }
+        }
+
+        override fun update(e: AnActionEvent) {
+            e.presentation.isEnabled = !stickyNote.isActive
         }
     }
 }

@@ -6,6 +6,7 @@ import com.buckstabue.stickynotes.NonBoundStickyNote
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.StickyNotesService
 import com.buckstabue.stickynotes.base.di.AppInjector
+import com.buckstabue.stickynotes.base.di.project.ProjectScope
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.diagnostic.Logger
@@ -16,6 +17,7 @@ import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @State(
     name = "StickyNotes"
@@ -31,8 +33,15 @@ class StickyNotesServiceImpl(
     private var state: ServiceState? = null
     private val loadedStickyNotesChannel = BroadcastChannel<List<StickyNote>>(Channel.CONFLATED)
 
-    private val projectScope = AppInjector.getProjectComponent(project).projectScope()
-    private val stickyNotesGutterManager = StickyNotesGutterManager(project)
+    @Inject
+    protected lateinit var projectScope: ProjectScope
+
+    @Inject
+    protected lateinit var stickyNotesGutterManager: StickyNotesGutterManager
+
+    init {
+        AppInjector.getProjectComponent(project).inject(this)
+    }
 
     override suspend fun setStickyNotes(stickyNotes: List<StickyNote>) {
         MainScope().launch {
