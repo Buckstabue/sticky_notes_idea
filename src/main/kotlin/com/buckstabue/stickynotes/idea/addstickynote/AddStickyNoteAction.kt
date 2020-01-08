@@ -107,7 +107,7 @@ class AddStickyNoteAction @JvmOverloads constructor(
     ): CreateStickyNoteResult? {
         val vcsService = AppInjector.getProjectComponent(project).vcsService()
 
-        val addStickyNoteDialog = AddStickyNoteDialog(
+        val addStickyNoteDialog = CreateEditStickyNoteDialog(
             initialViewModel = CreateStickyNoteViewModel(
                 description = "",
                 isCodeBindingChecked = canBindToCode && codeBindingEnabledByDefaultWhenPossible,

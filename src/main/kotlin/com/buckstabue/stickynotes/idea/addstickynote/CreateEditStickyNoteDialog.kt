@@ -9,7 +9,7 @@ import javax.swing.JComponent
 import javax.swing.JPanel
 import javax.swing.JTextField
 
-class AddStickyNoteDialog(
+class CreateEditStickyNoteDialog(
     initialViewModel: CreateStickyNoteViewModel,
     project: Project
 ) : DialogWrapper(project) {
