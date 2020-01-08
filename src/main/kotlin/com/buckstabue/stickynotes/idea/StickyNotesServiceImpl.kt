@@ -7,6 +7,7 @@ import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.StickyNotesService
 import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.base.di.project.ProjectScope
+import com.buckstabue.stickynotes.idea.gutter.StickyNotesGutterManager
 import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.diagnostic.Logger
