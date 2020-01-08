@@ -23,7 +23,7 @@ import javax.swing.JComponent
 import javax.swing.JList
 import javax.swing.JPanel
 
-class StickyNotesPanelPanel(
+class StickyNotesPanel(
     private val parentDialog: StickyNoteListDialog,
     stickyNoteListDialogComponent: StickyNoteListDialogComponent,
     stickyNotesObservableType: StickyNotesObservable.Type

@@ -5,7 +5,7 @@ import com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider
 import com.buckstabue.stickynotes.idea.forEachTab
 import com.buckstabue.stickynotes.idea.minWidth
 import com.buckstabue.stickynotes.idea.stickynotelist.getstickynotesstrategy.StickyNotesObservable
-import com.buckstabue.stickynotes.idea.stickynotelist.panel.StickyNotesPanelPanel
+import com.buckstabue.stickynotes.idea.stickynotelist.panel.StickyNotesPanel
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
@@ -55,7 +55,7 @@ class StickyNoteListDialog(
     }
 
     private fun addTab(tabName: String, observableType: StickyNotesObservable.Type) {
-        val stickyNotesPanel = StickyNotesPanelPanel(
+        val stickyNotesPanel = StickyNotesPanel(
             parentDialog = this,
             stickyNoteListDialogComponent = daggerComponent,
             stickyNotesObservableType = observableType
