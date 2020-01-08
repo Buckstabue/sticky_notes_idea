@@ -83,7 +83,10 @@ class StickyNotesServiceImpl(
                 StickyNoteType.FILE_BOUND_STICKY_NOTE -> {
                     val fileLocation = extractFileLocation(project)
                     if (fileLocation == null) {
-                        logger.error("Couldn't parse file location from $this")
+                        /* TODO file can be temporarily lost due to switching git branches.
+                           Probably better to create FileBoundStickyNote
+                        */
+                        logger.warn("Couldn't parse file location from $this")
                         NonBoundStickyNote(
                             description = description,
                             isArchived = isArchived,
