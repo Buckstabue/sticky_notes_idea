@@ -1,6 +1,6 @@
 package com.buckstabue.stickynotes.idea.stickynotelist.panel.di
 
-import com.buckstabue.stickynotes.idea.stickynotelist.getstickynotesstrategy.StickyNotesObservable
+import com.buckstabue.stickynotes.idea.stickynotelist.panel.StickyNotesObservable
 import com.buckstabue.stickynotes.idea.stickynotelist.panel.StickyNotesPanel
 import dagger.BindsInstance
 import dagger.Subcomponent

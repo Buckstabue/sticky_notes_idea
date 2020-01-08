@@ -1,4 +1,4 @@
-package com.buckstabue.stickynotes.idea.stickynotelist.getstickynotesstrategy
+package com.buckstabue.stickynotes.idea.stickynotelist.panel
 
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.StickyNoteInteractor

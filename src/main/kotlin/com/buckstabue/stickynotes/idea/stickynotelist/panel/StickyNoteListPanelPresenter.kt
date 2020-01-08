@@ -5,7 +5,6 @@ import com.buckstabue.stickynotes.NonBoundStickyNote
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.StickyNoteInteractor
 import com.buckstabue.stickynotes.base.BasePresenter
-import com.buckstabue.stickynotes.idea.stickynotelist.getstickynotesstrategy.StickyNotesObservable
 import com.buckstabue.stickynotes.idea.stickynotelist.panel.di.PerStickyNoteListPanel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.map

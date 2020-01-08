@@ -4,7 +4,7 @@ import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider
 import com.buckstabue.stickynotes.idea.forEachTab
 import com.buckstabue.stickynotes.idea.minWidth
-import com.buckstabue.stickynotes.idea.stickynotelist.getstickynotesstrategy.StickyNotesObservable
+import com.buckstabue.stickynotes.idea.stickynotelist.panel.StickyNotesObservable
 import com.buckstabue.stickynotes.idea.stickynotelist.panel.StickyNotesPanel
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.project.Project

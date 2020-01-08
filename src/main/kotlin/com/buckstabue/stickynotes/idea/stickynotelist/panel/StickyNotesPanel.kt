@@ -9,7 +9,6 @@ import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.MoveStickyNote
 import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.RemoveStickyNoteAction
 import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.SetStickyNoteActiveAction
 import com.buckstabue.stickynotes.idea.stickynotelist.di.StickyNoteListDialogComponent
-import com.buckstabue.stickynotes.idea.stickynotelist.getstickynotesstrategy.StickyNotesObservable
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.codeInsight.hint.HintUtil
 import com.intellij.openapi.Disposable
