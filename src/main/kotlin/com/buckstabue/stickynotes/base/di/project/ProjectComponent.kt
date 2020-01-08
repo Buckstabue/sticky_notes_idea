@@ -1,7 +1,7 @@
 package com.buckstabue.stickynotes.base.di.project
 
 import com.buckstabue.stickynotes.StickyNoteInteractor
-import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListDialog
+import com.buckstabue.stickynotes.idea.stickynotelist.di.StickyNoteListDialogComponent
 import com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowComponent
 import com.buckstabue.stickynotes.vcs.VcsService
 import com.intellij.openapi.project.Project
@@ -16,11 +16,11 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 @ExperimentalCoroutinesApi
 interface ProjectComponent {
     fun stickyNoteInteractor(): StickyNoteInteractor
-    fun plusStickyNoteToolWindowComponent(): StickyNoteToolWindowComponent
     fun projectScope(): ProjectScope
-
-    fun inject(stickyNoteListDialog: StickyNoteListDialog)
     fun vcsService(): VcsService
+
+    fun plusStickyNoteToolWindowComponent(): StickyNoteToolWindowComponent
+    fun plusStickyNoteListDialogComponent(): StickyNoteListDialogComponent
 
     @Subcomponent.Factory
     interface Factory {

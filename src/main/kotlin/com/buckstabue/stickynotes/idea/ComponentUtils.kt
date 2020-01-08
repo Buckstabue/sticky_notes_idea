@@ -7,6 +7,7 @@ import com.intellij.ui.DoubleClickListener
 import com.intellij.ui.PopupHandler
 import org.apache.commons.lang.StringEscapeUtils
 import java.awt.Component
+import java.awt.Dimension
 import java.awt.event.KeyEvent
 import java.awt.event.MouseAdapter
 import java.awt.event.MouseEvent
@@ -14,6 +15,7 @@ import javax.swing.JButton
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JList
+import javax.swing.JTabbedPane
 import javax.swing.KeyStroke
 import javax.swing.plaf.basic.BasicButtonUI
 
@@ -33,7 +35,7 @@ fun <ITEM_TYPE : Any> JList<ITEM_TYPE>.addOnActionListener(listener: (ITEM_TYPE)
     )
 }
 
-fun <ITEM_TYPE : Any> JList<ITEM_TYPE>.addOnPopupActionListener(actionGroup: ActionGroup) {
+fun <ITEM_TYPE : Any> JList<ITEM_TYPE>.setContextMenu(actionGroup: ActionGroup) {
     val jList = this
     this.addMouseListener(object : MouseAdapter() {
         override fun mousePressed(e: MouseEvent) {
@@ -66,3 +68,17 @@ fun JList<*>.fullyClearSelection() {
 fun JButton.disableIdeaLookAndFeel() {
     this.ui = BasicButtonUI()
 }
+
+inline fun JTabbedPane.forEachTab(action: (Component) -> Unit) {
+    for (i in 0 until tabCount) {
+        getTabComponentAt(i)?.let(action)
+    }
+}
+
+var Component.minWidth: Int
+    get() {
+        return minimumSize.width
+    }
+    set(value) {
+        minimumSize = Dimension(value, minimumSize.height)
+    }

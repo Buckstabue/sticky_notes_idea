@@ -3,7 +3,7 @@ package com.buckstabue.stickynotes.idea.stickynotelist.contextmenu
 import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.MainScope
 import com.buckstabue.stickynotes.idea.fullyClearSelection
-import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteViewModel
+import com.buckstabue.stickynotes.idea.stickynotelist.panel.StickyNoteViewModel
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger

@@ -1,4 +1,4 @@
-package com.buckstabue.stickynotes.idea.stickynotelist
+package com.buckstabue.stickynotes.idea.stickynotelist.panel
 
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.base.di.AppInjector
@@ -19,7 +19,9 @@ class StickyNoteTransferHandler : TransferHandler() {
 
     override fun createTransferable(c: JComponent): Transferable? {
         val stickyNotes = (c as JList<StickyNoteViewModel>).selectedValuesList.map { it.stickyNote }
-        return StickyNoteTransferable(stickyNotes)
+        return StickyNoteTransferable(
+            stickyNotes
+        )
     }
 
     override fun canImport(support: TransferSupport): Boolean {
