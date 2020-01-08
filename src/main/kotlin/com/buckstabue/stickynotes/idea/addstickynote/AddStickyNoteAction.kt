@@ -64,7 +64,7 @@ class AddStickyNoteAction @JvmOverloads constructor(
 
     private fun createStickyNote(
         fileLocation: FileLocation?,
-        createStickyNoteResult: CreateStickyNoteResult
+        createStickyNoteResult: CreateEditStickyNoteResult
     ): StickyNote? {
         return if (fileLocation == null || !createStickyNoteResult.isBindToCodeChecked) {
             NonBoundStickyNote(
@@ -104,11 +104,11 @@ class AddStickyNoteAction @JvmOverloads constructor(
     private fun askUserToFillStickyNoteSettings(
         canBindToCode: Boolean,
         project: Project
-    ): CreateStickyNoteResult? {
+    ): CreateEditStickyNoteResult? {
         val vcsService = AppInjector.getProjectComponent(project).vcsService()
 
         val addStickyNoteDialog = CreateEditStickyNoteDialog(
-            initialViewModel = CreateStickyNoteViewModel(
+            initialViewModel = CreateEditStickyNoteViewModel(
                 description = "",
                 isCodeBindingChecked = canBindToCode && codeBindingEnabledByDefaultWhenPossible,
                 isCodeBindingCheckboxEnabled = canBindToCode,

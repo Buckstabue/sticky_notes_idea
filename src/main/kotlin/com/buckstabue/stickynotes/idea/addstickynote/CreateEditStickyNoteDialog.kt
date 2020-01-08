@@ -10,7 +10,7 @@ import javax.swing.JPanel
 import javax.swing.JTextField
 
 class CreateEditStickyNoteDialog(
-    initialViewModel: CreateStickyNoteViewModel,
+    initialViewModel: CreateEditStickyNoteViewModel,
     project: Project
 ) : DialogWrapper(project) {
     private lateinit var content: JPanel
@@ -36,8 +36,8 @@ class CreateEditStickyNoteDialog(
         setActiveCheckbox.isSelected = initialViewModel.isSetActive
     }
 
-    fun getResult(): CreateStickyNoteResult {
-        return CreateStickyNoteResult(
+    fun getResult(): CreateEditStickyNoteResult {
+        return CreateEditStickyNoteResult(
             description = descriptionInput.text.trim(),
             isBindToCodeChecked = codeBindingCheckbox.isSelected,
             isSetActive = setActiveCheckbox.isSelected,

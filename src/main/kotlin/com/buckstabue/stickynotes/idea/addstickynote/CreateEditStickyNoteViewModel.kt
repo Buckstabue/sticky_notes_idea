@@ -1,6 +1,6 @@
 package com.buckstabue.stickynotes.idea.addstickynote
 
-data class CreateStickyNoteViewModel(
+data class CreateEditStickyNoteViewModel(
     val description: String,
 
     val isCodeBindingChecked: Boolean,
