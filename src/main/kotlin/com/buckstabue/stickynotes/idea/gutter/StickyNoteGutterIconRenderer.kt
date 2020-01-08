@@ -1,6 +1,7 @@
 package com.buckstabue.stickynotes.idea.gutter
 
 import com.buckstabue.stickynotes.FileBoundStickyNote
+import com.buckstabue.stickynotes.idea.gutter.contextmenu.ArchiveStickyNoteFromGutterAction
 import com.buckstabue.stickynotes.idea.gutter.contextmenu.EditStickyNoteFromGutterAction
 import com.buckstabue.stickynotes.idea.gutter.contextmenu.RemoveStickyNoteFromGutterAction
 import com.buckstabue.stickynotes.idea.gutter.contextmenu.SetStickyNoteActiveFromGutterAction
@@ -39,6 +40,7 @@ class StickyNoteGutterIconRenderer(
             EditStickyNoteFromGutterAction(stickyNote),
             SetStickyNoteActiveFromGutterAction(stickyNote),
             Separator.getInstance(),
+            ArchiveStickyNoteFromGutterAction(stickyNote),
             RemoveStickyNoteFromGutterAction(stickyNote)
         )
     }
