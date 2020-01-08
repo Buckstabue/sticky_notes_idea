@@ -1,4 +1,4 @@
-package com.buckstabue.stickynotes.idea.addstickynote
+package com.buckstabue.stickynotes.idea.createeditstickynote
 
 data class CreateEditStickyNoteViewModel(
     val description: String,

@@ -1,4 +1,4 @@
-package com.buckstabue.stickynotes.idea.addstickynote
+package com.buckstabue.stickynotes.idea.createeditstickynote
 
 import com.buckstabue.stickynotes.FileBoundStickyNote
 import com.buckstabue.stickynotes.FileLocation
@@ -17,13 +17,13 @@ import kotlinx.coroutines.launch
 import javax.swing.Icon
 
 // we add @JvmOverloads to make it possible to create this action by reflection with the default constructor
-class AddStickyNoteAction @JvmOverloads constructor(
+class CreateStickyNoteAction @JvmOverloads constructor(
     private val codeBindingEnabledByDefaultWhenPossible: Boolean = true,
     text: String? = null,
     icon: Icon? = null
 ) : AnAction(text, null, icon), DumbAware {
     companion object {
-        private val logger = Logger.getInstance(AddStickyNoteAction::class.java)
+        private val logger = Logger.getInstance(CreateStickyNoteAction::class.java)
     }
 
     override fun actionPerformed(event: AnActionEvent) {

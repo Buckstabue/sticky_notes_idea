@@ -1,4 +1,4 @@
-package com.buckstabue.stickynotes.idea.addstickynote
+package com.buckstabue.stickynotes.idea.createeditstickynote
 
 import com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider
 import com.intellij.openapi.project.Project

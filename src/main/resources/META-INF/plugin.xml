@@ -53,8 +53,8 @@
 
     <actions>
         <action
-                id="com.buckstabue.stickynotes.idea.addstickynote.AddStickyNoteAction"
-                class="com.buckstabue.stickynotes.idea.addstickynote.AddStickyNoteAction"
+                id="com.buckstabue.stickynotes.idea.createeditstickynote.CreateStickyNoteAction"
+                class="com.buckstabue.stickynotes.idea.createeditstickynote.CreateStickyNoteAction"
                 text="Add a Sticky Note">
             <add-to-group
                     group-id="EditorPopupMenu"

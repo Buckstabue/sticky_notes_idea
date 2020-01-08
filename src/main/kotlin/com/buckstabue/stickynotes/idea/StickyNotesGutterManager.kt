@@ -2,6 +2,12 @@ package com.buckstabue.stickynotes.idea
 
 import com.buckstabue.stickynotes.FileBoundStickyNote
 import com.buckstabue.stickynotes.StickyNote
+import com.buckstabue.stickynotes.base.di.AppInjector
+import com.intellij.openapi.actionSystem.ActionGroup
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.DefaultActionGroup
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.editor.ex.MarkupModelEx
 import com.intellij.openapi.editor.ex.RangeHighlighterEx
@@ -19,6 +25,7 @@ class StickyNotesGutterManager(
 ) {
     companion object {
         private val GUTTER_ICON by lazy { IconLoader.getIcon("/note_gutter.svg") }
+        private val logger = Logger.getInstance(StickyNotesGutterManager::class.java)
     }
 
     private val currentHighlighters = mutableMapOf<FileBoundStickyNote, RangeHighlighterEx>()
@@ -74,6 +81,12 @@ class StickyNotesGutterManager(
             return stickyNote.hashCode()
         }
 
+        override fun getPopupMenuActions(): ActionGroup? {
+            return DefaultActionGroup(
+                EditStickyNoteFromGutterAction(stickyNote)
+            )
+        }
+
         override fun equals(other: Any?): Boolean {
             return other is StickyNoteGutterIconRenderer && other.stickyNote == this.stickyNote
         }
@@ -95,6 +108,21 @@ class StickyNotesGutterManager(
                     removedStickyNotes = removedElements
                 )
             }
+        }
+    }
+
+    private class EditStickyNoteFromGutterAction(
+        private val stickyNote: StickyNote
+    ) : AnAction("Edit") {
+        override fun actionPerformed(e: AnActionEvent) {
+            val project = e.project
+            if (project == null) {
+                logger.error("Project is null")
+                return
+            }
+            val editorScenario =
+                AppInjector.getProjectComponent(project).editStickyNoteScenario()
+            editorScenario.launch(stickyNote)
         }
     }
 }

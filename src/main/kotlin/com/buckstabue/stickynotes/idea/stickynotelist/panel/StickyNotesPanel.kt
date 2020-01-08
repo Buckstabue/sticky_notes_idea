@@ -4,7 +4,7 @@ import com.buckstabue.stickynotes.idea.addOnActionListener
 import com.buckstabue.stickynotes.idea.setContextMenu
 import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListDialog
 import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.ArchiveStickyNoteAction
-import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.EditStickyNoteAction
+import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.EditStickyNoteFromListAction
 import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.MoveStickyNoteToBacklogAction
 import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.RemoveStickyNoteAction
 import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.SetStickyNoteActiveAction
@@ -58,7 +58,7 @@ class StickyNotesPanel(
         stickyNoteList.setContextMenu(
             DefaultActionGroup(
                 SetStickyNoteActiveAction(stickyNoteList),
-                EditStickyNoteAction(stickyNoteList),
+                EditStickyNoteFromListAction(stickyNoteList),
                 Separator.getInstance(),
                 ArchiveStickyNoteAction(stickyNoteList),
                 MoveStickyNoteToBacklogAction(stickyNoteList),
