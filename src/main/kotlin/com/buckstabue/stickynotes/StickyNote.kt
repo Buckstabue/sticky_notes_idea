@@ -6,12 +6,15 @@ sealed class StickyNote(
     abstract val isActive: Boolean
     abstract val isArchived: Boolean
     abstract val boundBranchName: String?
+    inline val isBoundToBranch: Boolean
+        get() = boundBranchName != null
 
     abstract fun setActive(active: Boolean): StickyNote
     abstract fun setArchived(archived: Boolean): StickyNote
 
+
     fun isVisibleInBranch(branchName: String?): Boolean {
-        return boundBranchName == null || boundBranchName == branchName
+        return !isBoundToBranch || boundBranchName == branchName
     }
 }
 

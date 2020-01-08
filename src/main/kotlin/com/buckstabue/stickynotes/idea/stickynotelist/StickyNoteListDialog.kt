@@ -7,6 +7,7 @@ import com.buckstabue.stickynotes.idea.minWidth
 import com.buckstabue.stickynotes.idea.stickynotelist.panel.StickyNotesObservable
 import com.buckstabue.stickynotes.idea.stickynotelist.panel.StickyNotesPanel
 import com.intellij.openapi.Disposable
+import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import javax.inject.Inject
@@ -20,6 +21,8 @@ class StickyNoteListDialog(
 ) : DialogWrapper(project), StickyNoteListDialogView {
     companion object {
         const val CONTROLLER_PROPERTY = "StickyNoteListDialog_Controller"
+
+        private val logger = Logger.getInstance(StickyNoteListDialog::class.java)
     }
 
     private lateinit var contentPanel: JPanel
@@ -39,18 +42,12 @@ class StickyNoteListDialog(
         peer.contentPane?.minWidth = 400
 
         presenter.attachView(this)
+    }
 
+    override fun addCurrentBranchBacklogTab() {
         addTab(
-            tabName = "Backlog(current branch)",
+            tabName = "Backlog",
             observableType = StickyNotesObservable.Type.CURRENT_BRANCH_BACKLOG
-        )
-        addTab(
-            tabName = "Archive",
-            observableType = StickyNotesObservable.Type.ARCHIVED
-        )
-        addTab(
-            tabName = "Backlog(all)",
-            observableType = StickyNotesObservable.Type.ALL_BACKLOG
         )
     }
 
@@ -67,6 +64,37 @@ class StickyNoteListDialog(
             null,
             stickyNotesPanel.getContentPanel()
         )
+    }
+
+    override fun addArchiveTab() {
+        addTab(
+            tabName = "Archive",
+            observableType = StickyNotesObservable.Type.ARCHIVED
+        )
+    }
+
+    override fun addAllBacklogTab() {
+        addTab(
+            tabName = "Backlog(all)",
+            observableType = StickyNotesObservable.Type.ALL_BACKLOG
+        )
+    }
+
+    override fun removeAllBacklogTab() {
+        val allBacklogTabIndex = 2
+        if (tabs.tabCount != 3) {
+            logger.error(
+                "Trying to remove 'All Backlog' tab " +
+                        "while there are no exactly 3 tabs(${tabs.tabCount})"
+            )
+            return
+        }
+        tabs.removeTabAt(allBacklogTabIndex)
+    }
+
+    override fun setCurrentBranchBacklogTabTitle(title: String) {
+        val currentBranchBacklogTabIndex = 0
+        tabs.setTitleAt(currentBranchBacklogTabIndex, title)
     }
 
     override fun createActions(): Array<Action> {
