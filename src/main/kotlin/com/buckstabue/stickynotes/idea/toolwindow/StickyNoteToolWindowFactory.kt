@@ -20,11 +20,11 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
         val content = contentFactory.createContent(activeNoteWindow.getContent(), "", false)
         toolWindow.contentManager.addContent(content)
 
-        toolWindow.setSplitMode(true, null)
         activeNoteWindow.onAttach()
     }
 
     override fun init(window: ToolWindow) {
+        window.setSplitMode(true, null)
         window.helpId = StickyNotesWebHelpProvider.GITHUB_HELP_TOPIC_ID
     }
 }
