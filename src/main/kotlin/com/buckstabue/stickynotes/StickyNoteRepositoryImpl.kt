@@ -3,6 +3,7 @@ package com.buckstabue.stickynotes
 import com.buckstabue.stickynotes.base.di.project.PerProject
 import com.buckstabue.stickynotes.base.di.project.ProjectScope
 import com.buckstabue.stickynotes.vcs.VcsService
+import com.intellij.openapi.diagnostic.Logger
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.BroadcastChannel
@@ -21,10 +22,15 @@ class StickyNoteRepositoryImpl @Inject constructor(
     private val stickyNotesService: StickyNotesService,
     projectScope: ProjectScope
 ) : StickyNoteRepository {
+    companion object {
+        private val logger = Logger.getInstance(StickyNoteRepositoryImpl::class.java)
+    }
+
     private val backlogStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
     private val archivedStickyNotes: MutableList<StickyNote> = CopyOnWriteArrayList()
 
-    private val activeStickyNoteChannel = BroadcastChannel<StickyNote?>(Channel.CONFLATED).also { it.offer(null) }
+    private val activeStickyNoteChannel =
+        BroadcastChannel<StickyNote?>(Channel.CONFLATED).also { it.offer(null) }
     private val allBacklogStickyNoteListChannel =
         BroadcastChannel<List<StickyNote>>(Channel.CONFLATED).also { it.offer(emptyList()) }
     private val currentBranchBacklogStickyNoteListChannel =
@@ -52,28 +58,49 @@ class StickyNoteRepositoryImpl @Inject constructor(
         if (stickyNote.isArchived) {
             archivedStickyNotes.add(stickyNote)
         } else {
-            backlogStickyNotes.add(stickyNote)
+            if (stickyNote.isActive) {
+                backlogStickyNotes.add(0, stickyNote)
+            } else {
+                backlogStickyNotes.add(stickyNote)
+            }
         }
 
         notifyStickyNotesChanged()
     }
 
     private suspend fun notifyStickyNotesChanged() {
-        allBacklogStickyNoteListChannel.send(backlogStickyNotes)
-        archivedStickyNoteListChannel.send(archivedStickyNotes)
-
+        updateActiveStickyNote()
         val currentBranchBacklogStickyNotes = filterCurrentBranchStickyNotes(backlogStickyNotes)
         currentBranchBacklogStickyNoteListChannel.send(currentBranchBacklogStickyNotes)
-        activeStickyNoteChannel.send(currentBranchBacklogStickyNotes.firstOrNull())
+
+        allBacklogStickyNoteListChannel.send(backlogStickyNotes)
+        archivedStickyNoteListChannel.send(archivedStickyNotes)
 
         val newStickyNoteList = backlogStickyNotes.toList().plus(archivedStickyNotes.toList())
         stickyNotesService.setStickyNotes(newStickyNoteList)
     }
 
+    private suspend fun updateActiveStickyNote() {
+        val currentBranch = vcsService.getCurrentBranchName()
+        val firstCurrentBranchNote =
+            backlogStickyNotes.firstOrNull { it.isVisibleInBranch(currentBranch) }
+        if (firstCurrentBranchNote != null &&
+            firstCurrentBranchNote.isActive &&
+            backlogStickyNotes.count { it.isActive } == 1
+        ) {
+            activeStickyNoteChannel.send(firstCurrentBranchNote)
+            return
+        }
+        backlogStickyNotes.replaceAll { it.setActive(it == firstCurrentBranchNote) }
+        activeStickyNoteChannel.send(
+            backlogStickyNotes.firstOrNull { it.isVisibleInBranch(currentBranch) }
+        )
+    }
+
     private fun filterCurrentBranchStickyNotes(stickyNotes: List<StickyNote>): List<StickyNote> {
         val currentBranchName = vcsService.getCurrentBranchName() ?: return stickyNotes
         return stickyNotes.filter {
-            it.boundBranchName == null || it.boundBranchName == currentBranchName
+            it.isVisibleInBranch(currentBranchName)
         }
     }
 
@@ -104,13 +131,16 @@ class StickyNoteRepositoryImpl @Inject constructor(
     }
 
     override suspend fun setStickyNoteActive(stickyNote: StickyNote) {
+        if (stickyNote.isActive) {
+            logger.warn("Setting sticky note active when it's already active")
+        }
         if (stickyNote.isArchived) {
             archivedStickyNotes.remove(stickyNote)
-            backlogStickyNotes.add(0, stickyNote.setArchived(false))
+            backlogStickyNotes.add(0, stickyNote.setArchived(false).setActive(true))
         } else {
             if (backlogStickyNotes.firstOrNull() != stickyNote) {
                 backlogStickyNotes.remove(stickyNote)
-                backlogStickyNotes.add(0, stickyNote)
+                backlogStickyNotes.add(0, stickyNote.setActive(true))
             }
         }
 
@@ -120,7 +150,8 @@ class StickyNoteRepositoryImpl @Inject constructor(
     override suspend fun archiveStickyNotes(stickyNotes: List<StickyNote>) {
         backlogStickyNotes.removeAll(stickyNotes)
 
-        val newArchivedStickyNotes = stickyNotes.map { it.setArchived(true) }.minus(archivedStickyNotes)
+        val newArchivedStickyNotes =
+            stickyNotes.map { it.setArchived(true).setActive(false) }.minus(archivedStickyNotes)
         archivedStickyNotes.addAll(0, newArchivedStickyNotes)
 
         notifyStickyNotesChanged()
@@ -129,19 +160,27 @@ class StickyNoteRepositoryImpl @Inject constructor(
     override suspend fun addStickyNotesToBacklog(stickyNotes: List<StickyNote>) {
         archivedStickyNotes.removeAll(stickyNotes) // some sticky notes can be archived, remove them from archive first
 
-        val newBacklogStickyNotes = stickyNotes.map { it.setArchived(false) }.minus(backlogStickyNotes)
+        val newBacklogStickyNotes =
+            stickyNotes.map { it.setArchived(false) }.minus(backlogStickyNotes)
         backlogStickyNotes.addAll(newBacklogStickyNotes)
 
         notifyStickyNotesChanged()
     }
 
-    override suspend fun updateStickyNoteDescription(stickyNote: StickyNote, newDescription: String) {
-        val targetList = if (stickyNote.isArchived) archivedStickyNotes else backlogStickyNotes
-        val index = targetList.indexOf(stickyNote)
+    override suspend fun editStickyNote(oldStickyNote: StickyNote, newStickyNote: StickyNote) {
+        val targetList = if (oldStickyNote.isArchived) archivedStickyNotes else backlogStickyNotes
+        val index = targetList.indexOf(oldStickyNote)
         check(index != -1) {
-            "Could not find sticky note to update. $stickyNote"
+            "Could not find sticky note to update. $oldStickyNote"
         }
-        targetList[index] = stickyNote.setDescription(newDescription)
+        if (newStickyNote.isActive && !oldStickyNote.isActive) {
+            backlogStickyNotes.remove(oldStickyNote)
+            archivedStickyNotes.remove(oldStickyNote)
+            backlogStickyNotes.replaceAll { it.setActive(false) }
+            backlogStickyNotes.add(0, newStickyNote)
+        } else {
+            targetList[index] = newStickyNote
+        }
         notifyStickyNotesChanged()
     }
 

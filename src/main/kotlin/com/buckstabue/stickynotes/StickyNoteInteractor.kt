@@ -119,7 +119,7 @@ class StickyNoteInteractor @Inject constructor(
         return desiredIndexPosition - numberOfElementsBeforeDesiredIndexPosition
     }
 
-    suspend fun updateStickyNoteDescription(stickyNote: StickyNote, newDescription: String) {
-        stickyNoteRepository.updateStickyNoteDescription(stickyNote, newDescription)
+    suspend fun editStickyNote(oldStickyNote: StickyNote, newStickyNote: StickyNote) {
+        stickyNoteRepository.editStickyNote(oldStickyNote, newStickyNote)
     }
 }

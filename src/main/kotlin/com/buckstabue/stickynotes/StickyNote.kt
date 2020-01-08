@@ -1,12 +1,18 @@
 package com.buckstabue.stickynotes
 
-sealed class StickyNote {
+sealed class StickyNote(
+) {
     abstract val description: String
+    abstract val isActive: Boolean
     abstract val isArchived: Boolean
     abstract val boundBranchName: String?
 
+    abstract fun setActive(active: Boolean): StickyNote
     abstract fun setArchived(archived: Boolean): StickyNote
-    abstract fun setDescription(description: String): StickyNote
+
+    fun isVisibleInBranch(branchName: String?): Boolean {
+        return boundBranchName == null || boundBranchName == branchName
+    }
 }
 
 /**
@@ -14,21 +20,22 @@ sealed class StickyNote {
  */
 data class NonBoundStickyNote(
     override val description: String,
+    override val isActive: Boolean = false,
     override val isArchived: Boolean = false,
     override val boundBranchName: String?
 ) : StickyNote() {
+    override fun setActive(active: Boolean): StickyNote {
+        if (this.isActive) {
+            return this
+        }
+        return copy(isActive = active)
+    }
+
     override fun setArchived(archived: Boolean): StickyNote {
         if (this.isArchived == archived) {
             return this
         }
         return copy(isArchived = archived)
-    }
-
-    override fun setDescription(description: String): StickyNote {
-        if (this.description == description) {
-            return this
-        }
-        return copy(description = description)
     }
 }
 
@@ -38,21 +45,22 @@ data class NonBoundStickyNote(
 data class FileBoundStickyNote(
     val fileLocation: FileLocation,
     override val description: String,
+    override val isActive: Boolean = false,
     override val isArchived: Boolean = false,
     override val boundBranchName: String?
 ) : StickyNote() {
+    override fun setActive(active: Boolean): StickyNote {
+        if (this.isActive) {
+            return this
+        }
+        return copy(isActive = active)
+    }
+
     override fun setArchived(archived: Boolean): StickyNote {
         if (this.isArchived == archived) {
             return this
         }
         return copy(isArchived = archived)
-    }
-
-    override fun setDescription(description: String): StickyNote {
-        if (this.description == description) {
-            return this
-        }
-        return copy(description = description)
     }
 }
 

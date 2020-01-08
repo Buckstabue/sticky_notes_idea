@@ -26,6 +26,8 @@ class CreateEditStickyNoteDialog(
         title = "New Sticky Note"
         setResizable(false)
 
+        descriptionInput.text = initialViewModel.description
+
         codeBindingCheckbox.isSelected = initialViewModel.isCodeBindingChecked
         codeBindingCheckbox.isEnabled = initialViewModel.isCodeBindingCheckboxEnabled
 

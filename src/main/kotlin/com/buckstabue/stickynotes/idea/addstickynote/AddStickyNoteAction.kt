@@ -51,10 +51,6 @@ class AddStickyNoteAction @JvmOverloads constructor(
         projectScope.launch {
             stickyNoteInteractor.addStickyNote(stickyNote)
             logger.debug("Sticky note successfully added $stickyNote")
-            if (createStickyNoteResult.isSetActive) {
-                stickyNoteInteractor.setStickyNoteActive(stickyNote)
-                logger.debug("Sticky note was set active right after adding")
-            }
         }
     }
 
@@ -65,13 +61,15 @@ class AddStickyNoteAction @JvmOverloads constructor(
         return if (fileLocation == null || !createStickyNoteResult.isBindToCodeChecked) {
             NonBoundStickyNote(
                 description = createStickyNoteResult.description,
-                boundBranchName = createStickyNoteResult.branchNameBoundTo
+                boundBranchName = createStickyNoteResult.branchNameBoundTo,
+                isActive = createStickyNoteResult.isSetActive
             )
         } else {
             FileBoundStickyNote(
                 fileLocation = fileLocation,
                 description = createStickyNoteResult.description,
-                boundBranchName = createStickyNoteResult.branchNameBoundTo
+                boundBranchName = createStickyNoteResult.branchNameBoundTo,
+                isActive = createStickyNoteResult.isSetActive
             )
         }
     }

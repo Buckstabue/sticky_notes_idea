@@ -22,5 +22,5 @@ interface StickyNoteRepository {
     suspend fun archiveStickyNote(stickyNote: StickyNote)
     suspend fun archiveStickyNotes(stickyNotes: List<StickyNote>)
     suspend fun addStickyNotesToBacklog(stickyNotes: List<StickyNote>)
-    suspend fun updateStickyNoteDescription(stickyNote: StickyNote, newDescription: String)
+    suspend fun editStickyNote(oldStickyNote: StickyNote, newStickyNote: StickyNote)
 }
