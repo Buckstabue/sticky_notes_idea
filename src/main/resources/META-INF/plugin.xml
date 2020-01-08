@@ -1,7 +1,11 @@
 <idea-plugin>
     <id>com.buckstabue.stickynotes</id>
     <name>Sticky Notes</name>
-    <vendor email="buckstabue@inbox.ru" url="https://github.com/Buckstabue">Viacheslav Kiiako</vendor>
+    <vendor
+            email="buckstabue@inbox.ru"
+            url="https://github.com/Buckstabue">
+        Viacheslav Kiiako
+    </vendor>
 
     <description><![CDATA[
     <h1>Sticky Notes</h1>
@@ -31,10 +35,12 @@
     <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow id="Stick Notes" anchor="left"
-                    secondary="true"
-                    icon="/note_13.svg"
-                    factoryClass="com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowFactory"/>
+        <toolWindow
+                id="Stick Notes"
+                anchor="left"
+                secondary="true"
+                icon="/note_13.svg"
+                factoryClass="com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowFactory"/>
         <webHelpProvider
                 implementation="com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider"/>
         <projectService
@@ -46,14 +52,23 @@
     </extensions>
 
     <actions>
-        <action id="com.buckstabue.stickynotes.idea.addstickynote.AddStickyNoteAction"
-                class="com.buckstabue.stickynotes.idea.addstickynote.AddStickyNoteAction" text="Add a Sticky Note">
-            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
-            <keyboard-shortcut first-keystroke="control shift S" keymap="$default"/>
+        <action
+                id="com.buckstabue.stickynotes.idea.addstickynote.AddStickyNoteAction"
+                class="com.buckstabue.stickynotes.idea.addstickynote.AddStickyNoteAction"
+                text="Add a Sticky Note">
+            <add-to-group
+                    group-id="EditorPopupMenu"
+                    anchor="last"/>
+            <keyboard-shortcut
+                    first-keystroke="control shift S"
+                    keymap="$default"/>
         </action>
-        <action id="com.buckstabue.stickynotes.idea.stickynotelist.ShowStickyNotesAction"
+        <action
+                id="com.buckstabue.stickynotes.idea.stickynotelist.ShowStickyNotesAction"
                 class="com.buckstabue.stickynotes.idea.stickynotelist.ShowStickyNotesAction">
-            <keyboard-shortcut first-keystroke="control M" keymap="$default"/>
+            <keyboard-shortcut
+                    first-keystroke="control M"
+                    keymap="$default"/>
         </action>
     </actions>
 </idea-plugin>
