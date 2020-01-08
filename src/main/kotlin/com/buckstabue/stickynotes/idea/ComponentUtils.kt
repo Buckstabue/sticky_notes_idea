@@ -69,9 +69,9 @@ fun JButton.disableIdeaLookAndFeel() {
     this.ui = BasicButtonUI()
 }
 
-inline fun JTabbedPane.forEachTab(action: (Component) -> Unit) {
+inline fun JTabbedPane.forEachTab(action: (JComponent) -> Unit) {
     for (i in 0 until tabCount) {
-        getTabComponentAt(i)?.let(action)
+        (getComponentAt(i) as? JComponent)?.let(action)
     }
 }
 

@@ -18,6 +18,9 @@ import javax.swing.JTabbedPane
 class StickyNoteListDialog(
     project: Project
 ) : DialogWrapper(project), StickyNoteListDialogView {
+    companion object {
+        const val CONTROLLER_PROPERTY = "StickyNoteListDialog_Controller"
+    }
 
     private lateinit var contentPanel: JPanel
 
@@ -37,32 +40,32 @@ class StickyNoteListDialog(
 
         presenter.attachView(this)
 
-        tabs.addTab(
-            "Backlog(current branch)",
-            null,
-            StickyNotesPanelPanel(
-                parentDialog = this,
-                stickyNoteListDialogComponent = daggerComponent,
-                stickyNotesObservableType = StickyNotesObservable.Type.CURRENT_BRANCH_BACKLOG
-            ).getContentPanel()
+        addTab(
+            tabName = "Backlog(current branch)",
+            observableType = StickyNotesObservable.Type.CURRENT_BRANCH_BACKLOG
         )
-        tabs.addTab(
-            "Archive",
-            null,
-            StickyNotesPanelPanel(
-                parentDialog = this,
-                stickyNoteListDialogComponent = daggerComponent,
-                stickyNotesObservableType = StickyNotesObservable.Type.ARCHIVED
-            ).getContentPanel()
+        addTab(
+            tabName = "Archive",
+            observableType = StickyNotesObservable.Type.ARCHIVED
         )
+        addTab(
+            tabName = "Backlog(all)",
+            observableType = StickyNotesObservable.Type.ALL_BACKLOG
+        )
+    }
+
+    private fun addTab(tabName: String, observableType: StickyNotesObservable.Type) {
+        val stickyNotesPanel = StickyNotesPanelPanel(
+            parentDialog = this,
+            stickyNoteListDialogComponent = daggerComponent,
+            stickyNotesObservableType = observableType
+        )
+        stickyNotesPanel.getContentPanel()
+            .putClientProperty(CONTROLLER_PROPERTY, stickyNotesPanel)
         tabs.addTab(
-            "Backlog(all)",
+            tabName,
             null,
-            StickyNotesPanelPanel(
-                parentDialog = this,
-                stickyNoteListDialogComponent = daggerComponent,
-                stickyNotesObservableType = StickyNotesObservable.Type.ALL_BACKLOG
-            ).getContentPanel()
+            stickyNotesPanel.getContentPanel()
         )
     }
 
@@ -80,7 +83,7 @@ class StickyNoteListDialog(
 
     override fun dispose() {
         tabs.forEachTab {
-            (it as? Disposable)?.dispose()
+            (it.getClientProperty(CONTROLLER_PROPERTY) as? Disposable)?.dispose()
         }
         presenter.detachView()
         super.dispose()
