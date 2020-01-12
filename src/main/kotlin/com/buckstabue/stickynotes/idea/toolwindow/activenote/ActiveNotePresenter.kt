@@ -3,6 +3,7 @@ package com.buckstabue.stickynotes.idea.toolwindow.activenote
 import com.buckstabue.stickynotes.FileBoundStickyNote
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.StickyNoteInteractor
+import com.buckstabue.stickynotes.analytics.Analytics
 import com.buckstabue.stickynotes.base.BasePresenter
 import com.buckstabue.stickynotes.idea.toolwindow.PerToolWindow
 import com.intellij.openapi.diagnostic.Logger
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @PerToolWindow
 class ActiveNotePresenter @Inject constructor(
-    private val stickyNoteInteractor: StickyNoteInteractor
+    private val stickyNoteInteractor: StickyNoteInteractor,
+    private val analytics: Analytics
 ) : BasePresenter<ActiveNoteView>() {
     companion object {
         private val logger = Logger.getInstance(ActiveNotePresenter::class.java)
@@ -25,7 +27,6 @@ class ActiveNotePresenter @Inject constructor(
     @ObsoleteCoroutinesApi
     override fun onViewAttached() {
         super.onViewAttached()
-
         launch {
             stickyNoteInteractor.observeActiveStickyNote()
                 .consumeEach {
