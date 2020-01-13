@@ -36,7 +36,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow
-                id="Stick Notes"
+                id="Sticky Notes"
                 anchor="left"
                 secondary="true"
                 icon="/note_13.svg"
