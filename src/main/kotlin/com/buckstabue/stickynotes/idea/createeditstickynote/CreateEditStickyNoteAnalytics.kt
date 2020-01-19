@@ -62,6 +62,16 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         )
     }
 
+    fun setActive(
+        isChecked: Boolean
+    ) {
+        analytics.sendEvent(
+            category = category,
+            action = "set-active",
+            label = "isChecked: $isChecked"
+        )
+    }
+
     enum class Source(
         internal val analyticsValue: String
     ) {
