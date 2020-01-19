@@ -5,11 +5,13 @@ import com.buckstabue.stickynotes.idea.createeditstickynote.di.CreateEditStickyN
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
+import com.intellij.ui.DocumentAdapter
 import javax.inject.Inject
 import javax.swing.JCheckBox
 import javax.swing.JComponent
 import javax.swing.JPanel
 import javax.swing.JTextField
+import javax.swing.event.DocumentEvent
 
 class CreateEditStickyNoteDialog(
     initialViewModel: CreateEditStickyNoteViewModel,
@@ -23,6 +25,7 @@ class CreateEditStickyNoteDialog(
     private lateinit var branchBindingCheckbox: JCheckBox
 
     private val branchNameBoundTo = initialViewModel.branchNameBoundTo
+    private var isEditDescriptionOccurred = false
     private var myValidationStarted = false
 
     @Inject
@@ -35,6 +38,14 @@ class CreateEditStickyNoteDialog(
         setResizable(false)
 
         descriptionInput.text = initialViewModel.description
+        descriptionInput.document.addDocumentListener(object : DocumentAdapter() {
+            override fun textChanged(e: DocumentEvent) {
+                if (!isEditDescriptionOccurred) {
+                    isEditDescriptionOccurred = true
+                    analytics.editDescription()
+                }
+            }
+        })
 
         codeBindingCheckbox.isSelected = initialViewModel.isCodeBindingChecked
         codeBindingCheckbox.isEnabled = initialViewModel.isCodeBindingCheckboxEnabled
