@@ -22,7 +22,7 @@ class StickyNoteListDialog(
 ) : DialogWrapper(project), StickyNoteListDialogView {
     companion object {
         const val CONTROLLER_PROPERTY = "StickyNoteListDialog_Controller"
-
+        private const val MIN_WIDTH = 400
         private val logger = Logger.getInstance(StickyNoteListDialog::class.java)
     }
 
@@ -40,7 +40,7 @@ class StickyNoteListDialog(
         daggerComponent.inject(this)
         init()
         title = "Sticky Notes"
-        peer.contentPane?.minWidth = 400
+        peer.contentPane?.minWidth = MIN_WIDTH
 
         presenter.attachView(this)
     }
