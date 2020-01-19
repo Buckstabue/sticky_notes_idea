@@ -3,6 +3,7 @@ package com.buckstabue.stickynotes.idea.stickynotelist.contextmenu
 import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.MainScope
 import com.buckstabue.stickynotes.idea.fullyClearSelection
+import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListAnalytics
 import com.buckstabue.stickynotes.idea.stickynotelist.panel.StickyNoteViewModel
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -14,7 +15,8 @@ import javax.swing.JList
 
 @Suppress("NOTHING_TO_INLINE")
 class SetStickyNoteActiveAction(
-    private val stickyNoteJList: JList<StickyNoteViewModel>
+    private val stickyNoteJList: JList<StickyNoteViewModel>,
+    private val analytics: StickyNoteListAnalytics
 ) : AnAction("Set Active"), DumbAware {
     companion object {
         private val logger = Logger.getInstance(SetStickyNoteActiveAction::class.java)
@@ -54,6 +56,7 @@ class SetStickyNoteActiveAction(
                 }
             }
         }
+        analytics.setStickyNoteActive()
     }
 
     override fun update(e: AnActionEvent) {

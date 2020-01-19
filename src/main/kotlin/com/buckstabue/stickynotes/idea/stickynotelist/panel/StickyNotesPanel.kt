@@ -74,7 +74,7 @@ class StickyNotesPanel(
     private fun setupContextMenu() {
         stickyNoteList.setContextMenu(
             DefaultActionGroup(
-                SetStickyNoteActiveAction(stickyNoteList),
+                SetStickyNoteActiveAction(stickyNoteList, analytics),
                 EditStickyNoteFromListAction(stickyNoteList, analytics),
                 Separator.getInstance(),
                 ArchiveStickyNoteAction(stickyNoteList, analytics),

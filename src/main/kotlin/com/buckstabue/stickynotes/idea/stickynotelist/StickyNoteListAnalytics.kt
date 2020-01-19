@@ -51,6 +51,13 @@ class StickyNoteListAnalytics @Inject constructor(
         )
     }
 
+    fun setStickyNoteActive() {
+        analytics.sendEvent(
+            category = CATEGORY,
+            action = "set-sticky-note-active"
+        )
+    }
+
     /**
      * Where Sticky Note list is open from
      */
