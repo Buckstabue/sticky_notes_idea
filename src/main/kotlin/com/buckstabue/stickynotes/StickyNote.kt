@@ -12,7 +12,6 @@ sealed class StickyNote(
     abstract fun setActive(active: Boolean): StickyNote
     abstract fun setArchived(archived: Boolean): StickyNote
 
-
     fun isVisibleInBranch(branchName: String?): Boolean {
         return !isBoundToBranch || boundBranchName == branchName
     }
