@@ -52,6 +52,16 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         )
     }
 
+    fun bindToCodeSelected(
+        isChecked: Boolean
+    ) {
+        analytics.sendEvent(
+            category = category,
+            action = "bind-to-code-selected",
+            label = "isChecked: $isChecked"
+        )
+    }
+
     enum class Source(
         internal val analyticsValue: String
     ) {

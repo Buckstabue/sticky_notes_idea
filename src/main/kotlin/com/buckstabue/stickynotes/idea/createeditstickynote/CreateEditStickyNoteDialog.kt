@@ -38,6 +38,9 @@ class CreateEditStickyNoteDialog(
 
         codeBindingCheckbox.isSelected = initialViewModel.isCodeBindingChecked
         codeBindingCheckbox.isEnabled = initialViewModel.isCodeBindingCheckboxEnabled
+        codeBindingCheckbox.addActionListener {
+            analytics.bindToCodeSelected(isChecked = codeBindingCheckbox.isSelected)
+        }
 
         branchBindingCheckbox.isVisible = initialViewModel.branchNameBoundTo != null
         branchBindingCheckbox.isSelected = initialViewModel.isBranchBindingChecked
