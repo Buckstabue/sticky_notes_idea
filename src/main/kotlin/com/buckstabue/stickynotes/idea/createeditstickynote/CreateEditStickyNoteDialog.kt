@@ -107,6 +107,11 @@ class CreateEditStickyNoteDialog(
         analytics.ok()
     }
 
+    override fun doHelpAction() {
+        super.doHelpAction()
+        analytics.help()
+    }
+
     override fun getHelpId(): String? {
         return StickyNotesWebHelpProvider.GITHUB_HELP_TOPIC_ID
     }
