@@ -36,6 +36,14 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         )
     }
 
+    fun ok() {
+        analytics.sendEvent(
+            category = category,
+            action = "ok",
+            label = source.analyticsValue
+        )
+    }
+
     enum class Source(
         internal val analyticsValue: String
     ) {
