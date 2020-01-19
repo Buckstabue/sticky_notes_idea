@@ -65,6 +65,7 @@ class ActiveNotePresenter @Inject constructor(
             logger.error("Cannot open the active sticky note because it's not bound to any file")
             return
         }
+        analytics.goToCode()
         stickyNoteInteractor.openStickyNote(activeStickyNote)
     }
 }

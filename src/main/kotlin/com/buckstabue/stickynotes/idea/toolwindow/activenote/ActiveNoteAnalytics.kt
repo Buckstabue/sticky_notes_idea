@@ -53,4 +53,11 @@ class ActiveNoteAnalytics @Inject constructor(
             action = "present"
         )
     }
+
+    fun goToCode() {
+        analytics.sendEvent(
+            category = TOOL_WINDOW_CATEGORY,
+            action = "go-to-code"
+        )
+    }
 }
