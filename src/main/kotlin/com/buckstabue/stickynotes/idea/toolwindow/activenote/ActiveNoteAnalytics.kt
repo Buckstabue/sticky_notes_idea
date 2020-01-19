@@ -39,4 +39,11 @@ class ActiveNoteAnalytics @Inject constructor(
             action = "removed"
         )
     }
+
+    fun doneClicked() {
+        analytics.sendEvent(
+            category = TOOL_WINDOW_CATEGORY,
+            action = "done-click"
+        )
+    }
 }
