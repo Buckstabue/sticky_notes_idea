@@ -2,6 +2,7 @@ package com.buckstabue.stickynotes.idea.createeditstickynote
 
 import com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider
 import com.buckstabue.stickynotes.idea.createeditstickynote.di.CreateEditStickyNoteComponent
+import com.buckstabue.stickynotes.idea.disableDefaultSelection
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
@@ -11,7 +12,6 @@ import javax.swing.JCheckBox
 import javax.swing.JComponent
 import javax.swing.JPanel
 import javax.swing.JTextField
-import javax.swing.SwingUtilities
 import javax.swing.event.DocumentEvent
 
 class CreateEditStickyNoteDialog(
@@ -39,7 +39,7 @@ class CreateEditStickyNoteDialog(
         setResizable(false)
 
         descriptionInput.text = initialViewModel.description
-        setDescriptionInputFocus()
+        disableDefaultSelection(descriptionInput)
         descriptionInput.document.addDocumentListener(object : DocumentAdapter() {
             override fun textChanged(e: DocumentEvent) {
                 if (!isEditDescriptionOccurred) {
@@ -71,18 +71,6 @@ class CreateEditStickyNoteDialog(
         analytics.present()
     }
 
-    private fun setDescriptionInputFocus() {
-        // we didn't use getPreferredFocusedComponent()
-        // because it auto-selects all the text for some reason
-        SwingUtilities.invokeLater {
-            SwingUtilities.invokeLater {
-                SwingUtilities.invokeLater {
-                    descriptionInput.requestFocusInWindow()
-                }
-            }
-        }
-    }
-
     fun getResult(): CreateEditStickyNoteResult {
         return CreateEditStickyNoteResult(
             description = descriptionInput.text.trim(),
@@ -102,7 +90,7 @@ class CreateEditStickyNoteDialog(
     }
 
     override fun getPreferredFocusedComponent(): JComponent? {
-        return content
+        return descriptionInput
     }
 
     override fun createCenterPanel(): JComponent {
