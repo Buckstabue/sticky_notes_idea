@@ -27,7 +27,6 @@ class StickyNoteListDialog(
     }
 
     private lateinit var contentPanel: JPanel
-
     private lateinit var tabs: JTabbedPane
 
     @Inject
@@ -41,6 +40,9 @@ class StickyNoteListDialog(
         init()
         title = "Sticky Notes"
         peer.contentPane?.minWidth = MIN_WIDTH
+        tabs.addChangeListener {
+            presenter.onTabSelectionChanged(tabs.selectedIndex)
+        }
 
         presenter.attachView(this)
     }

@@ -29,6 +29,14 @@ class StickyNoteListAnalytics @Inject constructor(
         )
     }
 
+    fun tabSelectionChanged(tab: Tab) {
+        analytics.sendEvent(
+            category = CATEGORY,
+            action = "tab-changed",
+            label = tab.analyticsValue
+        )
+    }
+
     /**
      * Where Sticky Note list is open from
      */
@@ -37,5 +45,14 @@ class StickyNoteListAnalytics @Inject constructor(
     ) {
         ACTIVE_STICKY_NOTE("active-sticky-note"),
         CONTEXT_MENU("context-menu")
+    }
+
+    enum class Tab(
+        internal val analyticsValue: String
+    ) {
+        CURRENT_BRANCH_BACKLOG("current-branch"),
+        BACKLOG("backlog"),
+        ARCHIVE("archive"),
+        ALL_BACKLOG("all-backlog")
     }
 }
