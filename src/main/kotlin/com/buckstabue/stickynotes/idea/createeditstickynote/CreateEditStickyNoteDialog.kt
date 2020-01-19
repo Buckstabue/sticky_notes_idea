@@ -97,6 +97,11 @@ class CreateEditStickyNoteDialog(
         return ValidationInfo("Description cannot be empty", descriptionInput)
     }
 
+    override fun doCancelAction() {
+        super.doCancelAction()
+        analytics.cancel()
+    }
+
     override fun getHelpId(): String? {
         return StickyNotesWebHelpProvider.GITHUB_HELP_TOPIC_ID
     }

@@ -7,13 +7,14 @@ import javax.inject.Inject
 @PerCreateEditStickyNote
 class CreateEditStickyNoteAnalytics @Inject constructor(
     private val analytics: Analytics,
-    private val mode: CreateEditStickyNoteViewModel.Mode,
-    private val source: Source
+    private val source: Source,
+    mode: CreateEditStickyNoteViewModel.Mode
 ) {
+    private val category = mode.analyticsCategory
 
     fun present() {
         analytics.sendEvent(
-            category = mode.analyticsCategory,
+            category = category,
             action = "present",
             label = source.analyticsValue
         )
@@ -21,9 +22,17 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
 
     fun validationError(errorMessage: String) {
         analytics.sendEvent(
-            category = mode.analyticsCategory,
+            category = category,
             action = "validation-failed",
             label = errorMessage
+        )
+    }
+
+    fun cancel() {
+        analytics.sendEvent(
+            category = category,
+            action = "cancel",
+            label = source.analyticsValue
         )
     }
 
