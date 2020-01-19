@@ -4,6 +4,7 @@ import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.createeditstickynote.CreateEditStickyNoteAnalytics
 import com.buckstabue.stickynotes.idea.createeditstickynote.CreateEditStickyNoteViewModel
+import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListAnalytics
 import com.buckstabue.stickynotes.idea.stickynotelist.panel.StickyNoteViewModel
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -12,7 +13,8 @@ import com.intellij.openapi.project.DumbAware
 import javax.swing.JList
 
 class EditStickyNoteFromListAction(
-    private val stickyNoteJList: JList<StickyNoteViewModel>
+    private val stickyNoteJList: JList<StickyNoteViewModel>,
+    private val analytics: StickyNoteListAnalytics
 ) : AnAction("Edit"), DumbAware {
     companion object {
         private val logger = Logger.getInstance(EditStickyNoteFromListAction::class.java)
@@ -36,6 +38,8 @@ class EditStickyNoteFromListAction(
             logger.error("project is null")
             return
         }
+        analytics.editStickyNote()
+
         val createEditStickyNoteComponent = AppInjector.getProjectComponent(project)
             .plusCreateEditStickyNoteComponent()
             .create(

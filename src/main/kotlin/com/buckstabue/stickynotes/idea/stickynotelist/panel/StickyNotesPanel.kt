@@ -75,7 +75,7 @@ class StickyNotesPanel(
         stickyNoteList.setContextMenu(
             DefaultActionGroup(
                 SetStickyNoteActiveAction(stickyNoteList),
-                EditStickyNoteFromListAction(stickyNoteList),
+                EditStickyNoteFromListAction(stickyNoteList, analytics),
                 Separator.getInstance(),
                 ArchiveStickyNoteAction(stickyNoteList, analytics),
                 MoveStickyNoteToBacklogAction(stickyNoteList),
