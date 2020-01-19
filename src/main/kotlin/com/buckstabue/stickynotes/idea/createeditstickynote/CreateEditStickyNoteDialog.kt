@@ -23,7 +23,7 @@ class CreateEditStickyNoteDialog(
 
     init {
         init()
-        title = "New Sticky Note"
+        title = initialViewModel.mode.dialogTitle
         setResizable(false)
 
         descriptionInput.text = initialViewModel.description
@@ -33,7 +33,8 @@ class CreateEditStickyNoteDialog(
 
         branchBindingCheckbox.isVisible = initialViewModel.branchNameBoundTo != null
         branchBindingCheckbox.isSelected = initialViewModel.isBranchBindingChecked
-        branchBindingCheckbox.text = "Bind to the current branch(${initialViewModel.branchNameBoundTo})"
+        branchBindingCheckbox.text =
+            "Bind to the current branch(${initialViewModel.branchNameBoundTo})"
 
         setActiveCheckbox.isSelected = initialViewModel.isSetActive
     }

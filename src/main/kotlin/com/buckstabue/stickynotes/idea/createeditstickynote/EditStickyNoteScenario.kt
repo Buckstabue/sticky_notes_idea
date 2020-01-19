@@ -6,6 +6,7 @@ import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.StickyNoteInteractor
 import com.buckstabue.stickynotes.base.di.project.PerProject
 import com.buckstabue.stickynotes.base.di.project.ProjectScope
+import com.buckstabue.stickynotes.idea.createeditstickynote.CreateEditStickyNoteViewModel.Mode
 import com.buckstabue.stickynotes.vcs.VcsService
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
@@ -58,6 +59,7 @@ class EditStickyNoteScenario @Inject constructor(
 
         val addStickyNoteDialog = CreateEditStickyNoteDialog(
             initialViewModel = CreateEditStickyNoteViewModel(
+                mode = Mode.EDIT,
                 description = stickyNote.description,
                 isCodeBindingChecked = stickyNote is FileBoundStickyNote,
                 isCodeBindingCheckboxEnabled = stickyNote is FileBoundStickyNote,

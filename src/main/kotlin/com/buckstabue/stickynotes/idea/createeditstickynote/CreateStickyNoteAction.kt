@@ -6,6 +6,7 @@ import com.buckstabue.stickynotes.NonBoundStickyNote
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.IdeaFileLocation
+import com.buckstabue.stickynotes.idea.createeditstickynote.CreateEditStickyNoteViewModel.Mode
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
@@ -103,6 +104,7 @@ class CreateStickyNoteAction @JvmOverloads constructor(
 
         val addStickyNoteDialog = CreateEditStickyNoteDialog(
             initialViewModel = CreateEditStickyNoteViewModel(
+                mode = Mode.CREATE,
                 description = "",
                 isCodeBindingChecked = canBindToCode && codeBindingEnabledByDefaultWhenPossible,
                 isCodeBindingCheckboxEnabled = canBindToCode,
