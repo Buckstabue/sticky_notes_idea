@@ -65,6 +65,13 @@ class StickyNoteListAnalytics @Inject constructor(
         )
     }
 
+    fun removeStickyNote() {
+        analytics.sendEvent(
+            category = CATEGORY,
+            action = "remove-sticky-note"
+        )
+    }
+
     /**
      * Where Sticky Note list is open from
      */
