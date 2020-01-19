@@ -23,6 +23,7 @@ class CreateEditStickyNoteDialog(
     private lateinit var branchBindingCheckbox: JCheckBox
 
     private val branchNameBoundTo = initialViewModel.branchNameBoundTo
+    private var myValidationStarted = false
 
     @Inject
     protected lateinit var analytics: CreateEditStickyNoteAnalytics
@@ -72,6 +73,21 @@ class CreateEditStickyNoteDialog(
 
     override fun createCenterPanel(): JComponent {
         return content
+    }
+
+    override fun startTrackingValidation() {
+        myValidationStarted = true
+        super.startTrackingValidation()
+    }
+
+    override fun doValidateAll(): MutableList<ValidationInfo> {
+        val validationErrors = super.doValidateAll()
+        if (!myValidationStarted) {
+            validationErrors.forEach {
+                analytics.validationError(it.message)
+            }
+        }
+        return validationErrors
     }
 
     override fun doValidate(): ValidationInfo? {

@@ -19,6 +19,14 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         )
     }
 
+    fun validationError(errorMessage: String) {
+        analytics.sendEvent(
+            category = mode.analyticsCategory,
+            action = "validation-failed",
+            label = errorMessage
+        )
+    }
+
     enum class Source(
         internal val analyticsValue: String
     ) {
