@@ -1,7 +1,7 @@
 package com.buckstabue.stickynotes.idea.toolwindow.activenote
 
 import com.buckstabue.stickynotes.analytics.Analytics
-import com.buckstabue.stickynotes.idea.toolwindow.PerToolWindow
+import com.buckstabue.stickynotes.idea.toolwindow.di.PerToolWindow
 import javax.inject.Inject
 
 @PerToolWindow

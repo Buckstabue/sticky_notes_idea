@@ -6,7 +6,7 @@ import com.buckstabue.stickynotes.idea.createeditstickynote.CreateStickyNoteActi
 import com.buckstabue.stickynotes.idea.disableIdeaLookAndFeel
 import com.buckstabue.stickynotes.idea.setWrappedText
 import com.buckstabue.stickynotes.idea.stickynotelist.ShowStickyNotesAction
-import com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowComponent
+import com.buckstabue.stickynotes.idea.toolwindow.di.StickyNoteToolWindowComponent
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.ActionToolbar
 import com.intellij.openapi.actionSystem.DefaultActionGroup

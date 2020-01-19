@@ -1,9 +1,8 @@
-package com.buckstabue.stickynotes.idea.toolwindow
+package com.buckstabue.stickynotes.idea.toolwindow.di
 
 import com.buckstabue.stickynotes.idea.toolwindow.activenote.ActiveNoteAnalytics
 import com.buckstabue.stickynotes.idea.toolwindow.activenote.ActiveNoteWindow
 import dagger.Subcomponent
-import javax.inject.Scope
 
 @PerToolWindow
 @Subcomponent
@@ -12,6 +11,3 @@ interface StickyNoteToolWindowComponent {
 
     fun activeNoteAnalytics(): ActiveNoteAnalytics
 }
-
-@Scope
-annotation class PerToolWindow

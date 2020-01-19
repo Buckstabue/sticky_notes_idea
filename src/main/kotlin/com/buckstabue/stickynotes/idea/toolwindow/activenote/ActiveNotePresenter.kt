@@ -5,7 +5,7 @@ import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.StickyNoteInteractor
 import com.buckstabue.stickynotes.analytics.Analytics
 import com.buckstabue.stickynotes.base.BasePresenter
-import com.buckstabue.stickynotes.idea.toolwindow.PerToolWindow
+import com.buckstabue.stickynotes.idea.toolwindow.di.PerToolWindow
 import com.intellij.openapi.diagnostic.Logger
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.ObsoleteCoroutinesApi

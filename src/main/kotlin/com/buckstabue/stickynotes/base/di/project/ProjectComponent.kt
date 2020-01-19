@@ -4,7 +4,7 @@ import com.buckstabue.stickynotes.StickyNoteInteractor
 import com.buckstabue.stickynotes.idea.StickyNotesServiceImpl
 import com.buckstabue.stickynotes.idea.createeditstickynote.EditStickyNoteScenario
 import com.buckstabue.stickynotes.idea.stickynotelist.di.StickyNoteListDialogComponent
-import com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowComponent
+import com.buckstabue.stickynotes.idea.toolwindow.di.StickyNoteToolWindowComponent
 import com.buckstabue.stickynotes.vcs.VcsService
 import com.intellij.openapi.project.Project
 import dagger.BindsInstance

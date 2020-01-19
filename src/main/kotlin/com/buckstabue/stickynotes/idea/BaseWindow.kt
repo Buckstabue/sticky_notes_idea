@@ -2,7 +2,7 @@ package com.buckstabue.stickynotes.idea
 
 import com.buckstabue.stickynotes.base.BasePresenter
 import com.buckstabue.stickynotes.base.BaseView
-import com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowComponent
+import com.buckstabue.stickynotes.idea.toolwindow.di.StickyNoteToolWindowComponent
 import javax.swing.JComponent
 
 abstract class BaseWindow<VIEW : BaseView, PRESENTER : BasePresenter<VIEW>> {
