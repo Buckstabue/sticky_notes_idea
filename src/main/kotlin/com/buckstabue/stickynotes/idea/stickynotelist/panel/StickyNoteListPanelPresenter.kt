@@ -6,8 +6,10 @@ import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.StickyNoteInteractor
 import com.buckstabue.stickynotes.base.BasePresenter
 import com.buckstabue.stickynotes.idea.stickynotelist.panel.di.PerStickyNoteListPanel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.channels.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @PerStickyNoteListPanel
@@ -56,6 +58,17 @@ class StickyNoteListPanelPresenter @Inject constructor(
             is FileBoundStickyNote -> {
                 view?.close()
                 stickyNoteInteractor.openStickyNote(stickyNote)
+            }
+        }
+    }
+
+    fun onDeleteKeyPressed(selectedValues: List<StickyNoteViewModel>) {
+        if (selectedValues.isEmpty()) {
+            return
+        }
+        launch {
+            withContext(Dispatchers.Default) {
+                stickyNoteInteractor.removeStickyNotes(selectedValues.map { it.stickyNote })
             }
         }
     }
