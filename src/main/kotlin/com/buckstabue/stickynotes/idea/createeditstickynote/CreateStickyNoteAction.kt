@@ -6,6 +6,7 @@ import com.buckstabue.stickynotes.NonBoundStickyNote
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.IdeaFileLocation
+import com.buckstabue.stickynotes.idea.createeditstickynote.CreateEditStickyNoteAnalytics.Source
 import com.buckstabue.stickynotes.idea.createeditstickynote.CreateEditStickyNoteViewModel.Mode
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -20,6 +21,7 @@ import javax.swing.Icon
 // we add @JvmOverloads to make it possible to create this action by reflection with the default constructor
 class CreateStickyNoteAction @JvmOverloads constructor(
     private val codeBindingEnabledByDefaultWhenPossible: Boolean = true,
+    private val source: Source = Source.CONTEXT_MENU,
     text: String? = null,
     icon: Icon? = null
 ) : AnAction(text, null, icon), DumbAware {
@@ -100,7 +102,14 @@ class CreateStickyNoteAction @JvmOverloads constructor(
         canBindToCode: Boolean,
         project: Project
     ): CreateEditStickyNoteResult? {
-        val vcsService = AppInjector.getProjectComponent(project).vcsService()
+        val projectComponent = AppInjector.getProjectComponent(project)
+        val vcsService = projectComponent.vcsService()
+        val createEditStickyNoteComponent =
+            projectComponent.plusCreateEditStickyNoteComponent()
+                .create(
+                    mode = Mode.CREATE,
+                    source = source
+                )
 
         val addStickyNoteDialog = CreateEditStickyNoteDialog(
             initialViewModel = CreateEditStickyNoteViewModel(
@@ -112,7 +121,8 @@ class CreateStickyNoteAction @JvmOverloads constructor(
                 isBranchBindingChecked = false,
                 isSetActive = false
             ),
-            project = project
+            project = project,
+            createEditStickyNoteComponent = createEditStickyNoteComponent
         )
         return if (addStickyNoteDialog.showAndGet()) {
             addStickyNoteDialog.getResult()

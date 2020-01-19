@@ -13,9 +13,16 @@ data class CreateEditStickyNoteViewModel(
     val isSetActive: Boolean
 ) {
     enum class Mode(
-        val dialogTitle: String
+        val dialogTitle: String,
+        val analyticsCategory: String
     ) {
-        EDIT("Edit Sticky Note"),
-        CREATE("New Sticky Note")
+        EDIT(
+            dialogTitle = "Edit Sticky Note",
+            analyticsCategory = "EditStickyNote"
+        ),
+        CREATE(
+            dialogTitle = "New Sticky Note",
+            analyticsCategory = "CreateStickyNote"
+        )
     }
 }

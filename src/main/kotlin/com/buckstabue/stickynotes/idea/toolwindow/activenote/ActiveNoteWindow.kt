@@ -2,6 +2,7 @@ package com.buckstabue.stickynotes.idea.toolwindow.activenote
 
 import com.buckstabue.stickynotes.idea.BaseWindow
 import com.buckstabue.stickynotes.idea.HorizontalBorder
+import com.buckstabue.stickynotes.idea.createeditstickynote.CreateEditStickyNoteAnalytics
 import com.buckstabue.stickynotes.idea.createeditstickynote.CreateStickyNoteAction
 import com.buckstabue.stickynotes.idea.disableIdeaLookAndFeel
 import com.buckstabue.stickynotes.idea.setWrappedText
@@ -66,6 +67,7 @@ class ActiveNoteWindow(
             ShowStickyNotesAction(source = Source.ACTIVE_STICKY_NOTE),
             CreateStickyNoteAction(
                 codeBindingEnabledByDefaultWhenPossible = false,
+                source = CreateEditStickyNoteAnalytics.Source.ACTIVE_STICKY_NOTE,
                 text = "Create a new Sticky Note",
                 icon = IconUtil.getAddIcon()
             )

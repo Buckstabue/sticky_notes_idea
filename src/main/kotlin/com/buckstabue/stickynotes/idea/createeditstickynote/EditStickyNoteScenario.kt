@@ -4,9 +4,10 @@ import com.buckstabue.stickynotes.FileBoundStickyNote
 import com.buckstabue.stickynotes.NonBoundStickyNote
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.StickyNoteInteractor
-import com.buckstabue.stickynotes.base.di.project.PerProject
+import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.base.di.project.ProjectScope
 import com.buckstabue.stickynotes.idea.createeditstickynote.CreateEditStickyNoteViewModel.Mode
+import com.buckstabue.stickynotes.idea.createeditstickynote.di.PerCreateEditStickyNote
 import com.buckstabue.stickynotes.vcs.VcsService
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
@@ -15,12 +16,13 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-@PerProject
+@PerCreateEditStickyNote
 class EditStickyNoteScenario @Inject constructor(
     private val stickyNoteInteractor: StickyNoteInteractor,
     private val projectScope: ProjectScope,
     private val vcsService: VcsService,
-    private val project: Project
+    private val project: Project,
+    private val source: CreateEditStickyNoteAnalytics.Source
 ) {
     companion object {
         private val logger = Logger.getInstance(EditStickyNoteScenario::class.java)
@@ -56,7 +58,12 @@ class EditStickyNoteScenario @Inject constructor(
         stickyNote: StickyNote
     ): CreateEditStickyNoteResult? {
         val branchNameBoundTo = stickyNote.boundBranchName ?: vcsService.getCurrentBranchName()
-
+        val createEditStickyNoteComponent =
+            AppInjector.getProjectComponent(project).plusCreateEditStickyNoteComponent()
+                .create(
+                    mode = Mode.EDIT,
+                    source = source
+                )
         val addStickyNoteDialog = CreateEditStickyNoteDialog(
             initialViewModel = CreateEditStickyNoteViewModel(
                 mode = Mode.EDIT,
@@ -67,7 +74,8 @@ class EditStickyNoteScenario @Inject constructor(
                 isBranchBindingChecked = stickyNote.boundBranchName != null,
                 isSetActive = false
             ),
-            project = project
+            project = project,
+            createEditStickyNoteComponent = createEditStickyNoteComponent
         )
         return if (addStickyNoteDialog.showAndGet()) {
             addStickyNoteDialog.getResult()

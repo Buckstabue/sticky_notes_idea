@@ -1,9 +1,11 @@
 package com.buckstabue.stickynotes.idea.createeditstickynote
 
 import com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider
+import com.buckstabue.stickynotes.idea.createeditstickynote.di.CreateEditStickyNoteComponent
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
+import javax.inject.Inject
 import javax.swing.JCheckBox
 import javax.swing.JComponent
 import javax.swing.JPanel
@@ -11,7 +13,8 @@ import javax.swing.JTextField
 
 class CreateEditStickyNoteDialog(
     initialViewModel: CreateEditStickyNoteViewModel,
-    project: Project
+    project: Project,
+    createEditStickyNoteComponent: CreateEditStickyNoteComponent
 ) : DialogWrapper(project) {
     private lateinit var content: JPanel
     private lateinit var descriptionInput: JTextField
@@ -21,7 +24,11 @@ class CreateEditStickyNoteDialog(
 
     private val branchNameBoundTo = initialViewModel.branchNameBoundTo
 
+    @Inject
+    protected lateinit var analytics: CreateEditStickyNoteAnalytics
+
     init {
+        createEditStickyNoteComponent.inject(this)
         init()
         title = initialViewModel.mode.dialogTitle
         setResizable(false)
@@ -37,6 +44,8 @@ class CreateEditStickyNoteDialog(
             "Bind to the current branch(${initialViewModel.branchNameBoundTo})"
 
         setActiveCheckbox.isSelected = initialViewModel.isSetActive
+
+        analytics.present()
     }
 
     fun getResult(): CreateEditStickyNoteResult {
