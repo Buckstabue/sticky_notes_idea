@@ -72,6 +72,14 @@ class StickyNoteListAnalytics @Inject constructor(
         )
     }
 
+    fun dragAndDropItems(draggedItemsCount: Int) {
+        analytics.sendEvent(
+            category = CATEGORY,
+            action = "drag-and-drop",
+            label = "count: $draggedItemsCount"
+        )
+    }
+
     /**
      * Where Sticky Note list is open from
      */

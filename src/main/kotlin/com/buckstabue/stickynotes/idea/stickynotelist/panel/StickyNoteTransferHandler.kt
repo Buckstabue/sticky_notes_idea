@@ -3,6 +3,7 @@ package com.buckstabue.stickynotes.idea.stickynotelist.panel
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.MainScope
+import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListAnalytics
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.PlatformDataKeys
 import kotlinx.coroutines.launch
@@ -12,7 +13,9 @@ import javax.swing.JList
 import javax.swing.SwingUtilities
 import javax.swing.TransferHandler
 
-class StickyNoteTransferHandler : TransferHandler() {
+class StickyNoteTransferHandler(
+    private val analytics: StickyNoteListAnalytics
+) : TransferHandler() {
     override fun getSourceActions(c: JComponent): Int {
         return MOVE
     }
@@ -52,6 +55,7 @@ class StickyNoteTransferHandler : TransferHandler() {
                 )
             }
         }
+        analytics.dragAndDropItems(stickyNotesList.size)
         return true
     }
 }

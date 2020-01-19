@@ -87,8 +87,7 @@ class StickyNotesPanel(
 
     private fun setupDragAndDrop() {
         stickyNoteList.dragEnabled = true
-        stickyNoteList.transferHandler =
-            StickyNoteTransferHandler()
+        stickyNoteList.transferHandler = StickyNoteTransferHandler(analytics)
         stickyNoteList.dropMode = DropMode.INSERT
     }
 
