@@ -2,6 +2,7 @@ package com.buckstabue.stickynotes.idea.stickynotelist.panel
 
 import com.buckstabue.stickynotes.idea.addOnActionListener
 import com.buckstabue.stickynotes.idea.setContextMenu
+import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListAnalytics
 import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListDialog
 import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.ArchiveStickyNoteAction
 import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.EditStickyNoteFromListAction
@@ -35,6 +36,9 @@ class StickyNotesPanel(
 
     @Inject
     lateinit var presenter: StickyNoteListPanelPresenter
+
+    @Inject
+    protected lateinit var analytics: StickyNoteListAnalytics
 
     init {
         stickyNoteListDialogComponent.plusStickyNotesPanelComponent()
@@ -73,7 +77,7 @@ class StickyNotesPanel(
                 SetStickyNoteActiveAction(stickyNoteList),
                 EditStickyNoteFromListAction(stickyNoteList),
                 Separator.getInstance(),
-                ArchiveStickyNoteAction(stickyNoteList),
+                ArchiveStickyNoteAction(stickyNoteList, analytics),
                 MoveStickyNoteToBacklogAction(stickyNoteList),
                 Separator.getInstance(),
                 RemoveStickyNoteAction(stickyNoteList)

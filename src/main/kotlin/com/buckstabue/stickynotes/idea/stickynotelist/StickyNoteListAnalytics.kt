@@ -37,6 +37,13 @@ class StickyNoteListAnalytics @Inject constructor(
         )
     }
 
+    fun archiveStickyNote() {
+        analytics.sendEvent(
+            category = CATEGORY,
+            action = "archive-sticky-note"
+        )
+    }
+
     /**
      * Where Sticky Note list is open from
      */
