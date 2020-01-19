@@ -58,6 +58,13 @@ class StickyNoteListAnalytics @Inject constructor(
         )
     }
 
+    fun moveToBacklog() {
+        analytics.sendEvent(
+            category = CATEGORY,
+            action = "move-to-backlog"
+        )
+    }
+
     /**
      * Where Sticky Note list is open from
      */

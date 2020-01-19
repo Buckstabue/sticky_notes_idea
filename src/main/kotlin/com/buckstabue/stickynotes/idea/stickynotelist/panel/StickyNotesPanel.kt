@@ -78,7 +78,7 @@ class StickyNotesPanel(
                 EditStickyNoteFromListAction(stickyNoteList, analytics),
                 Separator.getInstance(),
                 ArchiveStickyNoteAction(stickyNoteList, analytics),
-                MoveStickyNoteToBacklogAction(stickyNoteList),
+                MoveStickyNoteToBacklogAction(stickyNoteList, analytics),
                 Separator.getInstance(),
                 RemoveStickyNoteAction(stickyNoteList)
             )
