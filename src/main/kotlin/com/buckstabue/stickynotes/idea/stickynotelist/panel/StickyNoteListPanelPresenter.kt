@@ -5,6 +5,7 @@ import com.buckstabue.stickynotes.NonBoundStickyNote
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.StickyNoteInteractor
 import com.buckstabue.stickynotes.base.BasePresenter
+import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListAnalytics
 import com.buckstabue.stickynotes.idea.stickynotelist.panel.di.PerStickyNoteListPanel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.consumeEach
@@ -16,7 +17,8 @@ import javax.inject.Inject
 class StickyNoteListPanelPresenter @Inject constructor(
     private val stickyNotesObservable: StickyNotesObservable,
     private val stickyNoteInteractor: StickyNoteInteractor,
-    private val stickyNoteIconProvider: StickyNoteIconProvider
+    private val stickyNoteIconProvider: StickyNoteIconProvider,
+    private val stickyNoteListAnalytics: StickyNoteListAnalytics
 ) : BasePresenter<StickyNotesPanelView>() {
     override fun onViewAttached() {
         super.onViewAttached()
@@ -66,6 +68,7 @@ class StickyNoteListPanelPresenter @Inject constructor(
         if (selectedValues.isEmpty()) {
             return
         }
+        stickyNoteListAnalytics.removeStickyNotesWithDeleteKey(count = selectedValues.size)
         launch {
             withContext(Dispatchers.Default) {
                 stickyNoteInteractor.removeStickyNotes(selectedValues.map { it.stickyNote })
