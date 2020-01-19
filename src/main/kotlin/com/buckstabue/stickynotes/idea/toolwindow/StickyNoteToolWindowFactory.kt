@@ -17,6 +17,8 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
         private const val ID = "Sticky Notes"
     }
 
+    private var wasPresent = false
+
     override fun shouldBeAvailable(project: Project): Boolean {
         // we place this code here, because we want to register ToolWindowManagerListener ASAP
         // to process toolWindowRegistered(id) callback
@@ -44,6 +46,12 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
         toolWindow.contentManager.addContent(content)
 
         activeNoteWindow.onAttach()
+
+        if (!wasPresent && toolWindow.isExpanded) {
+            wasPresent = true
+            val activeNoteAnalytics = toolWindowComponent.activeNoteAnalytics()
+            activeNoteAnalytics.toolWindowPresent()
+        }
     }
 
     override fun init(window: ToolWindow) {
@@ -51,7 +59,7 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
         window.helpId = StickyNotesWebHelpProvider.GITHUB_HELP_TOPIC_ID
     }
 
-    private class StickyNoteToolWindowManagerListener(
+    private inner class StickyNoteToolWindowManagerListener(
         private val project: Project,
         private val analytics: ActiveNoteAnalytics
     ) : ToolWindowManagerListener {
@@ -99,6 +107,10 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
             }
             if (!wasExpanded && toolWindow.isExpanded) { // expanded
                 analytics.toolWindowExpanded()
+                if (!wasPresent) {
+                    wasPresent = true
+                    analytics.toolWindowPresent()
+                }
                 return
             }
         }

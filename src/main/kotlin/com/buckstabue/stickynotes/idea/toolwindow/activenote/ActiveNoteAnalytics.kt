@@ -46,4 +46,11 @@ class ActiveNoteAnalytics @Inject constructor(
             action = "done-click"
         )
     }
+
+    fun toolWindowPresent() {
+        analytics.sendEvent(
+            category = TOOL_WINDOW_CATEGORY,
+            action = "present"
+        )
+    }
 }
