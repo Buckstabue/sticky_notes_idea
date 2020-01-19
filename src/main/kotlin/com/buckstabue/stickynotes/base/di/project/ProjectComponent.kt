@@ -3,6 +3,7 @@ package com.buckstabue.stickynotes.base.di.project
 import com.buckstabue.stickynotes.StickyNoteInteractor
 import com.buckstabue.stickynotes.idea.StickyNotesServiceImpl
 import com.buckstabue.stickynotes.idea.createeditstickynote.di.CreateEditStickyNoteComponent
+import com.buckstabue.stickynotes.idea.gutter.di.GutterComponent
 import com.buckstabue.stickynotes.idea.stickynotelist.di.StickyNoteListDialogComponent
 import com.buckstabue.stickynotes.idea.toolwindow.di.StickyNoteToolWindowComponent
 import com.buckstabue.stickynotes.vcs.VcsService
@@ -24,6 +25,7 @@ interface ProjectComponent {
     fun plusStickyNoteToolWindowComponent(): StickyNoteToolWindowComponent
     fun plusStickyNoteListDialogComponent(): StickyNoteListDialogComponent.Factory
     fun plusCreateEditStickyNoteComponent(): CreateEditStickyNoteComponent.Factory
+    fun plusGutterComponent(): GutterComponent
 
     fun inject(stickyNotesServiceImpl: StickyNotesServiceImpl)
 

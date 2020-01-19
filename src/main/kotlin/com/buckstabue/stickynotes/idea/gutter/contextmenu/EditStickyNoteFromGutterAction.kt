@@ -12,7 +12,12 @@ class EditStickyNoteFromGutterAction(
 ) : AnAction("Edit Sticky Note") {
     override fun actionPerformed(e: AnActionEvent) {
         val project = e.project ?: return
-        val createEditStickyNoteComponent = AppInjector.getProjectComponent(project)
+        val projectComponent = AppInjector.getProjectComponent(project)
+
+        val gutterAnalytics = projectComponent.plusGutterComponent().gutterAnalytics()
+        gutterAnalytics.editStickyNote()
+
+        val createEditStickyNoteComponent = projectComponent
             .plusCreateEditStickyNoteComponent()
             .create(
                 mode = CreateEditStickyNoteViewModel.Mode.EDIT,
