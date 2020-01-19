@@ -35,7 +35,7 @@ class StickyNotesPanel(
     private lateinit var contentPanel: JPanel
 
     @Inject
-    lateinit var presenter: StickyNoteListPanelPresenter
+    protected lateinit var presenter: StickyNoteListPanelPresenter
 
     @Inject
     protected lateinit var analytics: StickyNoteListAnalytics
