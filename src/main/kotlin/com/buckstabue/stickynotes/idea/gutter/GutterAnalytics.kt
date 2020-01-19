@@ -18,4 +18,25 @@ class GutterAnalytics @Inject constructor(
             action = "edit-sticky-note"
         )
     }
+
+    fun removeStickyNote() {
+        analytics.sendEvent(
+            category = CATEGORY,
+            action = "remove-sticky-note"
+        )
+    }
+
+    fun archiveStickyNote() {
+        analytics.sendEvent(
+            category = CATEGORY,
+            action = "archive-sticky-note"
+        )
+    }
+
+    fun setActive() {
+        analytics.sendEvent(
+            category = CATEGORY,
+            action = "set-sticky-note-active"
+        )
+    }
 }

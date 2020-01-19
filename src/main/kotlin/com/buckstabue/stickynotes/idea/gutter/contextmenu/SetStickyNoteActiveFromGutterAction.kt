@@ -16,6 +16,9 @@ class SetStickyNoteActiveFromGutterAction(
             AppInjector.getProjectComponent(
                 project
             )
+        val gutterAnalytics = projectComponent.plusGutterComponent().gutterAnalytics()
+        gutterAnalytics.setActive()
+
         val projectScope = projectComponent.projectScope()
         val stickyNoteInteractor =
             projectComponent.stickyNoteInteractor()

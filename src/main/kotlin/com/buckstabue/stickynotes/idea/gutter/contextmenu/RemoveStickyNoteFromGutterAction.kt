@@ -13,6 +13,9 @@ class RemoveStickyNoteFromGutterAction(
         val project = e.project ?: return
         val projectComponent =
             AppInjector.getProjectComponent(project)
+        val gutterAnalytics = projectComponent.plusGutterComponent().gutterAnalytics()
+        gutterAnalytics.removeStickyNote()
+
         val stickyNoteInteractor = projectComponent.stickyNoteInteractor()
         val projectScope = projectComponent.projectScope()
 

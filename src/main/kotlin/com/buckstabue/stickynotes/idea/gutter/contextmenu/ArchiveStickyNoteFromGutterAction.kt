@@ -13,6 +13,10 @@ class ArchiveStickyNoteFromGutterAction(
         val project = e.project ?: return
         val projectComponent =
             AppInjector.getProjectComponent(project)
+
+        val gutterAnalytics = projectComponent.plusGutterComponent().gutterAnalytics()
+        gutterAnalytics.archiveStickyNote()
+
         val stickyNoteInteractor = projectComponent.stickyNoteInteractor()
         val projectScope = projectComponent.projectScope()
 
