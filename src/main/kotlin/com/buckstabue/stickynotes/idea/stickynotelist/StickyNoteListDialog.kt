@@ -17,7 +17,8 @@ import javax.swing.JPanel
 import javax.swing.JTabbedPane
 
 class StickyNoteListDialog(
-    project: Project
+    project: Project,
+    source: StickyNoteListAnalytics.Source
 ) : DialogWrapper(project), StickyNoteListDialogView {
     companion object {
         const val CONTROLLER_PROPERTY = "StickyNoteListDialog_Controller"
@@ -33,7 +34,7 @@ class StickyNoteListDialog(
     lateinit var presenter: StickyNoteListDialogPresenter
 
     private val daggerComponent = AppInjector.getProjectComponent(project)
-        .plusStickyNoteListDialogComponent()
+        .plusStickyNoteListDialogComponent().create(source)
 
     init {
         daggerComponent.inject(this)

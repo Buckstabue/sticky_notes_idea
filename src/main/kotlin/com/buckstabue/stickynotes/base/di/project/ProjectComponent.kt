@@ -22,7 +22,7 @@ interface ProjectComponent {
     fun vcsService(): VcsService
 
     fun plusStickyNoteToolWindowComponent(): StickyNoteToolWindowComponent
-    fun plusStickyNoteListDialogComponent(): StickyNoteListDialogComponent
+    fun plusStickyNoteListDialogComponent(): StickyNoteListDialogComponent.Factory
     fun editStickyNoteScenario(): EditStickyNoteScenario
 
     fun inject(stickyNotesServiceImpl: StickyNotesServiceImpl)

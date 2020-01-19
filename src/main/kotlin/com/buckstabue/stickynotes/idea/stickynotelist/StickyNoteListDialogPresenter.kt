@@ -8,7 +8,8 @@ import javax.inject.Inject
 
 @PerStickyNoteListDialog
 class StickyNoteListDialogPresenter @Inject constructor(
-    private val stickyNoteInteractor: StickyNoteInteractor
+    private val stickyNoteInteractor: StickyNoteInteractor,
+    private val analytics: StickyNoteListAnalytics
 ) : BasePresenter<StickyNoteListDialogView>() {
 
     private var isAllBacklogTabPresent = false
@@ -30,6 +31,7 @@ class StickyNoteListDialogPresenter @Inject constructor(
                     }
                 }
         }
+        analytics.present()
     }
 
     private fun addDefaultTabs() {

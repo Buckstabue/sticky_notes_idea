@@ -6,7 +6,8 @@ import javax.inject.Inject
 
 @PerStickyNoteListDialog
 class StickyNoteListAnalytics @Inject constructor(
-    private val analytics: Analytics
+    private val analytics: Analytics,
+    private val source: Source
 ) {
     companion object {
         private const val CATEGORY = "StickyNoteList"
@@ -18,5 +19,23 @@ class StickyNoteListAnalytics @Inject constructor(
             action = "remove-with-delete-key",
             label = "$count"
         )
+    }
+
+    fun present() {
+        analytics.sendEvent(
+            category = CATEGORY,
+            action = "present",
+            label = source.analyticsValue
+        )
+    }
+
+    /**
+     * Where Sticky Note list is open from
+     */
+    enum class Source(
+        internal val analyticsValue: String
+    ) {
+        ACTIVE_STICKY_NOTE("active-sticky-note"),
+        CONTEXT_MENU("context-menu")
     }
 }

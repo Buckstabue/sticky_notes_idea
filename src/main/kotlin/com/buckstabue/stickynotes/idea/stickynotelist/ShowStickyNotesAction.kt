@@ -1,5 +1,6 @@
 package com.buckstabue.stickynotes.idea.stickynotelist
 
+import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListAnalytics.Source
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
@@ -10,7 +11,8 @@ import javax.swing.Icon
 
 class ShowStickyNotesAction @JvmOverloads constructor(
     text: String = "Show Sticky Notes",
-    icon: Icon? = IconLoader.getIcon("/list.svg")
+    icon: Icon? = IconLoader.getIcon("/list.svg"),
+    private val source: Source = Source.CONTEXT_MENU
 ) : AnAction(text, null, icon), DumbAware {
     companion object {
         private val logger = Logger.getInstance(ShowStickyNotesAction::class.java)
@@ -22,8 +24,10 @@ class ShowStickyNotesAction @JvmOverloads constructor(
             logger.error("project is null")
             return
         }
-
-        StickyNoteListDialog(project).show()
+        StickyNoteListDialog(
+            project = project,
+            source = source
+        ).show()
     }
 
     override fun update(e: AnActionEvent) {

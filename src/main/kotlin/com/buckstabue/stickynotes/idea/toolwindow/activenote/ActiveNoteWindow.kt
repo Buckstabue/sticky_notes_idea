@@ -6,6 +6,7 @@ import com.buckstabue.stickynotes.idea.createeditstickynote.CreateStickyNoteActi
 import com.buckstabue.stickynotes.idea.disableIdeaLookAndFeel
 import com.buckstabue.stickynotes.idea.setWrappedText
 import com.buckstabue.stickynotes.idea.stickynotelist.ShowStickyNotesAction
+import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListAnalytics.Source
 import com.buckstabue.stickynotes.idea.toolwindow.di.StickyNoteToolWindowComponent
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.ActionToolbar
@@ -62,7 +63,7 @@ class ActiveNoteWindow(
 
     private fun createActionToolbar(): ActionToolbar {
         val actionGroup = DefaultActionGroup(
-            ShowStickyNotesAction(),
+            ShowStickyNotesAction(source = Source.ACTIVE_STICKY_NOTE),
             CreateStickyNoteAction(
                 codeBindingEnabledByDefaultWhenPossible = false,
                 text = "Create a new Sticky Note",
