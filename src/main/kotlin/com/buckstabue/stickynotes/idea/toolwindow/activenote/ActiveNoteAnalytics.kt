@@ -15,28 +15,28 @@ class ActiveNoteAnalytics @Inject constructor(
     fun toolWindowAdded() {
         analytics.sendEvent(
             category = TOOL_WINDOW_CATEGORY,
-            action = "added-active-note-window"
+            action = "added"
         )
     }
 
     fun toolWindowExpanded() {
         analytics.sendEvent(
             category = TOOL_WINDOW_CATEGORY,
-            action = "expanded-active-note-window"
+            action = "expanded"
         )
     }
 
     fun toolWindowCollapsed() {
         analytics.sendEvent(
             category = TOOL_WINDOW_CATEGORY,
-            action = "collapsed-active-note-window"
+            action = "collapsed"
         )
     }
 
     fun toolWindowRemoved() {
         analytics.sendEvent(
             category = TOOL_WINDOW_CATEGORY,
-            action = "removed-active-note-window"
+            action = "removed"
         )
     }
 }
