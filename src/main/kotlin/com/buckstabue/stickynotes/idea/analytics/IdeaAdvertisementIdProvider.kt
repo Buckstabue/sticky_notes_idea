@@ -1,13 +1,14 @@
 package com.buckstabue.stickynotes.idea.analytics
 
 import com.buckstabue.stickynotes.analytics.AdvertisementIdProvider
+import com.buckstabue.stickynotes.idea.IdeaConst
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.components.ServiceManager
 import java.util.UUID
 
 class IdeaAdvertisementIdProvider : AdvertisementIdProvider {
     companion object {
-        private const val KEY_ADV_ID = "com.buckstabue.adv_id"
+        private const val KEY_ADV_ID = "${IdeaConst.PROPERTY_PREFIX}.adv_id"
 
         fun getInstance(): AdvertisementIdProvider {
 

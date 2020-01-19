@@ -12,6 +12,13 @@ class ActiveNoteAnalytics @Inject constructor(
         private const val TOOL_WINDOW_CATEGORY = "ActiveNoteToolWindow"
     }
 
+    fun firstOpen() {
+        analytics.sendEvent(
+            category = TOOL_WINDOW_CATEGORY,
+            action = "first_open"
+        )
+    }
+
     fun toolWindowAdded() {
         analytics.sendEvent(
             category = TOOL_WINDOW_CATEGORY,

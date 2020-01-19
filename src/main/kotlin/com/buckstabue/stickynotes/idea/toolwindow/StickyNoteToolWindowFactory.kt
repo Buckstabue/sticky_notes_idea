@@ -1,9 +1,11 @@
 package com.buckstabue.stickynotes.idea.toolwindow
 
 import com.buckstabue.stickynotes.base.di.AppInjector
+import com.buckstabue.stickynotes.idea.IdeaConst
 import com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider
-import com.buckstabue.stickynotes.idea.toolwindow.activenote.ActiveNoteAnalytics
 import com.buckstabue.stickynotes.idea.toolwindow.activenote.ActiveNoteWindow
+import com.buckstabue.stickynotes.idea.toolwindow.di.StickyNoteToolWindowComponent
+import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.wm.ToolWindow
@@ -28,8 +30,8 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
         project.messageBus.connect().subscribe(
             ToolWindowManagerListener.TOPIC,
             StickyNoteToolWindowManagerListener(
-                project,
-                toolWindowComponent.activeNoteAnalytics()
+                project = project,
+                toolWindowComponent = toolWindowComponent
             )
         )
         return super.shouldBeAvailable(project)
@@ -49,9 +51,26 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
 
         if (!wasPresent && toolWindow.isExpanded) {
             wasPresent = true
-            val activeNoteAnalytics = toolWindowComponent.activeNoteAnalytics()
-            activeNoteAnalytics.toolWindowPresent()
+            onFirstPresentInSession(toolWindowComponent)
         }
+    }
+
+    private fun onFirstPresentInSession(toolWindowComponent: StickyNoteToolWindowComponent) {
+        val activeNoteAnalytics = toolWindowComponent.activeNoteAnalytics()
+        if (!wasEverPresent()) {
+            activeNoteAnalytics.firstOpen()
+        }
+        activeNoteAnalytics.toolWindowPresent()
+    }
+
+    private fun wasEverPresent(): Boolean {
+        val wasEverPresentKey = "${IdeaConst.PROPERTY_PREFIX}.wasEverPresent"
+        val propertiesComponent = PropertiesComponent.getInstance()
+        if (propertiesComponent.isValueSet(wasEverPresentKey)) {
+            return true
+        }
+        propertiesComponent.setValue(wasEverPresentKey, true)
+        return false
     }
 
     override fun init(window: ToolWindow) {
@@ -61,11 +80,14 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
 
     private inner class StickyNoteToolWindowManagerListener(
         private val project: Project,
-        private val analytics: ActiveNoteAnalytics
+        private val toolWindowComponent: StickyNoteToolWindowComponent
     ) : ToolWindowManagerListener {
+
         private var wasRemoved = false
         private var wasExpanded = true
         private var isRegistered = false
+
+        private val analytics = toolWindowComponent.activeNoteAnalytics()
 
         override fun toolWindowRegistered(id: String) {
             if (id != ID) {
@@ -109,7 +131,7 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
                 analytics.toolWindowExpanded()
                 if (!wasPresent) {
                     wasPresent = true
-                    analytics.toolWindowPresent()
+                    onFirstPresentInSession(toolWindowComponent)
                 }
                 return
             }
