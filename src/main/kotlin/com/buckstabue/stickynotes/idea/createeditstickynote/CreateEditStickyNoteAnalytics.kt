@@ -72,6 +72,16 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         )
     }
 
+    fun bindToCurrentBranch(
+        isChecked: Boolean
+    ) {
+        analytics.sendEvent(
+            category = category,
+            action = "bind-to-current-branch",
+            label = "isChecked: $isChecked"
+        )
+    }
+
     enum class Source(
         internal val analyticsValue: String
     ) {

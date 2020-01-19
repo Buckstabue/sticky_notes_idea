@@ -51,7 +51,9 @@ class CreateEditStickyNoteDialog(
         branchBindingCheckbox.isSelected = initialViewModel.isBranchBindingChecked
         branchBindingCheckbox.text =
             "Bind to the current branch(${initialViewModel.branchNameBoundTo})"
-
+        branchBindingCheckbox.addActionListener {
+            analytics.bindToCurrentBranch(isChecked = branchBindingCheckbox.isSelected)
+        }
 
         analytics.present()
     }
