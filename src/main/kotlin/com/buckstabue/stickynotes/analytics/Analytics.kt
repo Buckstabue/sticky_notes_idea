@@ -4,13 +4,19 @@ import com.brsanthu.googleanalytics.GoogleAnalytics
 import com.brsanthu.googleanalytics.GoogleAnalyticsConfig
 import com.brsanthu.googleanalytics.request.DefaultRequest
 import com.buckstabue.stickynotes.BuildConfig
+import com.buckstabue.stickynotes.util.DeviceInfo
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class Analytics @Inject constructor(
-    private val advertisementIdProvider: AdvertisementIdProvider
+    private val advertisementIdProvider: AdvertisementIdProvider,
+    private val deviceInfo: DeviceInfo
 ) {
+    companion object {
+        private const val OS_DIMENSION = 1
+    }
+
     private val ga = createGoogleAnalytics()
 
     private fun createGoogleAnalytics(): GoogleAnalytics? {
@@ -21,6 +27,7 @@ class Analytics @Inject constructor(
             .withDefaultRequest(
                 DefaultRequest()
                     .clientId(advertisementIdProvider.getOrCreateDeviceId())
+                    .customDimension(OS_DIMENSION, deviceInfo.os.analyticsValue)
             )
             .withConfig(
                 GoogleAnalyticsConfig()
