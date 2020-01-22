@@ -73,5 +73,13 @@
                     first-keystroke="control M"
                     keymap="$default"/>
         </action>
+
+        <group id="StickyNotesGutterMenuGroup">
+            <add-to-group group-id="EditorGutterPopupMenu" anchor="before"
+                          relative-to-action="EditorToggleUseSoftWraps"/>
+            <reference
+                    ref="com.buckstabue.stickynotes.idea.createeditstickynote.CreateStickyNoteAction"/>
+            <separator/>
+        </group>
     </actions>
 </idea-plugin>

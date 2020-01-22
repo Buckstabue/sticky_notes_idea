@@ -7,6 +7,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.diagnostic.Logger
+import com.intellij.openapi.editor.ex.EditorGutterComponentEx
 import com.intellij.openapi.project.DumbAware
 import javax.swing.Icon
 
@@ -32,6 +33,8 @@ class CreateStickyNoteAction @JvmOverloads constructor(
         if (editor == null) {
             logger.debug("Could not extract editor from event")
         }
+        val gutterLineNumber: Int? =
+            EditorGutterComponentEx.LOGICAL_LINE_AT_CURSOR.getData(event.dataContext)
 
         val createEditStickyNoteComponent = AppInjector.getProjectComponent(project)
             .plusCreateEditStickyNoteComponent()
@@ -42,6 +45,7 @@ class CreateStickyNoteAction @JvmOverloads constructor(
         val createStickyNoteScenario = createEditStickyNoteComponent.createStickyNoteScenario()
         createStickyNoteScenario.launch(
             editor = editor,
+            lineNumber = gutterLineNumber,
             codeBindingEnabledByDefaultWhenPossible = codeBindingEnabledByDefaultWhenPossible
         )
     }

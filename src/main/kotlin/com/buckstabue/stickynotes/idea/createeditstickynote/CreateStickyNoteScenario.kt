@@ -30,12 +30,22 @@ class CreateStickyNoteScenario @Inject constructor(
         private val logger = Logger.getInstance(CreateStickyNoteScenario::class.java)
     }
 
+    /**
+     * @param lineNumber if not specified, lineNumber is retried from editor caret position
+     */
     fun launch(
         editor: Editor? = null,
+        lineNumber: Int? = null,
         codeBindingEnabledByDefaultWhenPossible: Boolean = true,
         doOnSuccess: ((editedStickyNote: StickyNote) -> Unit)? = null
     ) {
-        val fileLocation = editor?.let { extractEditorCaretLocation(it, project) }
+        val fileLocation = editor?.let {
+            extractFileLocation(
+                editor = it,
+                project = project,
+                lineNumber = lineNumber
+            )
+        }
         val canBindToCode = fileLocation != null
 
         val createStickyNoteResult = askUserToFillStickyNoteSettings(
@@ -60,12 +70,13 @@ class CreateStickyNoteScenario @Inject constructor(
         }
     }
 
-    private fun extractEditorCaretLocation(
+    private fun extractFileLocation(
         editor: Editor,
-        project: Project
+        project: Project,
+        lineNumber: Int?
     ): IdeaFileLocation? {
         val currentDocument = editor.document
-        val currentLineNumber = editor.caretModel.logicalPosition.line
+        val currentLineNumber = lineNumber ?: editor.caretModel.logicalPosition.line
         val currentFile = FileDocumentManager.getInstance()
             .getFile(currentDocument)
         if (currentFile == null) {
