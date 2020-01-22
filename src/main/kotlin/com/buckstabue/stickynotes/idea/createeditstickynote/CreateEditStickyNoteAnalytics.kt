@@ -16,7 +16,7 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         analytics.sendEvent(
             category = category,
             action = "present",
-            label = source.analyticsValue
+            source = source.analyticsValue
         )
     }
 
@@ -24,6 +24,7 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         analytics.sendEvent(
             category = category,
             action = "validation-failed",
+            source = source.analyticsValue,
             label = errorMessage
         )
     }
@@ -32,7 +33,7 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         analytics.sendEvent(
             category = category,
             action = "cancel",
-            label = source.analyticsValue
+            source = source.analyticsValue
         )
     }
 
@@ -40,7 +41,7 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         analytics.sendEvent(
             category = category,
             action = "ok",
-            label = source.analyticsValue
+            source = source.analyticsValue
         )
     }
 
@@ -48,7 +49,7 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         analytics.sendEvent(
             category = category,
             action = "help",
-            label = source.analyticsValue
+            source = source.analyticsValue
         )
     }
 
@@ -58,6 +59,7 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         analytics.sendEvent(
             category = category,
             action = "bind-to-code-selected",
+            source = source.analyticsValue,
             label = "isChecked: $isChecked"
         )
     }
@@ -68,6 +70,7 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         analytics.sendEvent(
             category = category,
             action = "set-active",
+            source = source.analyticsValue,
             label = "isChecked: $isChecked"
         )
     }
@@ -78,6 +81,7 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         analytics.sendEvent(
             category = category,
             action = "bind-to-current-branch",
+            source = source.analyticsValue,
             label = "isChecked: $isChecked"
         )
     }
@@ -86,14 +90,15 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         analytics.sendEvent(
             category = category,
             action = "edit-description",
-            label = source.analyticsValue
+            source = source.analyticsValue
         )
     }
 
     enum class Source(
         internal val analyticsValue: String
     ) {
-        ACTIVE_STICKY_NOTE("active-sticky-note"),
+        ACTIVE_STICKY_NOTE_TOOLBAR("active-sticky-note-toolbar"),
+        ACTIVE_STICKY_NOTE_LINK("active-sticky-note-link"),
         CONTEXT_MENU("context-menu"),
         GUTTER("gutter"),
         STICKY_NOTE_LIST("sticky-note-list")
