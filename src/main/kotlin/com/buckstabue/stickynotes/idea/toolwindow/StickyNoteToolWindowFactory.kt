@@ -114,7 +114,7 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
             wasExpanded = toolWindow.isExpanded
         }
 
-        fun reportStateToAnalytics(toolWindow: ToolWindow) {
+        private fun reportStateToAnalytics(toolWindow: ToolWindow) {
             if (!wasRemoved && toolWindow.isRemoved) { // removed from the side bar
                 analytics.toolWindowRemoved()
                 return
