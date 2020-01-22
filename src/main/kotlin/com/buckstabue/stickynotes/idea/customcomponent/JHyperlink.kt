@@ -27,6 +27,7 @@ class JHyperlink @JvmOverloads constructor(
         setClickListener()
     }
 
+
     private fun setClickListener() {
         addMouseListener(object : MouseAdapter() {
             override fun mouseEntered(e: MouseEvent?) {
@@ -43,6 +44,9 @@ class JHyperlink @JvmOverloads constructor(
         })
     }
 
+    fun setOnLinkClickListener(linkClickListener: (() -> Unit)?) {
+        this.onLinkClickListener = linkClickListener
+    }
 
     private fun setLinkLookingTextStyle() {
         text = "<html><a href=''>$linkText</a></html>"
