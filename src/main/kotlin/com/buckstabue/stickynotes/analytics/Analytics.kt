@@ -15,6 +15,9 @@ class Analytics @Inject constructor(
 ) {
     companion object {
         private const val OS_DIMENSION = 1
+        private const val IDE_BUILD_VERSION_DIMENSION = 2
+        private const val IDE_PRODUCT_CODE_DIMENSION = 3
+        const val IS_FIRST_OPEN_DIMENSION = 4
     }
 
     private val ga = createGoogleAnalytics()
@@ -28,6 +31,8 @@ class Analytics @Inject constructor(
                 DefaultRequest()
                     .clientId(advertisementIdProvider.getOrCreateDeviceId())
                     .customDimension(OS_DIMENSION, deviceInfo.os.analyticsValue)
+                    .customDimension(IDE_BUILD_VERSION_DIMENSION, deviceInfo.ideBuildVersion)
+                    .customDimension(IDE_PRODUCT_CODE_DIMENSION, deviceInfo.ideProductCode)
             )
             .withConfig(
                 GoogleAnalyticsConfig()
