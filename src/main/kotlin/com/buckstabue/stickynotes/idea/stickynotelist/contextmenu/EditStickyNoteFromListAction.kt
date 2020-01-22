@@ -10,6 +10,7 @@ import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.DumbAware
+import com.intellij.openapi.project.Project
 import javax.swing.JList
 
 class EditStickyNoteFromListAction(
@@ -40,6 +41,14 @@ class EditStickyNoteFromListAction(
         }
         analytics.editStickyNote()
 
+        showEditStickyNoteDialog(project, editedStickyNote, editedStickyNoteIndex)
+    }
+
+    private fun showEditStickyNoteDialog(
+        project: Project,
+        editedStickyNote: StickyNote,
+        editedStickyNoteIndex: Int
+    ) {
         val createEditStickyNoteComponent = AppInjector.getProjectComponent(project)
             .plusCreateEditStickyNoteComponent()
             .create(

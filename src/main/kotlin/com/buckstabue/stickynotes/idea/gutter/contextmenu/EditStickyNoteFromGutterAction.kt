@@ -2,6 +2,7 @@ package com.buckstabue.stickynotes.idea.gutter.contextmenu
 
 import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.base.di.AppInjector
+import com.buckstabue.stickynotes.base.di.project.ProjectComponent
 import com.buckstabue.stickynotes.idea.createeditstickynote.CreateEditStickyNoteAnalytics
 import com.buckstabue.stickynotes.idea.createeditstickynote.CreateEditStickyNoteViewModel
 import com.intellij.openapi.actionSystem.AnAction
@@ -17,12 +18,16 @@ class EditStickyNoteFromGutterAction(
         val gutterAnalytics = projectComponent.plusGutterComponent().gutterAnalytics()
         gutterAnalytics.editStickyNote()
 
-        val createEditStickyNoteComponent = projectComponent
-            .plusCreateEditStickyNoteComponent()
-            .create(
-                mode = CreateEditStickyNoteViewModel.Mode.EDIT,
-                source = CreateEditStickyNoteAnalytics.Source.GUTTER
-            )
+        showEditStickyNoteDialog(projectComponent)
+    }
+
+    private fun showEditStickyNoteDialog(projectComponent: ProjectComponent) {
+        val createEditStickyNoteComponent =
+            projectComponent.plusCreateEditStickyNoteComponent()
+                .create(
+                    mode = CreateEditStickyNoteViewModel.Mode.EDIT,
+                    source = CreateEditStickyNoteAnalytics.Source.GUTTER
+                )
         val editorScenario = createEditStickyNoteComponent.editStickyNoteScenario()
         editorScenario.launch(stickyNote)
     }

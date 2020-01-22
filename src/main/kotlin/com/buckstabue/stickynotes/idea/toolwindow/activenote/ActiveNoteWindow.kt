@@ -1,8 +1,10 @@
 package com.buckstabue.stickynotes.idea.toolwindow.activenote
 
+import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.BaseWindow
 import com.buckstabue.stickynotes.idea.HorizontalBorder
 import com.buckstabue.stickynotes.idea.createeditstickynote.CreateEditStickyNoteAnalytics
+import com.buckstabue.stickynotes.idea.createeditstickynote.CreateEditStickyNoteViewModel
 import com.buckstabue.stickynotes.idea.createeditstickynote.CreateStickyNoteAction
 import com.buckstabue.stickynotes.idea.customcomponent.JHyperlink
 import com.buckstabue.stickynotes.idea.disableIdeaLookAndFeel
@@ -10,6 +12,7 @@ import com.buckstabue.stickynotes.idea.setWrappedText
 import com.buckstabue.stickynotes.idea.stickynotelist.ShowStickyNotesAction
 import com.buckstabue.stickynotes.idea.stickynotelist.StickyNoteListAnalytics.Source
 import com.buckstabue.stickynotes.idea.toolwindow.di.StickyNoteToolWindowComponent
+import com.buckstabue.stickynotes.idea.util.IdeaUtils
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.ActionToolbar
 import com.intellij.openapi.actionSystem.DefaultActionGroup
@@ -69,8 +72,25 @@ class ActiveNoteWindow(
         }
 
         addNewStickyNoteLink.setOnLinkClickListener {
-            presenter.onCreateStickyNoteLinkClicked()
+            analytics.createStickyNoteLinkClick()
+            showCreateStickyNoteDialog()
         }
+    }
+
+    private fun showCreateStickyNoteDialog() {
+        val editor = IdeaUtils.getCurrentEditor()
+        val createEditStickyNoteComponent = AppInjector.getProjectComponent(project)
+            .plusCreateEditStickyNoteComponent()
+            .create(
+                mode = CreateEditStickyNoteViewModel.Mode.EDIT,
+                source = CreateEditStickyNoteAnalytics.Source.STICKY_NOTE_LIST
+            )
+        val createStickyNoteScenario =
+            createEditStickyNoteComponent.createStickyNoteScenario()
+        createStickyNoteScenario.launch(
+            editor = editor,
+            codeBindingEnabledByDefaultWhenPossible = false
+        )
     }
 
     private fun createActionToolbar(): ActionToolbar {

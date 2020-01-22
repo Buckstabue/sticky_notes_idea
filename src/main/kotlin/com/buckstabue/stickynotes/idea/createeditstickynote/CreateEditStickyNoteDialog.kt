@@ -1,13 +1,11 @@
 package com.buckstabue.stickynotes.idea.createeditstickynote
 
 import com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider
-import com.buckstabue.stickynotes.idea.createeditstickynote.di.CreateEditStickyNoteComponent
 import com.buckstabue.stickynotes.idea.disableDefaultSelection
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.ui.DocumentAdapter
-import javax.inject.Inject
 import javax.swing.JCheckBox
 import javax.swing.JComponent
 import javax.swing.JPanel
@@ -17,7 +15,7 @@ import javax.swing.event.DocumentEvent
 class CreateEditStickyNoteDialog(
     initialViewModel: CreateEditStickyNoteViewModel,
     project: Project,
-    createEditStickyNoteComponent: CreateEditStickyNoteComponent
+    private val analytics: CreateEditStickyNoteAnalytics
 ) : DialogWrapper(project) {
     private lateinit var content: JPanel
     private lateinit var descriptionInput: JTextField
@@ -29,11 +27,7 @@ class CreateEditStickyNoteDialog(
     private var isEditDescriptionOccurred = false
     private var myValidationStarted = false
 
-    @Inject
-    protected lateinit var analytics: CreateEditStickyNoteAnalytics
-
     init {
-        createEditStickyNoteComponent.inject(this)
         init()
         title = initialViewModel.mode.dialogTitle
         setResizable(false)

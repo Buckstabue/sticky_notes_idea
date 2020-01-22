@@ -68,4 +68,11 @@ class ActiveNoteAnalytics @Inject constructor(
             action = "go-to-code"
         )
     }
+
+    fun createStickyNoteLinkClick() {
+        analytics.sendEvent(
+            category = TOOL_WINDOW_CATEGORY,
+            action = "create-sticky-note-link-click"
+        )
+    }
 }
