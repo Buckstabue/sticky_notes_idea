@@ -17,7 +17,8 @@ class Analytics @Inject constructor(
         private const val OS_DIMENSION = 1
         private const val IDE_BUILD_VERSION_DIMENSION = 2
         private const val IDE_PRODUCT_CODE_DIMENSION = 3
-        const val IS_FIRST_OPEN_DIMENSION = 4
+        private const val IS_FIRST_OPEN_DIMENSION = 4
+        private const val SOURCE_DIMENSION = 5
     }
 
     private val ga = createGoogleAnalytics()
@@ -49,8 +50,9 @@ class Analytics @Inject constructor(
         action: String,
         label: String? = null,
         value: Int? = null,
-        customDimensions: Map<Int, String> = emptyMap(),
-        customMetrics: Map<Int, String> = emptyMap()
+
+        source: String? = null,
+        isFirstOpen: Boolean? = null
     ) {
         val ga = ga ?: return
         ga.event()
@@ -59,12 +61,11 @@ class Analytics @Inject constructor(
             .eventLabel(label)
             .eventValue(value)
             .also {
-                for (entry in customDimensions) {
-                    it.customDimension(entry.key, entry.value)
+                if (source != null) {
+                    it.customDimension(SOURCE_DIMENSION, source)
                 }
-            }.also {
-                for (entry in customMetrics) {
-                    it.customMetric(entry.key, entry.value)
+                if (isFirstOpen != null) {
+                    it.customDimension(IS_FIRST_OPEN_DIMENSION, isFirstOpen.toString())
                 }
             }
             .sendAsync()

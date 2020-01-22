@@ -40,6 +40,9 @@ class ActiveNoteWindow(
     override lateinit var presenter: ActiveNotePresenter
 
     @Inject
+    protected lateinit var analytics: ActiveNoteAnalytics
+
+    @Inject
     lateinit var project: Project
 
     init {
@@ -64,6 +67,10 @@ class ActiveNoteWindow(
         openActiveStickyNoteButton.addActionListener {
             presenter.onOpenActiveStickyNoteButtonClick()
         }
+
+        addNewStickyNoteLink.setOnLinkClickListener {
+            presenter.onCreateStickyNoteLinkClicked()
+        }
     }
 
     private fun createActionToolbar(): ActionToolbar {
@@ -71,7 +78,7 @@ class ActiveNoteWindow(
             ShowStickyNotesAction(source = Source.ACTIVE_STICKY_NOTE),
             CreateStickyNoteAction(
                 codeBindingEnabledByDefaultWhenPossible = false,
-                source = CreateEditStickyNoteAnalytics.Source.ACTIVE_STICKY_NOTE,
+                source = CreateEditStickyNoteAnalytics.Source.ACTIVE_STICKY_NOTE_TOOLBAR,
                 text = "Create a new Sticky Note",
                 icon = IconUtil.getAddIcon()
             )

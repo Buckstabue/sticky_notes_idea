@@ -16,7 +16,7 @@ class ActiveNoteAnalytics @Inject constructor(
         analytics.sendEvent(
             category = TOOL_WINDOW_CATEGORY,
             action = "first_open",
-            customDimensions = mapOf(Analytics.IS_FIRST_OPEN_DIMENSION to "true")
+            isFirstOpen = true
         )
     }
 
