@@ -4,6 +4,7 @@ import com.buckstabue.stickynotes.idea.BaseWindow
 import com.buckstabue.stickynotes.idea.HorizontalBorder
 import com.buckstabue.stickynotes.idea.createeditstickynote.CreateEditStickyNoteAnalytics
 import com.buckstabue.stickynotes.idea.createeditstickynote.CreateStickyNoteAction
+import com.buckstabue.stickynotes.idea.customcomponent.JHyperlink
 import com.buckstabue.stickynotes.idea.disableIdeaLookAndFeel
 import com.buckstabue.stickynotes.idea.setWrappedText
 import com.buckstabue.stickynotes.idea.stickynotelist.ShowStickyNotesAction
@@ -26,8 +27,11 @@ class ActiveNoteWindow(
 ) : BaseWindow<ActiveNoteView, ActiveNotePresenter>(), ActiveNoteView {
     private lateinit var contentPanel: JPanel
     private lateinit var toolbarPanel: JPanel
+    private lateinit var nonEmptyPanel: JPanel
     private lateinit var activeNote: JLabel
     private lateinit var openActiveStickyNoteButton: JButton
+    private lateinit var emptyStatePanel: JPanel
+    private lateinit var addNewStickyNoteLink: JHyperlink
     private lateinit var doneButton: JButton
 
     override val routingTag: String = "ActiveStickyNote"
@@ -76,9 +80,18 @@ class ActiveNoteWindow(
     }
 
     override fun render(viewModel: ActiveStickyNoteViewModel) {
-        activeNote.setWrappedText(viewModel.activeNoteDescription)
-        doneButton.isVisible = viewModel.showDoneButton
-        openActiveStickyNoteButton.isVisible = viewModel.showOpenActiveStickyNoteButton
+        emptyStatePanel.isVisible = viewModel.showEmptyState
+        nonEmptyPanel.isVisible = !viewModel.showEmptyState
+
+        if (viewModel.showEmptyState) {
+            doneButton.isVisible = false
+            openActiveStickyNoteButton.isVisible = false
+        } else {
+            nonEmptyPanel.isVisible = false
+            doneButton.isVisible = false
+            activeNote.setWrappedText(viewModel.activeNoteDescription)
+            openActiveStickyNoteButton.isVisible = viewModel.showOpenActiveStickyNoteButton
+        }
     }
 
 

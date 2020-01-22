@@ -31,20 +31,13 @@ class ActiveNotePresenter @Inject constructor(
                 .consumeEach {
                     activeStickyNote = it
                     val viewModel = ActiveStickyNoteViewModel(
-                        activeNoteDescription = generateActiveNoteDescription(it),
-                        showDoneButton = it != null,
+                        showEmptyState = it == null,
+                        activeNoteDescription = it?.description.orEmpty(),
                         showOpenActiveStickyNoteButton = it is FileBoundStickyNote
                     )
                     view?.render(viewModel)
                 }
         }
-    }
-
-    private fun generateActiveNoteDescription(activeNote: StickyNote?): String {
-        if (activeNote == null) {
-            return "No sticky note found. Add a new one with the context menu"
-        }
-        return activeNote.description
     }
 
     fun onDoneClick() {
