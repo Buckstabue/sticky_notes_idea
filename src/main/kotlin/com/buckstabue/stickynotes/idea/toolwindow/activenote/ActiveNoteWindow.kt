@@ -87,8 +87,7 @@ class ActiveNoteWindow(
             doneButton.isVisible = false
             openActiveStickyNoteButton.isVisible = false
         } else {
-            nonEmptyPanel.isVisible = false
-            doneButton.isVisible = false
+            doneButton.isVisible = true
             activeNote.setWrappedText(viewModel.activeNoteDescription)
             openActiveStickyNoteButton.isVisible = viewModel.showOpenActiveStickyNoteButton
         }
