@@ -62,6 +62,13 @@ class ActiveNoteAnalytics @Inject constructor(
         )
     }
 
+    fun emptyContent() {
+        analytics.sendEvent(
+            category = TOOL_WINDOW_CATEGORY,
+            action = "empty-content"
+        )
+    }
+
     fun goToCode() {
         analytics.sendEvent(
             category = TOOL_WINDOW_CATEGORY,

@@ -26,16 +26,22 @@ class ActiveNotePresenter @Inject constructor(
     @ObsoleteCoroutinesApi
     override fun onViewAttached() {
         super.onViewAttached()
+        var wasEmpty = false
         launch {
             stickyNoteInteractor.observeActiveStickyNote()
                 .consumeEach {
                     activeStickyNote = it
+                    val isEmpty = it == null
                     val viewModel = ActiveStickyNoteViewModel(
-                        showEmptyState = it == null,
+                        showEmptyState = isEmpty,
                         activeNoteDescription = it?.description.orEmpty(),
                         showOpenActiveStickyNoteButton = it is FileBoundStickyNote
                     )
                     view?.render(viewModel)
+                    if (!wasEmpty && isEmpty) {
+                        analytics.emptyContent()
+                    }
+                    wasEmpty = isEmpty
                 }
         }
     }
