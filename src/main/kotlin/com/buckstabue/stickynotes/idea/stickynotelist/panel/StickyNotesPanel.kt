@@ -17,7 +17,6 @@ import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.actionSystem.Separator
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.awt.RelativePoint
-import java.awt.event.KeyAdapter
 import java.awt.event.KeyEvent
 import javax.inject.Inject
 import javax.swing.DropMode
@@ -55,9 +54,6 @@ class StickyNotesPanel(
             KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0),
             JComponent.WHEN_FOCUSED
         )
-        stickyNoteList.addKeyListener(object : KeyAdapter() {
-
-        })
         stickyNoteList.model =
             StickyNoteListModel(
                 emptyList()
