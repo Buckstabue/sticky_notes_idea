@@ -83,7 +83,7 @@ class ActiveNoteWindow(
             .plusCreateEditStickyNoteComponent()
             .create(
                 mode = CreateEditStickyNoteViewModel.Mode.EDIT,
-                source = CreateEditStickyNoteAnalytics.Source.STICKY_NOTE_LIST
+                source = CreateEditStickyNoteAnalytics.Source.ACTIVE_STICKY_NOTE_LINK
             )
         val createStickyNoteScenario =
             createEditStickyNoteComponent.createStickyNoteScenario()

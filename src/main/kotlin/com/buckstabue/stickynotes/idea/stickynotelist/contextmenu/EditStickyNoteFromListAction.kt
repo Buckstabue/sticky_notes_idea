@@ -53,7 +53,7 @@ class EditStickyNoteFromListAction(
             .plusCreateEditStickyNoteComponent()
             .create(
                 mode = CreateEditStickyNoteViewModel.Mode.EDIT,
-                source = CreateEditStickyNoteAnalytics.Source.STICKY_NOTE_LIST
+                source = CreateEditStickyNoteAnalytics.Source.STICKY_NOTE_LIST_CONTEXT_MENU
             )
         val editorScenario = createEditStickyNoteComponent.editStickyNoteScenario()
         editorScenario.launch(

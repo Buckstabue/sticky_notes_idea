@@ -10,6 +10,7 @@ import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.MoveStickyNote
 import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.RemoveStickyNoteAction
 import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.SetStickyNoteActiveAction
 import com.buckstabue.stickynotes.idea.stickynotelist.di.StickyNoteListDialogComponent
+import com.buckstabue.stickynotes.idea.stickynotelist.panel.emptystatelayout.StickyNoteListEmptyPanelFactory
 import com.intellij.codeInsight.hint.HintManager
 import com.intellij.codeInsight.hint.HintUtil
 import com.intellij.openapi.Disposable
@@ -32,6 +33,8 @@ class StickyNotesPanel(
 ) : StickyNotesPanelView, Disposable {
     private lateinit var stickyNoteList: JList<StickyNoteViewModel>
     private lateinit var contentPanel: JPanel
+    private lateinit var nonEmptyContentLayout: JComponent
+    private lateinit var emptyContentLayout: JPanel
 
     @Inject
     protected lateinit var presenter: StickyNoteListPanelPresenter
@@ -39,10 +42,18 @@ class StickyNotesPanel(
     @Inject
     protected lateinit var analytics: StickyNoteListAnalytics
 
+    @Inject
+    protected lateinit var stickyNoteListEmptyPanelFactory: StickyNoteListEmptyPanelFactory
+
     init {
         stickyNoteListDialogComponent.plusStickyNotesPanelComponent()
             .create(stickyNotesObservableType)
             .inject(this)
+        stickyNoteListEmptyPanelFactory.createEmptyPanel()?.let {
+            emptyContentLayout.add(it)
+        }
+        emptyContentLayout.isVisible = false
+        nonEmptyContentLayout.isVisible = false
 
         stickyNoteList.addOnActionListener {
             presenter.onItemOpened(it)
@@ -92,6 +103,8 @@ class StickyNotesPanel(
             StickyNoteListModel(
                 viewModels
             )
+        emptyContentLayout.isVisible = viewModels.isEmpty()
+        nonEmptyContentLayout.isVisible = viewModels.isNotEmpty()
     }
 
     override fun showHintUnderCursor(hintText: String) {

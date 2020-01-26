@@ -101,6 +101,7 @@ class CreateEditStickyNoteAnalytics @Inject constructor(
         ACTIVE_STICKY_NOTE_LINK("active-sticky-note-link"),
         CONTEXT_MENU("context-menu"),
         GUTTER("gutter"),
-        STICKY_NOTE_LIST("sticky-note-list")
+        STICKY_NOTE_LIST_CONTEXT_MENU("sticky-note-list-context-menu"),
+        STICKY_NOTE_LIST_LINK("sticky-note-list-link")
     }
 }
