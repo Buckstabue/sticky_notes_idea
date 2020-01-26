@@ -82,3 +82,11 @@ var Component.minWidth: Int
     set(value) {
         minimumSize = Dimension(value, minimumSize.height)
     }
+
+var Component.minHeight: Int
+    get() {
+        return minimumSize.height
+    }
+    set(value) {
+        minimumSize = Dimension(minimumSize.width, value)
+    }

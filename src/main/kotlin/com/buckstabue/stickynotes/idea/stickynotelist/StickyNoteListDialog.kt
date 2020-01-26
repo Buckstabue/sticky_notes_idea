@@ -3,6 +3,7 @@ package com.buckstabue.stickynotes.idea.stickynotelist
 import com.buckstabue.stickynotes.base.di.AppInjector
 import com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider
 import com.buckstabue.stickynotes.idea.forEachTab
+import com.buckstabue.stickynotes.idea.minHeight
 import com.buckstabue.stickynotes.idea.minWidth
 import com.buckstabue.stickynotes.idea.stickynotelist.panel.StickyNotesObservable
 import com.buckstabue.stickynotes.idea.stickynotelist.panel.StickyNotesPanel
@@ -23,6 +24,7 @@ class StickyNoteListDialog(
     companion object {
         const val CONTROLLER_PROPERTY = "StickyNoteListDialog_Controller"
         private const val MIN_WIDTH = 400
+        private const val MIN_HEIGHT = 150
         private val logger = Logger.getInstance(StickyNoteListDialog::class.java)
     }
 
@@ -40,6 +42,7 @@ class StickyNoteListDialog(
         init()
         title = "Sticky Notes"
         peer.contentPane?.minWidth = MIN_WIDTH
+        peer.contentPane?.minHeight = MIN_HEIGHT
         tabs.addChangeListener {
             presenter.onTabSelectionChanged(tabs.selectedIndex)
         }
