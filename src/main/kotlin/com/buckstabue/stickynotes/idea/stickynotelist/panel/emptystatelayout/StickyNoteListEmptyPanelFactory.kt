@@ -21,7 +21,7 @@ class StickyNoteListEmptyPanelFactory @Inject constructor(
                 CreateNewStickyNoteWindow(newCreateStickyNoteScenario()).content
             }
             StickyNotesObservable.Type.ARCHIVED -> {
-                null
+                SimpleEmptyStateWindow("Archive is empty.").content
             }
             StickyNotesObservable.Type.ALL_BACKLOG -> {
                 null
