@@ -1,6 +1,7 @@
 package com.buckstabue.stickynotes.idea.customcomponent
 
 import com.buckstabue.stickynotes.idea.setWrappedText
+import com.intellij.util.ui.JBUI
 import java.awt.Color
 import java.awt.Cursor
 import java.awt.event.MouseAdapter
@@ -18,11 +19,22 @@ class JHyperlink @JvmOverloads constructor(
             setWrappedText(field)
         }
 
+    var linkTextColor: Color = JBUI.CurrentTheme.Link.linkColor()
+        set(value) {
+            field = value
+            foreground = field
+        }
+
+    var hoverLinkTextColor: Color = JBUI.CurrentTheme.Link.linkHoverColor()
+
     private var onLinkClickListener: (() -> Unit)? = null
 
     init {
+        foreground = linkTextColor
+        if (linkTextColor == hoverLinkTextColor) {
+            hoverLinkTextColor = JBUI.CurrentTheme.Link.linkHoverColor().brighter()
+        }
         setWrappedText(linkText)
-        foreground = Color.BLUE.darker()
         cursor = Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
         setClickListener()
     }
@@ -31,11 +43,11 @@ class JHyperlink @JvmOverloads constructor(
     private fun setClickListener() {
         addMouseListener(object : MouseAdapter() {
             override fun mouseEntered(e: MouseEvent?) {
-                setLinkLookingTextStyle()
+                foreground = hoverLinkTextColor
             }
 
             override fun mouseExited(e: MouseEvent?) {
-                setWrappedText(linkText)
+                foreground = linkTextColor
             }
 
             override fun mouseClicked(e: MouseEvent?) {
@@ -48,7 +60,4 @@ class JHyperlink @JvmOverloads constructor(
         this.onLinkClickListener = linkClickListener
     }
 
-    private fun setLinkLookingTextStyle() {
-        text = "<html><a href=''>$linkText</a></html>"
-    }
 }

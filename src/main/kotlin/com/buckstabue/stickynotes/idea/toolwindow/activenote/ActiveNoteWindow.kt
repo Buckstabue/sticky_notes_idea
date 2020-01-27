@@ -19,6 +19,7 @@ import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.IconLoader
 import com.intellij.util.IconUtil
+import java.awt.Color
 import javax.inject.Inject
 import javax.swing.JButton
 import javax.swing.JComponent
@@ -71,6 +72,8 @@ class ActiveNoteWindow(
             presenter.onOpenActiveStickyNoteButtonClick()
         }
 
+        addNewStickyNoteLink.linkTextColor = Color.BLUE.darker()
+        addNewStickyNoteLink.hoverLinkTextColor = Color.decode("#0700FC")
         addNewStickyNoteLink.setOnLinkClickListener {
             analytics.createStickyNoteLinkClick()
             showCreateStickyNoteDialog()
