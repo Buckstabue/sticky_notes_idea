@@ -12,7 +12,6 @@ import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.components.State
 import com.intellij.openapi.diagnostic.Logger
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.vfs.VirtualFileManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
@@ -93,9 +92,6 @@ class StickyNotesServiceImpl(
                 StickyNoteType.FILE_BOUND_STICKY_NOTE -> {
                     val fileLocation = extractFileLocation(project)
                     if (fileLocation == null) {
-                        /* TODO file can be temporarily lost due to switching git branches.
-                           Probably better to create FileBoundStickyNote
-                        */
                         logger.warn("Couldn't parse file location from $this")
                         NonBoundStickyNote(
                             description = description,
@@ -117,10 +113,9 @@ class StickyNotesServiceImpl(
         private fun extractFileLocation(project: Project): FileLocation? {
             val fileUrl = fileUrl ?: return null
             val lineNumber = lineNumber ?: return null
-            val virtualFile = VirtualFileManager.getInstance().findFileByUrl(fileUrl) ?: return null
-            return IdeaFileLocation(
+            return IdeaFileLocation.fromFileUrl(
                 project = project,
-                file = virtualFile,
+                fileUrl = fileUrl,
                 lineNumber = lineNumber
             )
 

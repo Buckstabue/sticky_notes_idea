@@ -54,7 +54,8 @@ class StickyNotesGutterManager @Inject constructor(
     }
 
     private fun getCachedDocument(stickyNote: FileBoundStickyNote): Document? {
-        val file = (stickyNote.fileLocation as IdeaFileLocation).fileDescriptor.file
+        val file = (stickyNote.fileLocation as IdeaFileLocation).openFileDescriptor
+            ?.file ?: return null
         return FileDocumentManager.getInstance().getCachedDocument(file)
     }
 

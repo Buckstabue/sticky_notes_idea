@@ -67,6 +67,7 @@ data class FileBoundStickyNote(
 }
 
 interface FileLocation {
+    val exists: Boolean
     val fileUrl: String
     val lineNumber: Int
 }

@@ -74,7 +74,7 @@ class CreateStickyNoteScenario @Inject constructor(
         editor: Editor,
         project: Project,
         lineNumber: Int?
-    ): IdeaFileLocation? {
+    ): FileLocation? {
         val currentDocument = editor.document
         val currentLineNumber = lineNumber ?: editor.caretModel.logicalPosition.line
         val currentFile = FileDocumentManager.getInstance()
@@ -83,10 +83,10 @@ class CreateStickyNoteScenario @Inject constructor(
             logger.error("Could not extract virtual file from document")
             return null
         }
-        return IdeaFileLocation(
+        return IdeaFileLocation.fromFileUrl(
             project = project,
-            file = currentFile,
-            lineNumber = currentLineNumber
+            lineNumber = currentLineNumber,
+            fileUrl = currentFile.url
         )
     }
 
