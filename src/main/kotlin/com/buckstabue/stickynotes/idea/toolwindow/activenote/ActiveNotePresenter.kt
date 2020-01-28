@@ -65,6 +65,12 @@ class ActiveNotePresenter @Inject constructor(
             return
         }
         analytics.goToCode()
-        stickyNoteInteractor.openStickyNote(activeStickyNote)
+        if (activeStickyNote.fileLocation.exists) {
+            stickyNoteInteractor.openStickyNote(activeStickyNote)
+        } else {
+            view?.showHintUnderCursor(
+                "Couldn't find file ${activeStickyNote.fileLocation.fileName}"
+            )
+        }
     }
 }

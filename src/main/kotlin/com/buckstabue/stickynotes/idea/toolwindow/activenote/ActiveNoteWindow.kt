@@ -80,6 +80,10 @@ class ActiveNoteWindow(
         }
     }
 
+    override fun showHintUnderCursor(text: String) {
+        IdeaUtils.showHintUnderCursor(contentPanel, text)
+    }
+
     private fun showCreateStickyNoteDialog() {
         val editor = IdeaUtils.getCurrentEditor()
         val createEditStickyNoteComponent = AppInjector.getProjectComponent(project)

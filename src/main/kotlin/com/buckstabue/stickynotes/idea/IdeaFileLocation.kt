@@ -4,6 +4,7 @@ import com.buckstabue.stickynotes.FileLocation
 import com.intellij.openapi.fileEditor.OpenFileDescriptor
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFileManager
+import java.io.File
 
 class IdeaFileLocation private constructor(
     openFileDescriptor: OpenFileDescriptor?,
@@ -71,6 +72,8 @@ class IdeaFileLocation private constructor(
     override val exists: Boolean
         get() = openFileDescriptor?.canNavigate() == true
 
+    override val fileName: String
+        get() = openFileDescriptor?.file?.name ?: File(fileUrl).name
 
     override val lineNumber: Int
         get() {

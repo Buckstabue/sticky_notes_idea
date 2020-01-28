@@ -54,12 +54,17 @@ class StickyNoteListPanelPresenter @Inject constructor(
             is NonBoundStickyNote -> {
                 view?.showHintUnderCursor(
                     "Cannot open a sticky note that is not bound to any file"
-                        .replace(" ", "&nbsp;")
                 )
             }
             is FileBoundStickyNote -> {
-                view?.close()
-                stickyNoteInteractor.openStickyNote(stickyNote)
+                if (stickyNote.fileLocation.exists) {
+                    view?.close()
+                    stickyNoteInteractor.openStickyNote(stickyNote)
+                } else {
+                    view?.showHintUnderCursor(
+                        "Couldn't find file ${stickyNote.fileLocation.fileName}"
+                    )
+                }
             }
         }
     }

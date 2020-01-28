@@ -2,6 +2,7 @@ package com.buckstabue.stickynotes
 
 import com.buckstabue.stickynotes.base.di.project.PerProject
 import kotlinx.coroutines.channels.ReceiveChannel
+import java.io.FileNotFoundException
 import javax.inject.Inject
 
 @PerProject
@@ -26,6 +27,7 @@ class StickyNoteInteractor @Inject constructor(
     }
 
 
+    @Throws(FileNotFoundException::class)
     fun openStickyNote(stickyNote: FileBoundStickyNote) {
         editor.navigateToLine(stickyNote.fileLocation)
     }
@@ -95,7 +97,11 @@ class StickyNoteInteractor @Inject constructor(
         insertionIndex: Int
     ): IntRange {
         val indexToInsertAfterRemoving =
-            calculateIndexToInsertAfterRemovingToMoveElements(targetList, movedStickyNotes, insertionIndex)
+            calculateIndexToInsertAfterRemovingToMoveElements(
+                targetList,
+                movedStickyNotes,
+                insertionIndex
+            )
         targetList.removeAll(movedStickyNotes)
         // if multiple elements selected preserve order of the source list
         val stickyNotesToInsert = movedStickyNotes.sortedBy { targetList.indexOf(it) }

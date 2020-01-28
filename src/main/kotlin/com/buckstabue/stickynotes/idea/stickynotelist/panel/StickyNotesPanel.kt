@@ -11,13 +11,11 @@ import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.RemoveStickyNo
 import com.buckstabue.stickynotes.idea.stickynotelist.contextmenu.SetStickyNoteActiveAction
 import com.buckstabue.stickynotes.idea.stickynotelist.di.StickyNoteListDialogComponent
 import com.buckstabue.stickynotes.idea.stickynotelist.panel.emptystatelayout.StickyNoteListEmptyPanelFactory
-import com.intellij.codeInsight.hint.HintManager
-import com.intellij.codeInsight.hint.HintUtil
+import com.buckstabue.stickynotes.idea.util.IdeaUtils
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.actionSystem.Separator
 import com.intellij.openapi.ui.DialogWrapper
-import com.intellij.ui.awt.RelativePoint
 import java.awt.event.KeyEvent
 import javax.inject.Inject
 import javax.swing.DropMode
@@ -108,15 +106,7 @@ class StickyNotesPanel(
     }
 
     override fun showHintUnderCursor(hintText: String) {
-        val mousePosition = contentPanel.mousePosition ?: return
-        val hintComponent = HintUtil.createInformationLabel(hintText)
-        HintManager.getInstance()
-            .showHint(
-                hintComponent,
-                RelativePoint(contentPanel, mousePosition),
-                HintManager.HIDE_BY_ANY_KEY or HintManager.HIDE_BY_TEXT_CHANGE,
-                -1
-            )
+        IdeaUtils.showHintUnderCursor(contentPanel, hintText)
     }
 
     override fun close() {
