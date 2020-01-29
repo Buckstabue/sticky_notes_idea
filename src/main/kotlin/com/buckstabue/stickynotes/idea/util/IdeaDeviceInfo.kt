@@ -19,6 +19,9 @@ class IdeaDeviceInfo @Inject constructor() : DeviceInfo {
             }
         }
 
+    override val osName: String
+        get() = SystemInfo.OS_NAME + " " + SystemInfo.OS_VERSION
+
     override val ideBuildVersion: String
         get() = ApplicationInfo.getInstance().build.asStringWithoutProductCodeAndSnapshot()
 

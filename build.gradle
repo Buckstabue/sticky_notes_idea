@@ -60,6 +60,8 @@ buildConfig {
     packageName = "com.buckstabue.stickynotes"
 
     buildConfigField 'String', 'GA_ACCOUNT_ID', localProps.getProperty("ga_id", "")
+    buildConfigField 'String', 'SENTRY_DSN', localProps.getProperty("sentry_dsn", "")
+    buildConfigField 'String', 'ENVIRONMENT', localProps.getProperty("buildType", "debug")
 }
 
 sourceSets.main.java {
