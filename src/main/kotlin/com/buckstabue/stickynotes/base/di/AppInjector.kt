@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap
 object AppInjector {
     private val projectComponentMap: MutableMap<Project, ProjectComponent> = ConcurrentHashMap()
 
-    private val appComponent: AppComponent by lazy { DaggerAppComponent.create() }
+    val appComponent: AppComponent by lazy { DaggerAppComponent.create() }
 
     fun getProjectComponent(project: Project): ProjectComponent {
         return projectComponentMap.getOrPut(project, { appComponent.plusProjectComponent().create(project) })
