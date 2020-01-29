@@ -7,6 +7,8 @@ import io.sentry.SentryClientFactory
 import io.sentry.event.Breadcrumb
 import io.sentry.event.BreadcrumbBuilder
 import io.sentry.event.UserBuilder
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,8 +25,14 @@ class SentryErrorLogger @Inject constructor(
         SentryClientFactory.sentryClient(DSN)
             .apply {
                 release = BuildConfig.VERSION
+                addTag("os_type", deviceInfo.os.analyticsValue)
+                addTag("os_name", deviceInfo.osName)
+                addTag("os_arch", deviceInfo.osArchitecture)
+                addTag("java_version", deviceInfo.javaVersion)
+                addTag("java_vendor", deviceInfo.javaVendor)
                 dist = "${deviceInfo.ideProductCode}-${deviceInfo.ideBuildVersion}"
-                environment = deviceInfo.os.analyticsValue
+                environment = BuildConfig.ENVIRONMENT
+                serverName = "unknown"
                 context.user = UserBuilder().setId(userProvider.getOrCreateDeviceId()).build()
             }
     }
@@ -36,7 +44,9 @@ class SentryErrorLogger @Inject constructor(
                 logLevel = LogLevel.INFO
             )
         }
-        sentry.sendException(e)
+        GlobalScope.launch {
+            sentry.sendException(e)
+        }
     }
 
     override fun logBreadcrumb(message: String, logLevel: LogLevel) {
