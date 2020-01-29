@@ -33,7 +33,6 @@
 
     <depends>com.intellij.modules.lang</depends>
     <depends>Git4Idea</depends>
-
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow
                 id="Sticky Notes"
@@ -52,6 +51,8 @@
         <applicationService
                 serviceInterface="com.buckstabue.stickynotes.analytics.AdvertisementIdProvider"
                 serviceImplementation="com.buckstabue.stickynotes.idea.analytics.IdeaAdvertisementIdProvider"/>
+        <errorHandler
+                implementation="com.buckstabue.stickynotes.idea.errorhandler.SNErrorHandler"/>
     </extensions>
 
     <actions>

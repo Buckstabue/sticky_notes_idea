@@ -27,6 +27,9 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.0.1"
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'com.google.dagger:dagger:2.25.2'
+    implementation ('io.sentry:sentry:1.7.27') {
+        exclude group: 'org.slf4j'
+    }
     implementation('com.brsanthu:google-analytics-java:2.0.0') {
         exclude group: 'org.slf4j'
     }

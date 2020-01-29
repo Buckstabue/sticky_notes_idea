@@ -4,6 +4,8 @@ import com.brsanthu.googleanalytics.GoogleAnalytics
 import com.brsanthu.googleanalytics.GoogleAnalyticsConfig
 import com.brsanthu.googleanalytics.request.DefaultRequest
 import com.buckstabue.stickynotes.BuildConfig
+import com.buckstabue.stickynotes.errormonitoring.ErrorLogger
+import com.buckstabue.stickynotes.errormonitoring.LogLevel
 import com.buckstabue.stickynotes.util.DeviceInfo
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -11,7 +13,8 @@ import javax.inject.Singleton
 @Singleton
 class Analytics @Inject constructor(
     private val advertisementIdProvider: AdvertisementIdProvider,
-    private val deviceInfo: DeviceInfo
+    private val deviceInfo: DeviceInfo,
+    private val errorLogger: ErrorLogger
 ) {
     companion object {
         private const val OS_DIMENSION = 1
@@ -69,5 +72,9 @@ class Analytics @Inject constructor(
                 }
             }
             .sendAsync()
+        errorLogger.logBreadcrumb(
+            message = "sent event: category=$category, action=$action",
+            logLevel = LogLevel.DEBUG
+        )
     }
 }
