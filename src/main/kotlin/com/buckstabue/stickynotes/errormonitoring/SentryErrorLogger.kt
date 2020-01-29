@@ -18,7 +18,7 @@ class SentryErrorLogger @Inject constructor(
     private val deviceInfo: DeviceInfo
 ) : ErrorLogger {
     companion object {
-        private const val DSN = "***REMOVED***"
+        private const val DSN = BuildConfig.SENTRY_DSN
     }
 
     private val sentry by lazy {
