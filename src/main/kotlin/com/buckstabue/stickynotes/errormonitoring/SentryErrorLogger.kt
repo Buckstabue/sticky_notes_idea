@@ -18,7 +18,7 @@ class SentryErrorLogger @Inject constructor(
     private val deviceInfo: DeviceInfo
 ) : ErrorLogger {
     companion object {
-        private const val DSN = "https://71b16aaf12154f20a3bffbcf7f6a00ca@sentry.io/2076016"
+        private const val DSN = BuildConfig.SENTRY_DSN
     }
 
     private val sentry by lazy {
