@@ -1,6 +1,8 @@
 # StickyNotes Idea Plugin
 Do you spend much time on refactoring that is not intended in the current task? Do you forget all the time what you really need to do and what you actually should focus on? Is your commit history messy and you cannot revert breaking changes without reverting needed code?  
-Here is the solution: StickyNote plugin for IDEA! It always shows you what is your current task. The workflow is like this:
+Here is the solution: StickyNote plugin for IDEA! It always shows you what is your current task.  
+<img src="docs/images/sticky-notes-screenshot.png" />  
+The workflow is like this:
 1) You get a task in a task manager(Youtrack, jira, etc.).
 2) You decompose the task into microtasks(like "implement api", "add animation effects" and so on).
 3) With this plugin, you add those microtasks as Sticky Notes.
