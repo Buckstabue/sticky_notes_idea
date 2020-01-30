@@ -33,6 +33,7 @@ class Analytics @Inject constructor(
         return GoogleAnalytics.builder()
             .withDefaultRequest(
                 DefaultRequest()
+                    .anonymizeIp(true)
                     .clientId(advertisementIdProvider.getOrCreateDeviceId())
                     .customDimension(OS_DIMENSION, deviceInfo.os.analyticsValue)
                     .customDimension(IDE_BUILD_VERSION_DIMENSION, deviceInfo.ideBuildVersion)
