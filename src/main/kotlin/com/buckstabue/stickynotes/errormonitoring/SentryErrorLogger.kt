@@ -22,7 +22,7 @@ class SentryErrorLogger @Inject constructor(
     }
 
     private val sentry by lazy {
-        SentryClientFactory.sentryClient(DSN)
+        SentryClientFactory.sentryClient(DSN, CustomSentryClientFactory())
             .apply {
                 release = BuildConfig.VERSION
                 addTag("os_type", deviceInfo.os.analyticsValue)
