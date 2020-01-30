@@ -85,7 +85,6 @@ class ActiveNoteWindow(
     }
 
     private fun showCreateStickyNoteDialog() {
-        val editor = IdeaUtils.getCurrentEditor()
         val createEditStickyNoteComponent = AppInjector.getProjectComponent(project)
             .plusCreateEditStickyNoteComponent()
             .create(
@@ -95,7 +94,7 @@ class ActiveNoteWindow(
         val createStickyNoteScenario =
             createEditStickyNoteComponent.createStickyNoteScenario()
         createStickyNoteScenario.launch(
-            editor = editor,
+            editor = IdeaUtils.getCurrentEditor(),
             codeBindingEnabledByDefaultWhenPossible = false
         )
     }
