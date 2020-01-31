@@ -42,6 +42,12 @@
                 factoryClass="com.buckstabue.stickynotes.idea.toolwindow.StickyNoteToolWindowFactory"/>
         <webHelpProvider
                 implementation="com.buckstabue.stickynotes.idea.StickyNotesWebHelpProvider"/>
+        <applicationConfigurable
+                id="sticky_notes_settings"
+                displayName="Sticky Notes"
+                groupId="tools"
+                instance="com.buckstabue.stickynotes.idea.settings.StickyNotesConfigurable"
+        />
         <projectService
                 serviceInterface="com.buckstabue.stickynotes.StickyNotesService"
                 serviceImplementation="com.buckstabue.stickynotes.idea.StickyNotesServiceImpl"/>

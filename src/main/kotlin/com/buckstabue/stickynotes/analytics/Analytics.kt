@@ -6,6 +6,7 @@ import com.brsanthu.googleanalytics.request.DefaultRequest
 import com.buckstabue.stickynotes.BuildConfig
 import com.buckstabue.stickynotes.errormonitoring.ErrorLogger
 import com.buckstabue.stickynotes.errormonitoring.LogLevel
+import com.buckstabue.stickynotes.idea.settings.StickyNotesSettings
 import com.buckstabue.stickynotes.util.DeviceInfo
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,7 +15,8 @@ import javax.inject.Singleton
 class Analytics @Inject constructor(
     private val advertisementIdProvider: AdvertisementIdProvider,
     private val deviceInfo: DeviceInfo,
-    private val errorLogger: ErrorLogger
+    private val errorLogger: ErrorLogger,
+    private val stickyNoteSettings: StickyNotesSettings
 ) {
     companion object {
         private const val OS_DIMENSION = 1
@@ -24,12 +26,17 @@ class Analytics @Inject constructor(
         private const val SOURCE_DIMENSION = 5
     }
 
-    private val ga = createGoogleAnalytics()
+    @Volatile
+    private var ga = createGoogleAnalyticsIfAllowed()
 
-    private fun createGoogleAnalytics(): GoogleAnalytics? {
+    private fun createGoogleAnalyticsIfAllowed(): GoogleAnalytics? {
+        if (!stickyNoteSettings.isAnalyticsEnabled) {
+            return null
+        }
         if (BuildConfig.GA_ACCOUNT_ID.isBlank()) {
             return null
         }
+        ga?.let { return it }
         return GoogleAnalytics.builder()
             .withDefaultRequest(
                 DefaultRequest()
@@ -77,5 +84,9 @@ class Analytics @Inject constructor(
             message = "sent event: category=$category, action=$action",
             logLevel = LogLevel.DEBUG
         )
+    }
+
+    fun onAnalyticsSettingsChanged() {
+        ga = createGoogleAnalyticsIfAllowed()
     }
 }
