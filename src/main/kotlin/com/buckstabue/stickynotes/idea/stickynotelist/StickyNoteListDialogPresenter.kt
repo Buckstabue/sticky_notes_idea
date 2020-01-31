@@ -1,5 +1,6 @@
 package com.buckstabue.stickynotes.idea.stickynotelist
 
+import com.buckstabue.stickynotes.StickyNote
 import com.buckstabue.stickynotes.StickyNoteInteractor
 import com.buckstabue.stickynotes.base.BasePresenter
 import com.buckstabue.stickynotes.idea.stickynotelist.di.PerStickyNoteListDialog
@@ -26,11 +27,12 @@ class StickyNoteListDialogPresenter @Inject constructor(
     override fun onViewAttached() {
         launch {
             stickyNoteInteractor.observeBacklogStickyNotes(currentBranchRelatedOnly = false)
-                .consumeEachIndexed {
-                    if (it.index == 0) { // got initial value
+                .consumeEachIndexed { indexedValue ->
+                    if (indexedValue.index == 0) { // got initial value
                         addDefaultTabs()
                     }
-                    val hasStickyNoteBoundToAnyBranch = it.value.any { it.isBoundToBranch }
+                    val stickyNotes: List<StickyNote> = indexedValue.value
+                    val hasStickyNoteBoundToAnyBranch = stickyNotes.any { it.isBoundToBranch }
                     when {
                         hasStickyNoteBoundToAnyBranch && !isAllBacklogTabPresent ->
                             addAllBacklogTab()

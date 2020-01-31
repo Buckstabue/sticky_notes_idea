@@ -5,5 +5,5 @@ import com.intellij.openapi.ui.DialogWrapperPeer
 import javax.swing.JComponent
 
 fun DialogWrapper.disableDefaultSelection(component: JComponent) {
-    component.putClientProperty(DialogWrapperPeer.HAVE_INITIAL_SELECTION, true);
+    component.putClientProperty(DialogWrapperPeer.HAVE_INITIAL_SELECTION, true)
 }

@@ -1,7 +1,6 @@
 package com.buckstabue.stickynotes
 
-sealed class StickyNote(
-) {
+sealed class StickyNote {
     abstract val description: String
     abstract val isActive: Boolean
     abstract val isArchived: Boolean

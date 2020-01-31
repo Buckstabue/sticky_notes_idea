@@ -51,7 +51,7 @@ class ActiveNoteWindow(
 
     init {
         toolWindowComponent.inject(this)
-        val actionToolbar = createActionToolbar();
+        val actionToolbar = createActionToolbar()
         toolbarPanel.add(actionToolbar.component)
 
         activeNote.border = HorizontalBorder(left = 16, right = 16)

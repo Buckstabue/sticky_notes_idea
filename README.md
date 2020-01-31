@@ -3,9 +3,9 @@ Do you spend much time on refactoring that is not intended in the current task? 
 Here is the solution: StickyNote plugin for IDEA! It always shows you what is your current task.  
 <img src="docs/images/sticky-notes-screenshot.png" />  
 The workflow is like this:
-1) You get a task in a task manager(Youtrack, jira, etc.).
-2) You decompose the task into microtasks(like "implement api", "add animation effects" and so on).
-3) With this plugin, you add those microtasks as Sticky Notes.
+1) You get a task in a task manager(YouTrack, jira, etc.).
+2) You decompose the task into micro-tasks(like "implement api", "add animation effects" and so on).
+3) With this plugin, you add those micro-tasks as Sticky Notes.
 4) You sort them in an order you want to execute them.
 5) This plugin always shows you what is your current task, so you stay focused on it.
 6) If you happen to find dirty code that you would like to refactor immediately, don't hurry! Just run the action "Add Sticky Note" with a cursor-caret under the thing. This pluging saves a description and the position of the bad code and adds a sticky note at the end of a backlog of the current project.
@@ -15,6 +15,6 @@ The workflow is like this:
 
 Advantages:
 - you will be more productive because this plugin helps you stay more focused on the current tasks
-- you will get a transparent commit history because each microtask was commited separately(you don't see "implement *** api" commit message in a change of an animation). More atomic commits - easier to revert breaking code
+- you will get a transparent commit history because each micro-task was committed separately(you don't see "implement *** api" commit message in a change of an animation). More atomic commits - easier to revert breaking code
 - you will have easier code reviews, less refactoring involved
 - you will easily track dirty code places and fix them whenever you want.
