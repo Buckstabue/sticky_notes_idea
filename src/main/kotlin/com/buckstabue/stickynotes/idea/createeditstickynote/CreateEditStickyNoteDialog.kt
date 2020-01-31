@@ -17,6 +17,7 @@ class CreateEditStickyNoteDialog(
     project: Project,
     private val analytics: CreateEditStickyNoteAnalytics
 ) : DialogWrapper(project) {
+
     private lateinit var content: JPanel
     private lateinit var descriptionInput: JTextField
     private lateinit var codeBindingCheckbox: JCheckBox
