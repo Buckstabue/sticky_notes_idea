@@ -54,9 +54,6 @@
         <projectService
                 serviceInterface="com.buckstabue.stickynotes.vcs.VcsService"
                 serviceImplementation="com.buckstabue.stickynotes.idea.VcsServiceImpl"/>
-        <applicationService
-                serviceInterface="com.buckstabue.stickynotes.analytics.AdvertisementIdProvider"
-                serviceImplementation="com.buckstabue.stickynotes.idea.analytics.IdeaAdvertisementIdProvider"/>
         <errorHandler
                 implementation="com.buckstabue.stickynotes.idea.errorhandler.SNErrorHandler"/>
     </extensions>
