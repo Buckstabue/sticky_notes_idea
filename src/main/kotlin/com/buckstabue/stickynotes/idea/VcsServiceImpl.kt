@@ -7,13 +7,11 @@ import git4idea.repo.GitRepository
 import git4idea.repo.GitRepositoryChangeListener
 import git4idea.repo.GitRepositoryManager
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
+@UseExperimental(ExperimentalCoroutinesApi::class)
 class VcsServiceImpl(
     private val project: Project
 ) : VcsService {

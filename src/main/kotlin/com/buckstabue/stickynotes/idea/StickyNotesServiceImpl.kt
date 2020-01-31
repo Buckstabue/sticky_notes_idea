@@ -22,7 +22,7 @@ import javax.inject.Inject
 @State(
     name = "StickyNotes"
 )
-@ExperimentalCoroutinesApi
+@UseExperimental(ExperimentalCoroutinesApi::class)
 class StickyNotesServiceImpl(
     private val project: Project
 ) : StickyNotesService, PersistentStateComponent<StickyNotesServiceImpl.ServiceState> {

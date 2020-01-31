@@ -13,8 +13,8 @@
         Here is the solution: Sticky Notes plugin for IDEA! It always shows you what is your current task. The workflow is like this:</p>
         <ol>
         <li>You get a task in a task manager(YouTrack, jira, etc.).</li>
-        <li>You decompose the task into microtasks(like "implement api for a feature", "add animation effects" and so on).</li>
-        <li>With this plugin, you add those microtasks as Sticky Notes.</li>
+        <li>You decompose the task into micro-tasks(like "implement api for a feature", "add animation effects" and so on).</li>
+        <li>With this plugin, you add those micro-tasks as Sticky Notes.</li>
         <li>You sort them in an order you want to execute them(with drag and drop on sticky notes list screen).</li>
         <li>This plugin always shows you what is your current task, so you stay focused on it.</li>
         <li>If you happen to find dirty code that you would like to refactor immediately, don't hurry! Just run the action "Add a Sticky Note" with a cursor-caret under the thing. This plugin saves a description and the position of the bad code and adds a sticky note at the end of a backlog of the current project.</li>
@@ -25,7 +25,7 @@
         <p>Advantages:</p>
         <ul>
         <li>you will be more productive because this plugin helps you stay more focused on the current tasks</li>
-        <li>you will get a transparent commit history because each microtask was committed separately(you don't see "implement *** api" commit message in a change of an animation). More atomic commits - easier to revert breaking code</li>
+        <li>you will get a transparent commit history because each micro-task was committed separately(you don't see "implement *** api" commit message in a change of an animation). More atomic commits - easier to revert breaking code</li>
         <li>you will have easier code reviews, less refactoring involved</li>
         <li>you will easily track dirty code places and fix them whenever you want.</li>
         </ul>
