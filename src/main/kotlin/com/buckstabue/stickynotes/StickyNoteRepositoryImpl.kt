@@ -5,7 +5,6 @@ import com.buckstabue.stickynotes.base.di.project.ProjectScope
 import com.buckstabue.stickynotes.vcs.VcsService
 import com.intellij.openapi.diagnostic.Logger
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.channels.BroadcastChannel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -15,8 +14,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 import javax.inject.Inject
 
 @PerProject
-@ExperimentalCoroutinesApi
-@ObsoleteCoroutinesApi
+@UseExperimental(ExperimentalCoroutinesApi::class)
 class StickyNoteRepositoryImpl @Inject constructor(
     private val vcsService: VcsService,
     private val stickyNotesService: StickyNotesService,

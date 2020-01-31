@@ -12,12 +12,8 @@ import com.intellij.openapi.project.Project
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 @Module
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 interface ProjectModule {
 
     @Module

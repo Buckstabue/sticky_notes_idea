@@ -10,13 +10,9 @@ import com.buckstabue.stickynotes.vcs.VcsService
 import com.intellij.openapi.project.Project
 import dagger.BindsInstance
 import dagger.Subcomponent
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.ObsoleteCoroutinesApi
 
 @PerProject
 @Subcomponent(modules = [ProjectModule::class])
-@ObsoleteCoroutinesApi
-@ExperimentalCoroutinesApi
 interface ProjectComponent {
     fun stickyNoteInteractor(): StickyNoteInteractor
     fun projectScope(): ProjectScope
