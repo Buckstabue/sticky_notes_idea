@@ -14,7 +14,8 @@ interface AppModule {
 
     @Binds
     fun bindAdvertisementIdProvider(
-        advertisementIdProvider: IdeaAdvertisementIdProvider): AdvertisementIdProvider
+        advertisementIdProvider: IdeaAdvertisementIdProvider
+    ): AdvertisementIdProvider
 
     @Binds
     fun bindDeviceInfo(deviceInfo: IdeaDeviceInfo): DeviceInfo

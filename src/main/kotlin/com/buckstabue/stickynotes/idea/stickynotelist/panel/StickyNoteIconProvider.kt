@@ -28,6 +28,7 @@ class StickyNoteIconProvider @Inject constructor() {
     private fun getIconFromFileBoundStickyNote(stickyNote: FileBoundStickyNote): Icon {
         val virtualFile = VirtualFileManager.getInstance()
             .findFileByUrl(stickyNote.fileLocation.fileUrl) ?: return DEFAULT_BOUND_ICON
-        return FileTypeManager.getInstance().getFileTypeByFile(virtualFile).icon ?: DEFAULT_BOUND_ICON
+        return FileTypeManager.getInstance().getFileTypeByFile(virtualFile).icon
+            ?: DEFAULT_BOUND_ICON
     }
 }
