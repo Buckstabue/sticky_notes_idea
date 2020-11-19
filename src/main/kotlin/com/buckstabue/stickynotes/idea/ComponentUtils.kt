@@ -66,7 +66,7 @@ fun JList<*>.fullyClearSelection() {
 }
 
 fun JButton.disableIdeaLookAndFeel() {
-    this.ui = BasicButtonUI()
+    setUI(BasicButtonUI())
 }
 
 inline fun JTabbedPane.forEachTab(action: (JComponent) -> Unit) {

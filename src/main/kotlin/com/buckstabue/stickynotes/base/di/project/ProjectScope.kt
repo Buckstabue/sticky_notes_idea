@@ -7,5 +7,5 @@ import javax.inject.Inject
 
 @PerProject
 class ProjectScope @Inject constructor() : CoroutineScope {
-    override val coroutineContext = SupervisorJob(parent = null) + Dispatchers.Default
+    override val coroutineContext = SupervisorJob() + Dispatchers.Default
 }
