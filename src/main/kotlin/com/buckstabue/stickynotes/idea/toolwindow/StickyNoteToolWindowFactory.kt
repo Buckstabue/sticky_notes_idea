@@ -74,7 +74,6 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
     }
 
     override fun init(window: ToolWindow) {
-        window.setSplitMode(true, null)
         window.helpId = StickyNotesWebHelpProvider.GITHUB_HELP_TOPIC_ID
     }
 
@@ -99,6 +98,7 @@ class StickyNoteToolWindowFactory : ToolWindowFactory, DumbAware {
             wasRemoved = toolWindow.isRemoved
             wasExpanded = toolWindow.isExpanded
             isRegistered = true
+            toolWindow.setSplitMode(true, null)
         }
 
         override fun stateChanged() {
