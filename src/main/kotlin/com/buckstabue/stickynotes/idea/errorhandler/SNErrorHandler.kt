@@ -23,12 +23,10 @@ class SNErrorHandler : ErrorReportSubmitter() {
         consumer: Consumer<SubmittedReportInfo>
     ): Boolean {
         for (event in events) {
-            event.throwable?.let { throwable ->
-                errorLogger.reportException(
-                    e = throwable,
-                    description = additionalInfo.orEmpty()
-                )
-            }
+            errorLogger.reportException(
+                stackTrace = event.throwableText,
+                description = additionalInfo.orEmpty()
+            )
         }
         consumer.consume(SubmittedReportInfo(SubmittedReportInfo.SubmissionStatus.NEW_ISSUE))
         return true

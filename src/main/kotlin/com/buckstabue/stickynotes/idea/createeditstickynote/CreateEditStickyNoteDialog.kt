@@ -6,6 +6,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.ui.DocumentAdapter
+import java.lang.RuntimeException
 import javax.swing.JCheckBox
 import javax.swing.JComponent
 import javax.swing.JPanel
